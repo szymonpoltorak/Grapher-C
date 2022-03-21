@@ -1,0 +1,36 @@
+#ifndef _ALLOC_H_
+#define _ALLOC_H_
+
+#include <stdbool.h>
+
+typedef struct entryRead {
+    char* fileName;
+    bool printFlag;
+    int* points;
+} entryR;
+
+typedef struct entryGen {
+    int rows;
+    int columns;
+    double rangeStart;
+    double rangeEnd;
+    bool mode;
+    char* fileName;
+} entryG;
+
+typedef struct node {
+    bool* edgeExist;
+    double* edgeWeight;
+} node;
+
+typedef struct graphRead {
+    node** graph;
+    int rows;
+    int columns;
+} graphR;
+
+entryG* allocEntryGen(char **argv);
+
+entryR* allocEntryRead(int argc, char** argv);
+
+#endif

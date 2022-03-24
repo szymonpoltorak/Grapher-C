@@ -23,7 +23,7 @@ void saveGraphToFile(entryG* entry, node* graph){
             int nodeNum = defineNodeNumber(i, k, entry->rows, entry->columns);
             double nodeWeight = graph[i].edgeWeight[k];
             if( graph[i].edgeExist[k] == true){
-                fprintf(ofile," %d :%f ",nodeNum,nodeWeight); 
+                fprintf(ofile," %d :%f ",nodeNum,nodeWeight);
             }
         }
         fprintf(ofile,"\n"); //  \n
@@ -32,6 +32,9 @@ void saveGraphToFile(entryG* entry, node* graph){
 }
 
 void generateMode(entryG* entry){
+    
+}
+
 
 int defineNodeNumber (int i, int k, int rows, int columns){
     switch (k)

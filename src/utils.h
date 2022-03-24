@@ -4,6 +4,7 @@
 #define NO_FILE_FOUND 231
 #define WRONG_RANGE_OF_WAGES 234
 #define WRONG_NUM_OF_COL 233
+#define WRONG_NUM_OF_ROWS 232
 
 #define WEIGHT 1
 #define EDGE 2
@@ -19,5 +20,7 @@ void validateRangeEnd(char* optarg, const char* usage);
 void validateRangeStart(char* optarg, const char* usage);
 
 void validateColumns(char* optarg, const char* usage);
+
+void validateRows(char* optarg, const char* usage);
 
 #endif

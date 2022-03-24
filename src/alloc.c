@@ -6,17 +6,27 @@
 
 entryG* allocEntryGen(void){
     entryG* entry = (entryG*) malloc (sizeof(*entry));
+    entry -> fileName = NULL;
+    entry -> columns = 0;
+    entry -> mode = 0;
+    entry -> rangeStart = 0;
+    entry -> rangeEnd = 0;
+    entry -> rows = 0;
 
     return entry;
 }
 
 entryR* allocEntryRead(void){
     entryR* entry = (entryR*) malloc (sizeof(*entry));
-    
+    entry -> points = NULL;
+    entry -> fileName = NULL;
+    entry -> numberPoints = 0;
+    entry -> printFlag = 0;
+
     return entry;
 }
 
-int* allocPoints(char* optarg, entryR* entry){
+void allocPoints(char* optarg, entryR* entry){
     int size = strlen(optarg);
 
     for (int i = 0; i < size; i++){
@@ -44,5 +54,10 @@ int* allocPoints(char* optarg, entryR* entry){
         exit(WRONG_POINTS);
     }
 
-    return points;
+    entry -> points = points;
+}
+
+void freeEntryRead(entryR* entry){
+    free(entry -> points);
+    free(entry);
 }

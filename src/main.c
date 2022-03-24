@@ -16,6 +16,7 @@ int main(int argc, char** argv){
         For more detailed info check documentation\n"
     };
     short int mode = 0;
+
     srand(time(NULL));
 
     entryG* entryG = allocEntryGen();
@@ -69,13 +70,13 @@ int main(int argc, char** argv){
                 printf("Using Read Mode\n");
                 mode = READ;
                 break;               
-            case 'x': //to do
+            case 'x': //done
                 ifReadMode(usage, mode);
-                printf("Using Extended display\n");
+                entryR -> printFlag = EXTENDED;
                 break;
-            case 's': //to do
+            case 's': //done
                 ifReadMode(usage, mode);
-                printf("Using Standard display\n");
+                entryR -> printFlag = STANDARD;
                 break;
             case 'f': //done
                 validateFileName(optarg, usage);
@@ -96,11 +97,19 @@ int main(int argc, char** argv){
                     exit(EXIT_FAILURE);
                 }
                 break;
-            case 'o': //to do
+            case 'o': //done
+                if (mode != READ){
+                    validateRows(optarg, usage);
+                    entryG -> rows = atof(optarg);
+                }
+                else {
+                    fprintf(stderr, "ROWS ARE NOT USED IN READ MODE! USAGE:\n%s\n", usage);
+                    exit(EXIT_FAILURE);
+                }            
                 break;
             case 'p': //done
                 ifReadMode(usage, mode);
-                entryR -> points = allocPoints(optarg, entryR);
+                allocPoints(optarg, entryR);
                 break;
             case 'n': //done
                 if (mode != READ){
@@ -122,7 +131,7 @@ int main(int argc, char** argv){
                     exit(EXIT_FAILURE);                    
                 }
                 break;
-            default:
+            default: //to do
                 fprintf(stderr, "%s : NO MODE FOUND. USAGE:\n%s\n", argv[0], usage);
                 exit(NO_MODE_FOUND);
         }
@@ -133,5 +142,8 @@ int main(int argc, char** argv){
         exit(WRONG_RANGE_OF_WAGES);
     }
     
+    free(entryG);
+    freeEntryRead(entryR);
+
     exit(EXIT_SUCCESS);
 }

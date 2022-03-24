@@ -38,10 +38,20 @@ void validateColumns(char* optarg, const char* usage){
 }
 
 void validateRangeStart(char* optarg, const char* usage){
-    int start;
+    int start = 0;
 
     if(sscanf(optarg, "%d", &start) != 1 || start < 0){
         fprintf(stderr, "WRONG NUMBER OF START! USAGE:\n%s\n", usage);
         exit(WRONG_RANGE_OF_WAGES);
     }
+}
+
+void validateRows(char* optarg, const char* usage){
+    int rows = 0;
+
+    if(sscanf(optarg, "%d", &rows) != 1 || rows <= 0){
+        fprintf(stderr, "WRONG NUMBER OF ROWS! ERROR CODE: 503. USAGE:\n%s\n", usage);
+        exit(WRONG_NUM_OF_ROWS);
+    }
+
 }

@@ -5,13 +5,13 @@
 #include "alloc.h"
 
 entryG* allocEntryGen(void){
-    entryG* entry = (entryG*) malloc (sizeof(entry));
+    entryG* entry = (entryG*) malloc (sizeof(*entry));
 
     return entry;
 }
 
 entryR* allocEntryRead(void){
-    entryR* entry = (entryR*) malloc (sizeof(entry));
+    entryR* entry = (entryR*) malloc (sizeof(*entry));
     
     return entry;
 }
@@ -26,7 +26,8 @@ int* allocPoints(char* optarg, entryR* entry){
         }
     }
 
-    int* points = (int*) malloc (size * sizeof(points));
+    int* points = (int*) malloc (size * sizeof(*points));
+
     entry -> numberPoints = 0;
 
     int howManyRead = 0;

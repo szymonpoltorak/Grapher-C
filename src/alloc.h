@@ -5,15 +5,16 @@
 
 #define NO_MODE_FOUND 230
 #define WRONG_NUM_OF_ROWS 232
-#define WRONG_NUM_OF_COL 233
-#define WRONG_RANGE_OF_WAGES 234
 #define NO_FLAG_FOUND 235
 #define WRONG_POINTS 236
 #define NO_COHERENT 237
 
+#define EXTENDED 5
+#define STANDARD 6
+
 typedef struct entryRead {
     char* fileName;
-    bool printFlag;
+    short int printFlag;
     int* points;
     int numberPoints;
 } entryR;
@@ -23,7 +24,7 @@ typedef struct entryGen {
     int columns;
     double rangeStart;
     double rangeEnd;
-    bool mode;
+    short int mode;
     char* fileName;
 } entryG;
 

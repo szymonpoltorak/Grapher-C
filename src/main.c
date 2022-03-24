@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <string.h>
+#include <time.h>
 #include "readGraph.h"
 #include "genGraph.h"
 #include "utils.h"
@@ -14,7 +15,8 @@ int main(int argc, char** argv){
         ./grapher [mode] [file] [flag] [points]\n\
         For more detailed info check documentation\n"
     };
-    short unsigned int mode = 0;
+    short int mode = 0;
+    srand(time(NULL));
 
     entryG* entryG = allocEntryGen();
     entryR* entryR = allocEntryRead();
@@ -84,9 +86,14 @@ int main(int argc, char** argv){
                     entryG -> fileName = optarg;
                 }
                 break;
-            case 'c': //to do
+            case 'c': //done
                 if (mode != READ){
+                    validateColumns(optarg, usage);
                     entryG -> columns = atoi(optarg);
+                }
+                else {
+                    fprintf(stderr, "COLUMNS ARE NOT BEING DECLARED IN READ MODE. USAGE:\n%s\n", usage);
+                    exit(EXIT_FAILURE);
                 }
                 break;
             case 'o': //to do
@@ -95,14 +102,35 @@ int main(int argc, char** argv){
                 ifReadMode(usage, mode);
                 entryR -> points = allocPoints(optarg, entryR);
                 break;
-            case 'n': //to do
+            case 'n': //done
+                if (mode != READ){
+                    validateRangeEnd(optarg, usage);
+                    entryG -> rangeEnd = atof(optarg);
+                }
+                else {
+                    fprintf(stderr, "RANGE END IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);
+                    exit(EXIT_FAILURE);
+                }
                 break;
-            case 't': //to do
+            case 't': //done
+                if (mode != READ){
+                    validateRangeStart(optarg, usage);
+                    entryG -> rangeStart = atof(optarg);
+                }
+                else {
+                    fprintf(stderr, "RANGE START IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);
+                    exit(EXIT_FAILURE);                    
+                }
                 break;
             default:
                 fprintf(stderr, "%s : NO MODE FOUND. USAGE:\n%s\n", argv[0], usage);
                 exit(NO_MODE_FOUND);
         }
+    }
+
+    if (entryG -> rangeStart > entryG -> rangeEnd){
+        fprintf(stderr, "WRONG RANGE OF WEIGHTS!! ERROR CODE: 505\n");
+        exit(WRONG_RANGE_OF_WAGES);
     }
     
     exit(EXIT_SUCCESS);

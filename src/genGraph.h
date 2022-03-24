@@ -5,10 +5,12 @@
 
 void generateMode(entryG* entry);
 
-bool checkIfCoherentGen(node** graph, entryG* entry);
+bool checkIfCoherentGen(node* graph, entryG* entry);
 
-void saveGraphToFile(entryG* entry, node** graph);
+void saveGraphToFile(entryG* entry, node* graph);
 
 double generateWeights(entryG* entry);
+
+int defineNodeNumber(int i, int k, int rows, int columns);
 
 #endif

@@ -2,3 +2,4 @@
 *.gch
 *.pch
 grapher
+.DS_Store

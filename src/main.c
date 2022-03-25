@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
-#include <string.h>
 #include <time.h>
 #include "readGraph.h"
 #include "genGraph.h"
@@ -21,14 +20,14 @@ int main(int argc, char** argv){
 
     entryG* entryG = allocEntryGen();
     entryR* entryR = allocEntryRead();
-    
+
     if (argc == 1){
         fprintf(stderr, "%s : NO MODE FOUND. USAGE:\n%s\n", argv[0], usage);
         exit(NO_MODE_FOUND);
     }
 
     while(true){
-        int flag;
+        int flag = 0;
         opterr = 0; //wyłącza error dla getopt
 
         static const struct option flags[] = {
@@ -48,26 +47,23 @@ int main(int argc, char** argv){
             {"start", required_argument, 0, 't'},
             {"end", required_argument, 0, 'n'},
             {"points", required_argument, 0, 'p'},
+            {0, 0, 0, 0}
         };
 
         if ((flag = getopt_long_only(argc, argv, "", flags, NULL)) == -1)
             break;
 
         switch(flag){
-            case 'w': //to do
-                printf("Using Weight Mode\n");
-                mode = WEIGHT;
+            case 'w': //done
+                entryG -> mode = mode = WEIGHT;
                 break;
-            case 'm': //to do
-                printf("Using Random Mode\n");
-                mode = RANDOM;
+            case 'm': //done
+                entryG -> mode = mode = RANDOM;
                 break;
-            case 'e': //to do
-                printf("Using Edge Mode\n");
-                mode = EDGE;
+            case 'e': //done
+                entryG -> mode = mode = EDGE;
                 break;                
-            case 'r': //to do
-                printf("Using Read Mode\n");
+            case 'r': //done
                 mode = READ;
                 break;               
             case 'x': //done
@@ -100,7 +96,7 @@ int main(int argc, char** argv){
             case 'o': //done
                 if (mode != READ){
                     validateRows(optarg, usage);
-                    entryG -> rows = atof(optarg);
+                    entryG -> rows = atoi(optarg);
                 }
                 else {
                     fprintf(stderr, "ROWS ARE NOT USED IN READ MODE! USAGE:\n%s\n", usage);
@@ -131,19 +127,27 @@ int main(int argc, char** argv){
                     exit(EXIT_FAILURE);                    
                 }
                 break;
-            default: //to do
-                fprintf(stderr, "%s : NO MODE FOUND. USAGE:\n%s\n", argv[0], usage);
+            default: //done
+                fprintf(stderr, "NO MODE FOUND. USAGE:\n%s\n", usage);
                 exit(NO_MODE_FOUND);
         }
     }
 
-    if (entryG -> rangeStart > entryG -> rangeEnd){
+    if (entryG -> rangeStart >= entryG -> rangeEnd && mode != READ){
         fprintf(stderr, "WRONG RANGE OF WEIGHTS!! ERROR CODE: 505\n");
         exit(WRONG_RANGE_OF_WAGES);
     }
-    
-    free(entryG);
-    freeEntryRead(entryR);
+
+    if (mode != READ){ //done
+        checkDataGen(entryG);
+        freeEntryRead(entryR);
+        generateMode(entryG);
+    }
+    else { //done
+        checkDataRead(entryR);
+        free(entryG);
+        readMode(entryR);
+    }
 
     exit(EXIT_SUCCESS);
 }

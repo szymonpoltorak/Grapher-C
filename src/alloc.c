@@ -6,6 +6,12 @@
 
 entryG* allocEntryGen(void){
     entryG* entry = (entryG*) malloc (sizeof(*entry));
+
+    if (entry == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
+        exit(EXIT_FAILURE);
+    }
+
     entry -> fileName = NULL;
     entry -> columns = 0;
     entry -> mode = 0;
@@ -18,6 +24,12 @@ entryG* allocEntryGen(void){
 
 entryR* allocEntryRead(void){
     entryR* entry = (entryR*) malloc (sizeof(*entry));
+
+    if (entry == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
+        exit(EXIT_FAILURE);
+    }
+
     entry -> points = NULL;
     entry -> fileName = NULL;
     entry -> numberPoints = 0;
@@ -35,11 +47,14 @@ void allocPoints(char* optarg, entryR* entry){
             exit(WRONG_POINTS);
         }
     }
-
     int* points = (int*) malloc (size * sizeof(*points));
+    
+    if (entry == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
+        exit(EXIT_FAILURE);
+    }    
 
     entry -> numberPoints = 0;
-
     int howManyRead = 0;
     while(true){
         if (sscanf(optarg, "%d,%n", &points[entry -> numberPoints], &howManyRead) != 1){

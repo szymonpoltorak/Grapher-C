@@ -1,6 +1,8 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
+#include "alloc.h"
+
 #define NO_FILE_FOUND 231
 #define WRONG_RANGE_OF_WAGES 234
 #define WRONG_NUM_OF_COL 233
@@ -22,5 +24,9 @@ void validateRangeStart(char* optarg, const char* usage);
 void validateColumns(char* optarg, const char* usage);
 
 void validateRows(char* optarg, const char* usage);
+
+void checkDataGen(entryG* entry);
+
+void checkDataRead(entryR* entry);
 
 #endif

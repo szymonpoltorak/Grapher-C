@@ -20,10 +20,8 @@ void saveGraphToFile(entryG* entry, node* graph){
     for (int i = 0; i < numOfNodes; i++ ){
         fprintf(ofile,"\t"); //tab
         for( int k = 0; k < 4; k++ ){
-            int nodeNum = defineNodeNumber(i, k, entry->rows, entry->columns);
-            double nodeWeight = graph[i].edgeWeight[k];
             if( graph[i].edgeExist[k] == true){
-                fprintf(ofile," %d :%f ",nodeNum,nodeWeight);
+                fprintf(ofile," %d :%f ",graph[i].nodeToConnect[k],graph[i].edgeWeight[k]);
             }
         }
         fprintf(ofile,"\n"); //  \n
@@ -61,7 +59,7 @@ void generateMode(entryG* entry){
         if ( i + entry->columns > 0 && i + entry->columns < numOfNodes){
             if(generateIfEdgeExist(entry->mode)){
                 graph[i].edgeExist[2] = true;
-                graph[i].nodeToConnect[2] = i - entry->columns;
+                graph[i].nodeToConnect[2] = i + entry->columns;
                 graph[i].edgeWeight[2] = generateWeights(entry);
 
             }
@@ -72,7 +70,7 @@ void generateMode(entryG* entry){
         if( i - 1 >= 0 && i%entry->columns != 0){
             if(generateIfEdgeExist(entry->mode)){
                 graph[i].edgeExist[3] = true;
-                graph[i].nodeToConnect[3] = i + 1;
+                graph[i].nodeToConnect[3] = i - 1;
                 graph[i].edgeWeight[3] = generateWeights(entry);
             }
         } else {

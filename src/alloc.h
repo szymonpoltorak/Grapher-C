@@ -14,13 +14,14 @@ typedef struct entryGen {
     int columns;
     double rangeStart;
     double rangeEnd;
-    bool mode;
+    short int mode;
     char* fileName;
 } entryG;
 
 typedef struct node {
     bool edgeExist[4]; 
     double edgeWeight[4]; 
+    int nodeToConnect[4];
 } node;
 
 typedef struct graphRead {

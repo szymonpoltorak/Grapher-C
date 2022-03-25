@@ -32,6 +32,54 @@ void saveGraphToFile(entryG* entry, node* graph){
 }
 
 void generateMode(entryG* entry){
+    int numOfNodes = entry->columns * entry->rows;
+    node *graph = malloc(sizeof (node) * numOfNodes );
+
+    for (int i = 0; i < numOfNodes; i++){
+        //zrob w gore
+        if ( i - entry->columns > 0 && i - entry->columns < numOfNodes){
+            if(generateIfEdgeExist(entry->mode)){
+                graph[i].edgeExist[0] = true;
+                graph[i].nodeToConnect[0] = i - entry->columns;
+                graph[i].edgeWeight[0] = generateWeights(entry);
+
+            }
+        } else {
+             graph[i].edgeExist[0] = false;
+        }
+        //zrob w prawo
+        if( i + 1 < numOfNodes && (i+1)%entry->columns != 0){
+            if(generateIfEdgeExist(entry->mode)){
+                graph[i].edgeExist[1] = true;
+                graph[i].nodeToConnect[1] = i + 1;
+                graph[i].edgeWeight[1] = generateWeights(entry);
+            }
+        } else {
+            graph[i].edgeExist[1] = false;
+        }
+        //zrob w dol
+        if ( i + entry->columns > 0 && i + entry->columns < numOfNodes){
+            if(generateIfEdgeExist(entry->mode)){
+                graph[i].edgeExist[2] = true;
+                graph[i].nodeToConnect[2] = i - entry->columns;
+                graph[i].edgeWeight[2] = generateWeights(entry);
+
+            }
+        } else {
+             graph[i].edgeExist[2] = false;
+        }
+        //zrob w lewo
+        if( i - 1 >= 0 && i%entry->columns != 0){
+            if(generateIfEdgeExist(entry->mode)){
+                graph[i].edgeExist[3] = true;
+                graph[i].nodeToConnect[3] = i + 1;
+                graph[i].edgeWeight[3] = generateWeights(entry);
+            }
+        } else {
+            graph[i].edgeExist[3] = false;
+        }
+    }
+    saveGraphToFile(entry,graph);
 
 }
 
@@ -55,4 +103,13 @@ int defineNodeNumber (int i, int k, int rows, int columns){
         return 0;
         break;
     }
+}
+
+bool generateIfEdgeExist(short int mode){
+    if (mode == 1)
+        return true;
+    double i = (double) rand()/RAND_MAX;
+    if (i >= 0.5)
+        return true;
+    return false;
 }

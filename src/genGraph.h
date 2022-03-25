@@ -13,4 +13,6 @@ double generateWeights(entryG* entry);
 
 int defineNodeNumber(int i, int k, int rows, int columns);
 
+bool generateIfEdgeExist(short int mode);
+
 #endif

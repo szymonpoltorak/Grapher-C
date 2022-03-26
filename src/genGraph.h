@@ -15,4 +15,6 @@ int defineNodeNumber(int i, int k, int rows, int columns);
 
 bool generateIfEdgeExist(short int mode);
 
+void makeConnectionFromNode ( int i, int columns, int rows, int mode, node* graph, entryG* entry);
+
 #endif

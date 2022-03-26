@@ -38,41 +38,48 @@ entryR* allocEntryRead(void){
     return entry;
 }
 
-void allocPoints(char* optarg, entryR* entry){
+void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     int size = strlen(optarg);
 
     for (int i = 0; i < size; i++){
         if (!isdigit(optarg[i]) && optarg[i] != ','){
             fprintf(stderr, "WRONG POINTS FOUND ! ERROR CODE: 612\n");
+            freeAll(entryR, entryG);
             exit(WRONG_POINTS);
         }
     }
     int* points = (int*) malloc (size * sizeof(*points));
     
-    if (entry == NULL){
+    if (points == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
+        freeAll(entryR, entryG);
         exit(EXIT_FAILURE);
     }    
 
-    entry -> numberPoints = 0;
     int howManyRead = 0;
     while(true){
-        if (sscanf(optarg, "%d,%n", &points[entry -> numberPoints], &howManyRead) != 1){
+        if (sscanf(optarg, "%d,%n", &points[entryR -> numberPoints], &howManyRead) != 1){
             break;
         }
-        entry -> numberPoints++;
+        entryR -> numberPoints++;
         optarg+= howManyRead;
     }
 
-    if (entry -> numberPoints == 0 || (entry -> numberPoints % 2 != 0)){
+    if (entryR -> numberPoints == 0 || (entryR -> numberPoints % 2 != 0)){
         fprintf(stderr, "WRONG POINTS FOUND! ERROR CODE: 612\n");
+        freeAll(entryR, entryG);
         exit(WRONG_POINTS);
     }
 
-    entry -> points = points;
+    entryR -> points = points;
 }
 
 void freeEntryRead(entryR* entry){
     free(entry -> points);
     free(entry);
+}
+
+void freeAll(entryR* entryR, entryG* entryG){
+    free(entryG);
+    freeEntryRead(entryR);
 }

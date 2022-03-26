@@ -14,7 +14,7 @@ int main(int argc, char** argv){
         ./grapher [mode] [file] [flag] [points]\n\
         For more detailed info check documentation\n"
     };
-    short int mode = 0;
+    short int mode = NO_MODE;
 
     srand(time(NULL));
 
@@ -23,6 +23,7 @@ int main(int argc, char** argv){
 
     if (argc == 1){
         fprintf(stderr, "%s : NO MODE FOUND. USAGE:\n%s\n", argv[0], usage);
+        freeAll(entryR, entryG);
         exit(NO_MODE_FOUND);
     }
 
@@ -54,28 +55,32 @@ int main(int argc, char** argv){
             break;
 
         switch(flag){
-            case 'w': //done
+            case 'w':
+                ifModeWasDeclared(usage, mode, entryR, entryG);
                 entryG -> mode = mode = WEIGHT;
                 break;
-            case 'm': //done
+            case 'm':
+                ifModeWasDeclared(usage, mode, entryR, entryG);
                 entryG -> mode = mode = RANDOM;
                 break;
-            case 'e': //done
+            case 'e':
+                ifModeWasDeclared(usage, mode, entryR, entryG);
                 entryG -> mode = mode = EDGE;
                 break;                
-            case 'r': //done
+            case 'r':
+                ifModeWasDeclared(usage, mode, entryR, entryG);
                 mode = READ;
                 break;               
-            case 'x': //done
-                ifReadMode(usage, mode);
+            case 'x':
+                ifReadMode(usage, mode, entryR, entryG);
                 entryR -> printFlag = EXTENDED;
                 break;
-            case 's': //done
-                ifReadMode(usage, mode);
+            case 's':
+                ifReadMode(usage, mode, entryR, entryG);
                 entryR -> printFlag = STANDARD;
                 break;
-            case 'f': //done
-                validateFileName(optarg, usage);
+            case 'f':
+                validateFileName(optarg, usage, entryR, entryG);
                 if (mode == READ){
                     entryR -> fileName = optarg;
                 }
@@ -83,71 +88,77 @@ int main(int argc, char** argv){
                     entryG -> fileName = optarg;
                 }
                 break;
-            case 'c': //done
+            case 'c':
                 if (mode != READ){
-                    validateColumns(optarg, usage);
+                    validateColumns(optarg, usage, entryR, entryG);
                     entryG -> columns = atoi(optarg);
                 }
                 else {
                     fprintf(stderr, "COLUMNS ARE NOT BEING DECLARED IN READ MODE. USAGE:\n%s\n", usage);
+                    freeAll(entryR, entryG);
                     exit(EXIT_FAILURE);
                 }
                 break;
-            case 'o': //done
+            case 'o':
                 if (mode != READ){
-                    validateRows(optarg, usage);
+                    validateRows(optarg, usage, entryR, entryG);
                     entryG -> rows = atoi(optarg);
                 }
                 else {
                     fprintf(stderr, "ROWS ARE NOT USED IN READ MODE! USAGE:\n%s\n", usage);
+                    freeAll(entryR, entryG);
                     exit(EXIT_FAILURE);
                 }            
                 break;
-            case 'p': //done
-                ifReadMode(usage, mode);
-                allocPoints(optarg, entryR);
+            case 'p':
+                ifReadMode(usage, mode, entryR, entryG);
+                allocPoints(optarg, entryR, entryG);
                 break;
-            case 'n': //done
+            case 'n':
                 if (mode != READ){
-                    validateRangeEnd(optarg, usage);
+                    validateRangeEnd(optarg, usage, entryR, entryG);
                     entryG -> rangeEnd = atof(optarg);
                 }
                 else {
                     fprintf(stderr, "RANGE END IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);
+                    freeAll(entryR, entryG);
                     exit(EXIT_FAILURE);
                 }
                 break;
-            case 't': //done
+            case 't':
                 if (mode != READ){
-                    validateRangeStart(optarg, usage);
+                    validateRangeStart(optarg, usage, entryR, entryG);
                     entryG -> rangeStart = atof(optarg);
                 }
                 else {
                     fprintf(stderr, "RANGE START IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);
+                    freeAll(entryR, entryG);
                     exit(EXIT_FAILURE);                    
                 }
                 break;
-            default: //done
+            default:
                 fprintf(stderr, "NO MODE FOUND. USAGE:\n%s\n", usage);
+                freeAll(entryR, entryG);
                 exit(NO_MODE_FOUND);
         }
     }
 
     if (entryG -> rangeStart >= entryG -> rangeEnd && mode != READ){
         fprintf(stderr, "WRONG RANGE OF WEIGHTS!! ERROR CODE: 505\n");
+        freeAll(entryR, entryG);
         exit(WRONG_RANGE_OF_WAGES);
     }
 
-    if (mode != READ){ //done
-        checkDataGen(entryG);
-        freeEntryRead(entryR);
+    if (mode != READ){
+        checkDataGen(entryG, entryR);
         generateMode(entryG);
     }
-    else { //done
-        checkDataRead(entryR);
-        free(entryG);
+    else {
+        checkDataRead(entryR, entryG);
         readMode(entryR);
     }
+
+    freeAll(entryR, entryG);
 
     exit(EXIT_SUCCESS);
 }

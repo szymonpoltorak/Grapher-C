@@ -42,8 +42,10 @@ entryG* allocEntryGen(void);
 
 entryR* allocEntryRead(void);
 
-void allocPoints(char* optarg, entryR* entry);
+void allocPoints(char* optarg, entryR* entryR, entryG* entryG);
 
 void freeEntryRead(entryR* entry);
+
+void freeAll(entryR* entryR, entryG* entryG);
 
 #endif

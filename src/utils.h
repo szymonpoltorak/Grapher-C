@@ -12,21 +12,24 @@
 #define EDGE 2
 #define RANDOM 3 
 #define READ 4
+#define NO_MODE 0
 
-void ifReadMode(const char* usage, short int mode);
+void ifReadMode(const char* usage, short int mode, entryR* entryR, entryG* entryG);
 
-void validateFileName(char* optarg, const char* usage);
+void validateFileName(char* optarg, const char* usage, entryR* entryR, entryG* entryG);
 
-void validateRangeEnd(char* optarg, const char* usage);
+void validateRangeEnd(char* optarg, const char* usage, entryR* entryR, entryG* entryG);
 
-void validateRangeStart(char* optarg, const char* usage);
+void validateRangeStart(char* optarg, const char* usage, entryR* entryR, entryG* entryG);
 
-void validateColumns(char* optarg, const char* usage);
+void validateColumns(char* optarg, const char* usage, entryR* entryR, entryG* entryG);
 
-void validateRows(char* optarg, const char* usage);
+void validateRows(char* optarg, const char* usage, entryR* entryR, entryG* entryG);
 
-void checkDataGen(entryG* entry);
+void checkDataGen(entryG* entryG, entryR* entryR);
 
-void checkDataRead(entryR* entry);
+void checkDataRead(entryR* entryR, entryG* entryG);
+
+void ifModeWasDeclared(const char* usage, short int mode, entryR* entryR, entryG* entryG);
 
 #endif

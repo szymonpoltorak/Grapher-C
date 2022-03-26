@@ -3,7 +3,7 @@ CCC = cc -c
 CCO = cc -o
 MV = -mv *.o bin/
 MD = -mkdir bin
-DEL = -rm bin/*.o grapher
+DEL = -rm -r bin/*.o grapher bin/
 
 all: grapher
 

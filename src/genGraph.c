@@ -74,40 +74,40 @@ bool generateIfEdgeExist(short int mode){
 void makeConnectionFromNode ( int i, int columns, int rows, int mode, node* graph, entryG* entry){
     if ( i - columns >= 0 && i - columns < columns * rows){
             if(generateIfEdgeExist(mode)){
-                graph[i].edgeExist[0] = true;
-                graph[i].nodeToConnect[0] = i - columns;
-                graph[i].edgeWeight[0] = generateWeights(entry);
+                graph[i].edgeExist[UP] = true;
+                graph[i].nodeToConnect[UP] = i - columns;
+                graph[i].edgeWeight[UP] = generateWeights(entry);
 
             }
         } else {
-             graph[i].edgeExist[0] = false;
+             graph[i].edgeExist[UP] = false;
         }
     if( i + 1 < columns * rows && (i+1)%columns != 0){
             if(generateIfEdgeExist(mode)){
-                graph[i].edgeExist[1] = true;
-                graph[i].nodeToConnect[1] = i + 1;
-                graph[i].edgeWeight[1] = generateWeights(entry);
+                graph[i].edgeExist[RIGHT] = true;
+                graph[i].nodeToConnect[RIGHT] = i + 1;
+                graph[i].edgeWeight[RIGHT] = generateWeights(entry);
             }
         } else {
-            graph[i].edgeExist[1] = false;
+            graph[i].edgeExist[RIGHT] = false;
         }
     if ( i + columns > 0 && i + columns < columns * rows){
             if(generateIfEdgeExist(mode)){
-                graph[i].edgeExist[2] = true;
-                graph[i].nodeToConnect[2] = i + columns;
-                graph[i].edgeWeight[2] = generateWeights(entry);
+                graph[i].edgeExist[DOWN] = true;
+                graph[i].nodeToConnect[DOWN] = i + columns;
+                graph[i].edgeWeight[DOWN] = generateWeights(entry);
 
             }
         } else {
-             graph[i].edgeExist[2] = false;
+             graph[i].edgeExist[DOWN] = false;
         }
      if( i - 1 >= 0 && i%columns != 0){
             if(generateIfEdgeExist(mode)){
-                graph[i].edgeExist[3] = true;
-                graph[i].nodeToConnect[3] = i - 1;
-                graph[i].edgeWeight[3] = generateWeights(entry);
+                graph[i].edgeExist[LEFT] = true;
+                graph[i].nodeToConnect[LEFT] = i - 1;
+                graph[i].edgeWeight[LEFT] = generateWeights(entry);
             }
         } else {
-            graph[i].edgeExist[3] = false;
+            graph[i].edgeExist[LEFT] = false;
         }
 }

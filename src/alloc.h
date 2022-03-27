@@ -3,10 +3,19 @@
 
 #include <stdbool.h>
 
+#define NO_MODE_FOUND 230
+#define WRONG_POINTS 236
+#define NO_COHERENT 237
+#define NULL_POINTER_EXCEPTION 228
+
+#define EXTENDED true
+#define STANDARD false
+
 typedef struct entryRead {
     char* fileName;
     bool printFlag;
     int* points;
+    int numberPoints;
 } entryR;
 
 typedef struct entryGen {
@@ -14,7 +23,7 @@ typedef struct entryGen {
     int columns;
     double rangeStart;
     double rangeEnd;
-    bool mode;
+    short int mode;
     char* fileName;
 } entryG;
 
@@ -29,8 +38,14 @@ typedef struct graphRead {
     int columns;
 } graphR;
 
-entryG* allocEntryGen(char **argv);
+entryG* allocEntryGen(void);
 
-entryR* allocEntryRead(int argc, char** argv);
+entryR* allocEntryRead(void);
+
+void allocPoints(char* optarg, entryR* entryR, entryG* entryG);
+
+void freeEntryRead(entryR* entry);
+
+void freeAll(entryR* entryR, entryG* entryG);
 
 #endif

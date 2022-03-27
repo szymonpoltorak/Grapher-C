@@ -6,10 +6,11 @@
 
 entryG* allocEntryGen(void){
     entryG* entry = (entryG*) malloc (sizeof(*entry));
+    extern const char* usage;
 
     if (entry == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
-        exit(EXIT_FAILURE);
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);
     }
 
     entry -> fileName = NULL;
@@ -24,10 +25,11 @@ entryG* allocEntryGen(void){
 
 entryR* allocEntryRead(void){
     entryR* entry = (entryR*) malloc (sizeof(*entry));
+    extern const char* usage;
 
     if (entry == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
-        exit(EXIT_FAILURE);
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);
     }
 
     entry -> points = NULL;
@@ -40,10 +42,11 @@ entryR* allocEntryRead(void){
 
 void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     int size = strlen(optarg);
+    extern const char* usage;
 
     for (int i = 0; i < size; i++){
         if (!isdigit(optarg[i]) && optarg[i] != ','){
-            fprintf(stderr, "WRONG POINTS FOUND ! ERROR CODE: 612\n");
+            fprintf(stderr, "WRONG POINTS FOUND ! USAGE:\n%s\n", usage);
             freeAll(entryR, entryG);
             exit(WRONG_POINTS);
         }
@@ -51,9 +54,9 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     int* points = (int*) malloc (size * sizeof(*points));
     
     if (points == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);
+        exit(NULL_POINTER_EXCEPTION);
     }    
 
     int howManyRead = 0;
@@ -66,7 +69,7 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     }
 
     if (entryR -> numberPoints == 0 || (entryR -> numberPoints % 2 != 0)){
-        fprintf(stderr, "WRONG POINTS FOUND! ERROR CODE: 612\n");
+        fprintf(stderr, "WRONG POINTS FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
         exit(WRONG_POINTS);
     }

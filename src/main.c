@@ -6,14 +6,21 @@
 #include "genGraph.h"
 #include "utils.h"
 
+const char* usage = {
+    "For the Generate Modes:\n\
+    ./grapher [mode] [file] [rows] [columns] [start] [end]\n\
+    For the Read Mode:\n\
+    ./grapher [mode] [file] [flag] [points]\n\
+    Every argument needs to be set be the user in program call.\n\
+    For more detailed info check documentation.\n"
+};
+
 int main(int argc, char** argv){
-    const char* usage = {
-        "For the Generate Modes:\n\
-        ./grapher [mode] [file] [rows] [columns] [start] [end]\n\
-        For the Read Mode:\n\
-        ./grapher [mode] [file] [flag] [points]\n\
-        For more detailed info check documentation\n"
-    };
+    if (argc == 1){
+        fprintf(stderr, "NO MODE FOUND. USAGE:\n%s\n",usage);
+        exit(NO_MODE_FOUND);
+    }
+
     short int mode = NO_MODE;
 
     srand(time(NULL));
@@ -21,15 +28,9 @@ int main(int argc, char** argv){
     entryG* entryG = allocEntryGen();
     entryR* entryR = allocEntryRead();
 
-    if (argc == 1){
-        fprintf(stderr, "%s : NO MODE FOUND. USAGE:\n%s\n", argv[0], usage);
-        freeAll(entryR, entryG);
-        exit(NO_MODE_FOUND);
-    }
-
     while(true){
-        int flag = 0;
-        opterr = 0; //wyłącza error dla getopt
+        int flag = NO_FLAG;
+        opterr = NO_ERRORS;
 
         static const struct option flags[] = {
             {"wm", no_argument, 0, 'w'},
@@ -39,7 +40,7 @@ int main(int argc, char** argv){
             {"EM", no_argument, 0, 'e'},
             {"em", no_argument, 0, 'e'}, 
             {"rm", no_argument, 0, 'r'},
-            {"RM", no_argument, 0, 'r'},                      
+            {"RM", no_argument, 0, 'r'},
             {"extended", no_argument, 0, 'x'},
             {"standard", no_argument, 0, 's'},
             {"file", required_argument, 0, 'f'},
@@ -56,31 +57,31 @@ int main(int argc, char** argv){
 
         switch(flag){
             case 'w':
-                ifModeWasDeclared(usage, mode, entryR, entryG);
+                ifModeWasDeclared(mode, entryR, entryG);
                 entryG -> mode = mode = WEIGHT;
                 break;
             case 'm':
-                ifModeWasDeclared(usage, mode, entryR, entryG);
+                ifModeWasDeclared(mode, entryR, entryG);
                 entryG -> mode = mode = RANDOM;
                 break;
             case 'e':
-                ifModeWasDeclared(usage, mode, entryR, entryG);
+                ifModeWasDeclared(mode, entryR, entryG);
                 entryG -> mode = mode = EDGE;
                 break;                
             case 'r':
-                ifModeWasDeclared(usage, mode, entryR, entryG);
+                ifModeWasDeclared(mode, entryR, entryG);
                 mode = READ;
                 break;               
             case 'x':
-                ifReadMode(usage, mode, entryR, entryG);
+                ifReadMode(mode, entryR, entryG);
                 entryR -> printFlag = EXTENDED;
                 break;
             case 's':
-                ifReadMode(usage, mode, entryR, entryG);
+                ifReadMode(mode, entryR, entryG);
                 entryR -> printFlag = STANDARD;
                 break;
             case 'f':
-                validateFileName(optarg, usage, entryR, entryG);
+                validateFileName(optarg, entryR, entryG);
                 if (mode == READ){
                     entryR -> fileName = optarg;
                 }
@@ -90,50 +91,50 @@ int main(int argc, char** argv){
                 break;
             case 'c':
                 if (mode != READ){
-                    validateColumns(optarg, usage, entryR, entryG);
+                    validateColumns(optarg, entryR, entryG);
                     entryG -> columns = atoi(optarg);
                 }
                 else {
                     fprintf(stderr, "COLUMNS ARE NOT BEING DECLARED IN READ MODE. USAGE:\n%s\n", usage);
                     freeAll(entryR, entryG);
-                    exit(EXIT_FAILURE);
+                    exit(WRONG_MODE);
                 }
                 break;
             case 'o':
                 if (mode != READ){
-                    validateRows(optarg, usage, entryR, entryG);
+                    validateRows(optarg, entryR, entryG);
                     entryG -> rows = atoi(optarg);
                 }
                 else {
                     fprintf(stderr, "ROWS ARE NOT USED IN READ MODE! USAGE:\n%s\n", usage);
                     freeAll(entryR, entryG);
-                    exit(EXIT_FAILURE);
+                    exit(WRONG_MODE);
                 }            
                 break;
             case 'p':
-                ifReadMode(usage, mode, entryR, entryG);
+                ifReadMode(mode, entryR, entryG);
                 allocPoints(optarg, entryR, entryG);
                 break;
             case 'n':
                 if (mode != READ){
-                    validateRangeEnd(optarg, usage, entryR, entryG);
+                    validateRangeEnd(optarg, entryR, entryG);
                     entryG -> rangeEnd = atof(optarg);
                 }
                 else {
                     fprintf(stderr, "RANGE END IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);
                     freeAll(entryR, entryG);
-                    exit(EXIT_FAILURE);
+                    exit(WRONG_MODE);
                 }
                 break;
             case 't':
                 if (mode != READ){
-                    validateRangeStart(optarg, usage, entryR, entryG);
+                    validateRangeStart(optarg, entryR, entryG);
                     entryG -> rangeStart = atof(optarg);
                 }
                 else {
-                    fprintf(stderr, "RANGE START IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);
+                    fprintf(stderr, "RANGE START IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);//
                     freeAll(entryR, entryG);
-                    exit(EXIT_FAILURE);                    
+                    exit(WRONG_MODE);
                 }
                 break;
             default:
@@ -144,7 +145,7 @@ int main(int argc, char** argv){
     }
 
     if (entryG -> rangeStart >= entryG -> rangeEnd && mode != READ){
-        fprintf(stderr, "WRONG RANGE OF WEIGHTS!! ERROR CODE: 505\n");
+        fprintf(stderr, "WRONG RANGE OF WEIGHTS!! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
         exit(WRONG_RANGE_OF_WAGES);
     }

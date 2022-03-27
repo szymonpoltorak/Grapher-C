@@ -4,16 +4,16 @@
 #include <stdbool.h>
 
 #define NO_MODE_FOUND 230
-#define NO_FLAG_FOUND 235
 #define WRONG_POINTS 236
 #define NO_COHERENT 237
+#define NULL_POINTER_EXCEPTION 228
 
-#define EXTENDED 5
-#define STANDARD 6
+#define EXTENDED true
+#define STANDARD false
 
 typedef struct entryRead {
     char* fileName;
-    short int printFlag;
+    bool printFlag;
     int* points;
     int numberPoints;
 } entryR;

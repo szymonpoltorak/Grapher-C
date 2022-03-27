@@ -2,16 +2,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void ifReadMode(const char* usage, short int mode, entryR* entryR, entryG* entryG){
+void ifReadMode(short int mode, entryR* entryR, entryG* entryG){
+    extern const char* usage;
+
     if (mode != READ){
         fprintf(stderr, "IT IS NOT READ MODE!\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);
+        exit(NOT_READ_MODE);
     }
 }
 
-void validateFileName(char* optarg, const char* usage, entryR* entryR, entryG* entryG){
+void validateFileName(char* optarg, entryR* entryR, entryG* entryG){
     FILE* in = fopen(optarg, "r");
+    extern const char* usage;
 
     if (in == NULL){
         fprintf(stderr, "FILE DOES NOT EXIST! USAGE:\n %s\n", usage);
@@ -21,8 +24,9 @@ void validateFileName(char* optarg, const char* usage, entryR* entryR, entryG* e
     fclose(in);
 }
 
-void validateRangeEnd(char* optarg, const char* usage, entryR* entryR, entryG* entryG){
+void validateRangeEnd(char* optarg, entryR* entryR, entryG* entryG){
     double end = 0;
+    extern const char* usage;
 
     if (sscanf(optarg, "%lf", &end) != 1 || end <= 0){
         fprintf(stderr, "WRONG END! USAGE:\n%s\n", usage);
@@ -31,8 +35,9 @@ void validateRangeEnd(char* optarg, const char* usage, entryR* entryR, entryG* e
     }
 }
 
-void validateColumns(char* optarg, const char* usage, entryR* entryR, entryG* entryG){
+void validateColumns(char* optarg, entryR* entryR, entryG* entryG){
     int columns = 0;
+    extern const char* usage;
 
     if(sscanf(optarg, "%d", &columns) != 1 || columns <= 0){
         fprintf(stderr, "WRONG NUMBER OF COLUMNS! USAGE:\n%s\n", usage);
@@ -41,8 +46,9 @@ void validateColumns(char* optarg, const char* usage, entryR* entryR, entryG* en
     }
 }
 
-void validateRangeStart(char* optarg, const char* usage, entryR* entryR, entryG* entryG){
+void validateRangeStart(char* optarg, entryR* entryR, entryG* entryG){
     int start = 0;
+    extern const char* usage;
 
     if(sscanf(optarg, "%d", &start) != 1 || start < 0){
         fprintf(stderr, "WRONG NUMBER OF START! USAGE:\n%s\n", usage);
@@ -51,8 +57,9 @@ void validateRangeStart(char* optarg, const char* usage, entryR* entryR, entryG*
     }
 }
 
-void validateRows(char* optarg, const char* usage, entryR* entryR, entryG* entryG){
+void validateRows(char* optarg, entryR* entryR, entryG* entryG){
     int rows = 0;
+    extern const char* usage;
 
     if(sscanf(optarg, "%d", &rows) != 1 || rows <= 0){
         fprintf(stderr, "WRONG NUMBER OF ROWS! ERROR CODE: 503. USAGE:\n%s\n", usage);
@@ -61,11 +68,13 @@ void validateRows(char* optarg, const char* usage, entryR* entryR, entryG* entry
     }
 }
 
-void ifModeWasDeclared(const char* usage, short int mode, entryR* entryR, entryG* entryG){
+void ifModeWasDeclared(short int mode, entryR* entryR, entryG* entryG){
+    extern const char* usage;
+
     if (mode != NO_MODE){
         fprintf(stderr, "MODE WAS ALREADY DECLARED !!!\n Usage:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);
+        exit(MULTIPILE_MODE_DECLARATION);
     }
 }
 
@@ -124,57 +133,61 @@ static int checkNumberPoints(int numberPoints){
 }
 
 void checkDataGen(entryG* entryG, entryR* entryR){
+    extern const char* usage;
+
     if (checkFileName(entryG -> fileName) == EXIT_FAILURE){
-        fprintf(stderr, "FILE NOT FOUND!\n");
+        fprintf(stderr, "FILE NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);
+        exit(NO_FILE_FOUND);
     }
     if (checkRangeStart(entryG -> rangeStart) == EXIT_FAILURE){
-        fprintf(stderr, "RANGE START NOT FOUND!\n");
+        fprintf(stderr, "RANGE START NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);        
+        exit(WRONG_RANGE_OF_WAGES);
     }
     if (checkRangeEnd(entryG -> rangeEnd) == EXIT_FAILURE){
-        fprintf(stderr, "RANGE END NOT FOUND!\n");
+        fprintf(stderr, "RANGE END NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);        
+        exit(WRONG_RANGE_OF_WAGES );
     }
     if (checkRows(entryG -> rows) == EXIT_FAILURE){
-        fprintf(stderr, "ROWS NOT FOUND!\n");
+        fprintf(stderr, "ROWS NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);        
+        exit(WRONG_NUM_OF_ROWS);
     }
     if (checkColumns(entryG -> columns) == EXIT_FAILURE){
-        fprintf(stderr, "COLUMNS NOT FOUND!\n");
+        fprintf(stderr, "COLUMNS NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);        
+        exit(WRONG_NUM_OF_COL);
     } 
     if (checkMode(entryG -> mode) == EXIT_FAILURE){
-        fprintf(stderr, "MODE NOT FOUND!\n");
+        fprintf(stderr, "MODE NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);        
+        exit(NO_MODE_FOUND);  
     }                     
 }
 
 void checkDataRead(entryR* entryR, entryG* entryG){
+    extern const char* usage;
+
     if (checkFileName(entryR -> fileName) == EXIT_FAILURE){
-        fprintf(stderr, "FILE NOT FOUND!\n");
+        fprintf(stderr, "FILE NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);
+        exit(NO_FILE_FOUND);
     }    
     if (checkPrintFlag(entryR -> printFlag) == EXIT_FAILURE){
-        fprintf(stderr, "PRINT FLAG NOT FOUND!\n");
+        fprintf(stderr, "PRINT FLAG NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);
+        exit(NO_FLAG_FOUND);
     }
     if (checkPoints(entryR -> points) == EXIT_FAILURE){
-        fprintf(stderr, "POINTS NOT FOUND!\n");
+        fprintf(stderr, "POINTS NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);
+        exit(WRONG_POINTS);
     }
     if (checkNumberPoints(entryR -> numberPoints) == EXIT_FAILURE){
-        fprintf(stderr, "NUMBER OF POINTS NOT FOUND\n");
+        fprintf(stderr, "NUMBER OF POINTS NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
-        exit(EXIT_FAILURE);
+        exit(WRONG_POINTS);
     }
 }

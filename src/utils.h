@@ -13,11 +13,6 @@
 #define WRONG_NUM_OF_ROWS 232
 #define NO_FLAG_FOUND 235
 
-#define WEIGHT 1
-#define EDGE 2
-#define RANDOM 3 
-#define READ 4
-
 #define NO_MODE 0
 #define NO_ERRORS 0
 #define NO_FLAG 0

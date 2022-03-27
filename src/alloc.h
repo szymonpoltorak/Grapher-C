@@ -8,6 +8,10 @@
 #define NO_COHERENT 237
 #define NULL_POINTER_EXCEPTION 228
 
+#define WEIGHT 1
+#define EDGE 2
+#define RANDOM 3 
+#define READ 4
 #define EXTENDED true
 #define STANDARD false
 

@@ -1,0 +1,65 @@
+\documentclass[10pt, a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{a4wide}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{listings}
+
+\graphicspath{ {./images} }
+
+\begin{titlepage}
+    \title{\huge{\textbf{Sprawozdanie} \\ programu grapher}}
+    \author{Szymon Półtorak i Sebastian Sikorski}
+    \date{14.04.2022r}
+\end{titlepage}
+
+\renewcommand{\footrulewidth}{1pt}
+
+\begin{document}
+    \maketitle
+
+    \renewcommand*\thesection{\arabic{section}}
+    
+    \begin{abstract}
+
+    \end{abstract}
+
+    \pagestyle{fancy}
+    \fancyhf{}
+    \lhead{Sprawozdanie programu \textit{grapher}(C)}
+    \rhead{Szymon Półtorak i Sebastian Sikorski}
+    \cfoot{Strona \thepage \hspace{1pt} z \pageref{LastPage}}
+    
+    \fancypagestyle{plain}{
+        \lhead{Sprawozdanie programu \textit{grapher}(C)}
+        \rhead{Szymon Półtorak i Sebastian Sikorski}
+        \cfoot{Strona \thepage \hspace{1pt} z \pageref{LastPage}}
+    }
+    \tableofcontents
+    \newpage
+
+    \section{Cel projektu - streszczenie}
+
+    \section{Struktura programu}
+
+    \subsection{Struktura folderów}
+
+    \subsection{Diagram modułów}
+
+    \section{Uruchomienie programu}
+
+    \section{Przykładowe wywołania i wyniki programu}
+
+    \section{Zmiany względem specyfikacji}
+
+    \section{Podsumowanie współpracy}
+
+    \section{Podsumowanie projektu}
+
+    \section{Wnioski}
+
+\end{document}

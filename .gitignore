@@ -2,3 +2,10 @@
 *.gch
 *.pch
 grapher
+
+*.aux
+*.fls
+*.synctex.gz
+*.log
+*.fdb_latexmk
+*.toc

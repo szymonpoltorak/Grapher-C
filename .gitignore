@@ -9,3 +9,5 @@ grapher
 *.log
 *.fdb_latexmk
 *.toc
+
+*:Zone.identifier

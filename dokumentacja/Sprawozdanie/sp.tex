@@ -55,7 +55,7 @@
         \item Random Mode – program losuje istnienie krawędzi i ich wagi. W tym trybie graf może być niespójny,
         \item Read Mode – program czyta plik o ustalonym formacie i szuka najkrótszej ścieżki pomiędzy podanymi przez użytkownika punktami.        
     \end{itemize}
-    Po szczegółowe wyjaśnienie funkcjonalności trybów, formatu pliku z grafem, struktury folderu oraz składni programu odsyłamy do specyfikacji funkcjonalnej projektu \textit{grapher}.
+    Po szczegółowe wyjaśnienie funkcjonalności trybów, formatu pliku z grafem oraz znaczenia poszczególnych elementów składni programu odsyłamy do specyfikacji funkcjonalnej projektu \textit{grapher}.
 
     \section{Struktura programu}
     Program \textit{grapher} skłąda się z 4 folderów nadrzędnych zawierających jego poszczególne elementu. Folder \textit{dokumentacja} zawiera dokumenty opisujące projekt, czyli:
@@ -126,17 +126,42 @@
         \item \texttt{make rm} - również wykonuje to samo zadanie ale program korzysta z trybu \textit{read mode}.
     \end{itemize}
 
+    \newpage
     \section{Przykładowe wywołania i wyniki programu}
+    W tym rozdziale przedstawimy wywołania programu wraz z ich wynikami dla różnych scenariuszów aby ukazać jak nasz program działa.
 
     \subsection{Wage Mode}
+    \textbf{Plik wejściowy} - w trybach generujących jest to plik pusty.
+    \newline Wywołanie:
+    \newline\newline \texttt{./grapher -wm -rows 4 -start 1 -file wg.test -end 10 -columns 5}
+    \newline\newline Wynik:
 
     \subsection{Edge Mode}
+    \textbf{Plik wejściowy} - plik pusty.
+    \newline Wywołanie:
+    \newline\newline \texttt{./grapher -em -rows 5 -file em.test -end 20 -columns 7 -start 5}
+    \newline\newline Wynik:    
 
     \subsection{Random Mode}
+    \textbf{Plik wejściowy} - plik pusty.
+    \newline Wywołanie:
+    \newline\newline \texttt{./grapher -file rem.test -rem -end 10 -rows 6 -start 1 -columns 7}
+    \newline\newline Wynik:
 
-    \subsection{Read Mode}
+    \subsection{Read Mode z flagą Standard}
+    \textbf{Plik wejściowy} :
+    \newline Wywołanie:
+    \newline\newline \texttt{./grapher -file rm\_s.test -rm -points 1,5,4,8 -standard }
+    \newline\newline Wynik:
+
+    \subsection{Read Mode z flagą Extended}
+    \textbf{Plik wejściowy} :
+    \newline Wywołanie:
+    \newline\newline \texttt{./grapher -extended -points 2,7,3,11 -file rm\_e.test -rm}
+    \newline\newline Wynik:
 
     \section{Zmiany względem specyfikacji}
+    W nieniejszym rozdziale opisujemy zmiany jakie zaszły między specyfikacją funkcjonalną i implementacyjną, a wersją finalną programu.
 
     \subsection{Diagram modułów}
     Z powodu potrzeby dodania nowego modułu zmienił się również diagram modułów. Poprawną wersję prezentowaliśmy już wyżej.
@@ -226,6 +251,9 @@ typedef struct graphRead {
         \hline
     \end{tabularx}
     \newline\newline Na koniec dodam, że flagi dotyczące trybów mogą się składać z samych małych liter.
+
+    \subsection{Struktura folderów}
+    W obecnej strukturze zaprezentowanej w tym sprawozdaniu uwzględniliśmy folderu zawierający dokumentację projektu.
 
     \section{Podsumowanie współpracy}
 

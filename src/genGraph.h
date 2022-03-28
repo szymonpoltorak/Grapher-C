@@ -20,4 +20,19 @@ bool generateIfEdgeExist(short int mode);
 
 void makeConnectionFromNode ( int i, node* graph, entryG* entry);
 
+typedef struct que {
+    int node;
+    struct que* next;
+} que;
+
+void addToQueue(que* q,int data);
+
+que* queInit(int data);
+
+int popFromQueue(que** q);
+
+bool isEmpty(que* q);
+
+void displayQue(que* q);
+
 #endif

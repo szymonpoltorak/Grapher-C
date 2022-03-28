@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define NO_MODE_FOUND 230
+#define NO_MODE_FOUND 226
 #define WRONG_POINTS 236
 #define NO_COHERENT 237
 #define NULL_POINTER_EXCEPTION 228

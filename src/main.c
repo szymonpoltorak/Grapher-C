@@ -138,9 +138,9 @@ int main(int argc, char** argv){
                 }
                 break;
             default:
-                fprintf(stderr, "NO MODE FOUND. USAGE:\n%s\n", usage);
+                fprintf(stderr, "INVALID DATA. USAGE:\n%s\n", usage);
                 freeAll(entryR, entryG);
-                exit(NO_MODE_FOUND);
+                exit(INVALID_DATA);
         }
     }
 

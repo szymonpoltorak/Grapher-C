@@ -202,7 +202,7 @@ typedef struct entryRead {
     int numberPoints;
 } entryR;
         \end{lstlisting}
-        \item \texttt{struct graphRead} - teraz \textit{graph} jest typu \texttt{node*}.
+        \item \texttt{struct graphRead} - teraz \textit{graph} jest typu \texttt{node*},
         \begin{lstlisting}
 typedef struct graphRead {
     node* graph;
@@ -210,6 +210,14 @@ typedef struct graphRead {
     int columns;
 } graphR;
         \end{lstlisting}
+        \item \texttt{struct node} - ta struktura otrzymała nową zmienną tablicową \textit{nodeToConnect} oraz wszystkie tablice zostały zmienione ze wskaźników na tablice o określonym rozmiarze. 
+        \begin{lstlisting}
+typedef struct node {
+    bool edgeExist[4]; 
+    double edgeWeight[4]; 
+    int nodeToConnect[4];
+} node;
+        \end{lstlisting}        
     \end{itemize}
 
     \subsection{Wywoływanie programu}

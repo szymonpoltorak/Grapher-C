@@ -253,12 +253,19 @@ typedef struct graphRead {
     \newline\newline Na koniec dodam, że flagi dotyczące trybów mogą się składać z samych małych liter.
 
     \subsection{Struktura folderów}
-    W obecnej strukturze zaprezentowanej w tym sprawozdaniu uwzględniliśmy folderu zawierający dokumentację projektu.
-
-    \section{Podsumowanie współpracy}
+    W obecnej strukturze zaprezentowanej w tym sprawozdaniu uwzględniliśmy folderu zawierający dokumentację projektu oraz odpowiedzialny za testy.
 
     \section{Podsumowanie projektu}
+    Projekt dotyczący grafów w języku C był realizowany od dnia 24.02.2022r do 14.04.2022r. W ramach niego powstały specyfikacja funkcjonalna i implementacyjna oraz moduły programu
+    \textit{grapher} takie jak: \textit{alloc}, \textit{main}, \textit{genGraph}, \textit{readGraph} i \textit{utilts}. Program można uruchamiać z wieloma flagami, które pozwalają na uruchomienie programu
+    z dostosowanymi przez użytkownika wartościami. \textit{Grapher} można uruchomić w czterech różnych trybach: \textit{Wage}, \textit{Random}, \textit{Edge} oraz \textit{Read}.
+    W trybie \textit{Read} użytkownik ma m.in. możliwość wybrania w jaki sposób wyświetlać najkrótszą ściężkę między zadanymi przez użytkownika punktami dzieki flagom
+    \textit{-standard} i \textit{-extended}. Program został gruntowanie przetestowany, dlatego nie powinno być żadnych niespodziewanych zdarzeń.
 
     \section{Wnioski}
+    Sprawdzanie spójności grafów oraz szukanie w nich najkrótszej ścieżki nie jest zadaniem szybkim i trywialnym, a wrecz przeciwnie jest to zadanie wymagające i skomplikowane.
+    Bardzo pomocne w uproszczeniu tych zadań są algorytmy przeszukiwania wszerz (BFS) oraz Dijkstry. Znacząco usprawniły i uprościły wykonanie tych właśnie zadań.
+    Przy takich projektach wymagające jest również pilnowanie by program natrafiając na błąd informował dokładnie co i dlaczego się wydarzyło, oraz zapobieganie wyciekom pamięci.
+    Z tym ostatnim wsparło nas narzędzie \textit{valgrind}, które pozwoliło nam na skuteczną walkę z wyciekami.
 
 \end{document}

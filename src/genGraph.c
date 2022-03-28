@@ -10,10 +10,6 @@ double generateWeights(entryG* entry){
 
 bool checkIfCoherentGen(node* graph, entryG* entry){
     int numOfNodes = entry->columns * entry->rows;
-    bool *coherentFrom = (bool *) malloc(sizeof coherentFrom * numOfNodes);
-    for ( int i = 0; i < numOfNodes; i++)
-        coherentFrom[i] = false;
-
     for(int l = 0; l < numOfNodes; l++){
         int startingNode = l;
         bool *visited = (bool *) malloc(sizeof visited * numOfNodes);
@@ -47,22 +43,11 @@ bool checkIfCoherentGen(node* graph, entryG* entry){
 
         free(visited);
 
-        if(numOfNotVisited > 0){
-            coherentFrom[l] = false;
-        } else {
-            coherentFrom[l] = true;
-        }
+        if(numOfNotVisited > 0)
+            return false;
+        //Działa bo jeśli chodź jeden bedzie niespojny z danego wierchołka to dalej nie ma sensu sprawdzać
     }
-    int numOfNotChoherentFrom = 0;;
-    for ( int i = 0; i < numOfNodes; i++ ){
-        if(coherentFrom[i] == false)
-           numOfNotChoherentFrom++;
-    }
-    if(numOfNotChoherentFrom > 0) {
-        return false;
-    } else {
-        return true;
-    }
+    return true;
 }
 
 void saveGraphToFile(entryG* entry, node* graph){
@@ -117,11 +102,6 @@ void generateMode(entryG* entry){
     }
 
     if(continueGen == true){
-        if (checkIfCoherentGen(graph,entry) == true){
-            printf("Wygenerowano spojny\n");
-        } else {
-            printf("Wygenerowano niespojny\n");
-        }
         saveGraphToFile(entry,graph);
         printf("Poprawnie wygenerowano graf!\n");
     }

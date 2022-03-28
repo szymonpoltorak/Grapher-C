@@ -36,27 +36,37 @@ void generateMode(entryG* entry){
     int maxNumOfTries = 500;
     bool continueGen = true;
 
-    do {
+    for (int i = 0; i < numOfNodes; i++) {
+            makeConnectionFromNode(i, graph, entry);
+    }
+    numOfTries++;
+
+    while (entry->mode == 2 && continueGen == true && !checkIfCoherentGen(graph,entry)){
+
         for (int i = 0; i < numOfNodes; i++)
             makeConnectionFromNode(i, graph, entry);
         numOfTries++;
+    
         if (numOfTries >= maxNumOfTries){
             printf("Dokonano %d losowań. Czy chcesz kontynuować? [Y/N]: ",numOfTries);
-            char c = 'N';
-            if(c != 'Y'){
-                continueGen = false;
+            char choice;
+            scanf(" %c", &choice);
 
+            if(choice == 'y' || choice == 'Y'){
+                continueGen = true;
+                maxNumOfTries += 500;
+            } else {
+                continueGen = false;
             }
-            
         }
     }
-    while (entry->mode == 2 && continueGen == true && !checkIfCoherentGen(graph,entry));
 
-    if(checkIfCoherentGen(graph,entry)){
+    if(continueGen == true){
         saveGraphToFile(entry,graph);
-        printf("Wygenerowano poprawny graf zgodny z wybranym trybem.\n");
-    } else {
-        printf("Nie udało się wygenerować grafu.\n");
+        printf("Poprawnie wygenerowano graf!\n");
+    }
+    if(continueGen == false){
+        printf("Przerwano generowanie grafu!\n");
     }
 }
 

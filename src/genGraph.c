@@ -32,33 +32,31 @@ void saveGraphToFile(entryG* entry, node* graph){
 void generateMode(entryG* entry){
     int numOfNodes = entry->columns * entry->rows;
     node *graph = malloc(sizeof (node) * numOfNodes );
+    int numOfTries = 0;
+    int maxNumOfTries = 500;
+    bool continueGen = true;
 
-    for (int i = 0; i < numOfNodes; i++){
-        makeConnectionFromNode(i, entry->columns, entry->rows, entry->mode, graph, entry);
+    do {
+        for (int i = 0; i < numOfNodes; i++)
+            makeConnectionFromNode(i, graph, entry);
+        numOfTries++;
+        if (numOfTries >= maxNumOfTries){
+            printf("Dokonano %d losowań. Czy chcesz kontynuować? [Y/N]: ",numOfTries);
+            char c = 'N';
+            if(c != 'Y'){
+                continueGen = false;
+
+            }
+            
+        }
     }
-    saveGraphToFile(entry,graph);
+    while (entry->mode == 2 && continueGen == true && !checkIfCoherentGen(graph,entry));
 
-}
-
-
-int defineNodeNumber (int i, int k, int rows, int columns){
-    switch (k)
-    {
-    case 1: //up
-        return i - columns;
-        break;
-    case 2: //right
-       return i + 1;
-        break;
-    case 3: // down
-        return i + columns;
-        break;
-    case 4: //left
-        return i - 1;
-        break;
-    default:
-        return 0;
-        break;
+    if(checkIfCoherentGen(graph,entry)){
+        saveGraphToFile(entry,graph);
+        printf("Wygenerowano poprawny graf zgodny z wybranym trybem.\n");
+    } else {
+        printf("Nie udało się wygenerować grafu.\n");
     }
 }
 
@@ -66,12 +64,15 @@ bool generateIfEdgeExist(short int mode){
     if (mode == 1)
         return true;
     double i = (double) rand()/RAND_MAX;
-    if (i >= 0.5)
+    if (i <= 0.9)
         return true;
     return false;
 }
 
-void makeConnectionFromNode ( int i, int columns, int rows, int mode, node* graph, entryG* entry){
+void makeConnectionFromNode ( int i, node* graph, entryG* entry){
+    int columns = entry->columns;
+    int rows = entry->rows;
+    int mode = entry->mode;
     if ( i - columns >= 0 && i - columns < columns * rows){
             if(generateIfEdgeExist(mode)){
                 graph[i].edgeExist[UP] = true;

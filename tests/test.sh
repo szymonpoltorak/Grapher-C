@@ -51,7 +51,7 @@ T=$?; printf "Test[9]: "; [[ $T -eq 234 ]] && $ok || $fail ; echo
 #end equal of 0
 echo "-------------Testing end equal of 0-------------"
 ./grapher -wm -end 0 2> temp
-T=$?; printf "Test[10]: "; [[ $T -eq 235 ]] && $ok || $fail ; echo 
+T=$?; printf "Test[10]: "; [[ $T -eq 234 ]] && $ok || $fail ; echo 
 
 #start is negative
 echo "------------Testing start as negative-----------"

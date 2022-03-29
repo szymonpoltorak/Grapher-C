@@ -20,21 +20,21 @@ double generateWeights(entryG* entry);
 
 bool generateIfEdgeExist(short int mode);
 
-void makeConnectionFromNode ( int i, node* graph, entryG* entry);
+void makeConnectionFromNode (int i, node* graph, entryG* entry);
 
-typedef struct que {
+typedef struct queue {
     int node;
-    struct que* next;
-} que;
+    struct queue* next;
+} queue;
 
-void addToQueue(que* q,int data);
+void addToQueue(queue* q,int data);
 
-que* queInit(int data);
+queue* queInit(int data);
 
-int popFromQueue(que** q);
+int popFromQueue(queue** q);
 
-bool isEmpty(que* q);
+bool isEmpty(queue* q);
 
-void displayQue(que* q);
+void displayQue(queue* q);
 
 #endif

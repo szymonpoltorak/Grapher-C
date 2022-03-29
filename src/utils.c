@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void ifReadMode(short int mode, entryR* entryR, entryG* entryG){
-    extern const char* usage;
+extern const char* usage;
 
+void ifReadMode(short int mode, entryR* entryR, entryG* entryG){
     if (mode != READ){
         fprintf(stderr, "IT IS NOT READ MODE!\n%s\n", usage);
         freeAll(entryR, entryG);
@@ -14,7 +14,6 @@ void ifReadMode(short int mode, entryR* entryR, entryG* entryG){
 
 void validateFileName(char* optarg, entryR* entryR, entryG* entryG){
     FILE* in = fopen(optarg, "r");
-    extern const char* usage;
 
     if (in == NULL){
         fprintf(stderr, "FILE DOES NOT EXIST! USAGE:\n %s\n", usage);
@@ -26,7 +25,6 @@ void validateFileName(char* optarg, entryR* entryR, entryG* entryG){
 
 void validateRangeEnd(char* optarg, entryR* entryR, entryG* entryG){
     double end = 0;
-    extern const char* usage;
 
     if (sscanf(optarg, "%lf", &end) != 1 || end <= 0){
         fprintf(stderr, "WRONG END! USAGE:\n%s\n", usage);
@@ -37,7 +35,6 @@ void validateRangeEnd(char* optarg, entryR* entryR, entryG* entryG){
 
 void validateColumns(char* optarg, entryR* entryR, entryG* entryG){
     int columns = 0;
-    extern const char* usage;
 
     if(sscanf(optarg, "%d", &columns) != 1 || columns <= 0){
         fprintf(stderr, "WRONG NUMBER OF COLUMNS! USAGE:\n%s\n", usage);
@@ -48,7 +45,6 @@ void validateColumns(char* optarg, entryR* entryR, entryG* entryG){
 
 void validateRangeStart(char* optarg, entryR* entryR, entryG* entryG){
     int start = 0;
-    extern const char* usage;
 
     if(sscanf(optarg, "%d", &start) != 1 || start < 0){
         fprintf(stderr, "WRONG NUMBER OF START! USAGE:\n%s\n", usage);
@@ -59,7 +55,6 @@ void validateRangeStart(char* optarg, entryR* entryR, entryG* entryG){
 
 void validateRows(char* optarg, entryR* entryR, entryG* entryG){
     int rows = 0;
-    extern const char* usage;
 
     if(sscanf(optarg, "%d", &rows) != 1 || rows <= 0){
         fprintf(stderr, "WRONG NUMBER OF ROWS! ERROR CODE: 503. USAGE:\n%s\n", usage);
@@ -69,8 +64,6 @@ void validateRows(char* optarg, entryR* entryR, entryG* entryG){
 }
 
 void ifModeWasDeclared(short int mode, entryR* entryR, entryG* entryG){
-    extern const char* usage;
-
     if (mode != NO_MODE){
         fprintf(stderr, "MODE WAS ALREADY DECLARED !!!\n Usage:\n%s\n", usage);
         freeAll(entryR, entryG);
@@ -133,8 +126,6 @@ static int checkNumberPoints(int numberPoints){
 }
 
 void checkDataGen(entryG* entryG, entryR* entryR){
-    extern const char* usage;
-
     if (checkFileName(entryG -> fileName) == EXIT_FAILURE){
         fprintf(stderr, "FILE NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
@@ -168,8 +159,6 @@ void checkDataGen(entryG* entryG, entryR* entryR){
 }
 
 void checkDataRead(entryR* entryR, entryG* entryG){
-    extern const char* usage;
-
     if (checkFileName(entryR -> fileName) == EXIT_FAILURE){
         fprintf(stderr, "FILE NOT FOUND! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);

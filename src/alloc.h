@@ -12,12 +12,12 @@
 #define EDGE 2
 #define RANDOM 3 
 #define READ 4
-#define EXTENDED true
-#define STANDARD false
+#define EXTENDED 5
+#define STANDARD 6
 
 typedef struct entryRead {
     char* fileName;
-    bool printFlag;
+    short int printFlag;
     int* points;
     int numberPoints;
 } entryR;
@@ -52,5 +52,9 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG);
 void freeEntryRead(entryR* entry);
 
 void freeAll(entryR* entryR, entryG* entryG);
+
+node* allocGraphGen(int numOfNodes);
+
+bool* allocVisited(int numOfNodes);
 
 #endif

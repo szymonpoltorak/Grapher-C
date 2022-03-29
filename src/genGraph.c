@@ -75,7 +75,7 @@ void generateMode(entryG* entry){
     }
     numOfTries++;
 
-    while (entry->mode == 2 && continueGen == true && !checkIfCoherentGen(graph,entry)){ //ZAMIENIC PRZY MARGE
+    while (entry->mode == EDGE && continueGen == true && !checkIfCoherentGen(graph,entry)){
 
         for (int i = 0; i < numOfNodes; i++)
             makeConnectionFromNode(i, graph, entry);
@@ -105,7 +105,7 @@ void generateMode(entryG* entry){
 }
 
 bool generateIfEdgeExist(short int mode){
-    if (mode == 1) //ZAMIENIC PRZY MARGE
+    if (mode == WEIGHT)
         return true;
     double i = (double) 100*rand()/RAND_MAX;
     if (i <= CHANCE)

@@ -32,8 +32,9 @@ typedef struct entryGen {
 } entryG;
 
 typedef struct node {
-    bool* edgeExist;
-    double* edgeWeight;
+    bool edgeExist[4]; 
+    double edgeWeight[4]; 
+    int nodeToConnect[4];
 } node;
 
 typedef struct graphRead {

@@ -4,9 +4,10 @@
 #include <ctype.h>
 #include "alloc.h"
 
+extern const char* usage;
+
 entryG* allocEntryGen(void){
     entryG* entry = (entryG*) malloc (sizeof(*entry));
-    extern const char* usage;
 
     if (entry == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
@@ -25,7 +26,6 @@ entryG* allocEntryGen(void){
 
 entryR* allocEntryRead(void){
     entryR* entry = (entryR*) malloc (sizeof(*entry));
-    extern const char* usage;
 
     if (entry == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
@@ -40,9 +40,39 @@ entryR* allocEntryRead(void){
     return entry;
 }
 
+node* allocGraphGen(int numOfNodes){
+    node* graph = (node*) calloc (numOfNodes, sizeof(*graph));
+
+    if (graph == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);        
+    }
+
+    for (int i = 0; i < 4; i++){
+        graph -> edgeExist[i] = false;
+        graph -> edgeWeight[i] = -1;
+        graph -> nodeToConnect[i] = -1;
+    }
+
+    return graph;
+}
+
+bool* allocVisited(int numOfNodes){
+    bool *visited = (bool*) malloc(sizeof (*visited) * numOfNodes);
+
+    if (visited == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);        
+    }
+
+    for (int i = 0; i < numOfNodes; i++)
+        visited[i] = false;    
+
+    return visited;
+}
+
 void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     int size = strlen(optarg);
-    extern const char* usage;
 
     for (int i = 0; i < size; i++){
         if (!isdigit(optarg[i]) && optarg[i] != ','){

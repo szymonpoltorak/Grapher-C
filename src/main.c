@@ -82,12 +82,10 @@ int main(int argc, char** argv){
                 break;
             case 'f':
                 validateFileName(optarg, entryR, entryG);
-                if (mode == READ){
+                if (mode == READ)
                     entryR -> fileName = optarg;
-                }
-                else {
+                else 
                     entryG -> fileName = optarg;
-                }
                 break;
             case 'c':
                 if (mode != READ){

@@ -32,7 +32,7 @@ bool checkIfCoherentGen(node* graph, entryG* entry){
             }
         }
 
-        for ( int i = 0; i < numOfNodes; i++ ){
+        for (int i = 0; i < numOfNodes; i++ ){
             if(visited[i] == false){
                 free(visited);
                 return false;
@@ -67,9 +67,8 @@ void generateMode(entryG* entry){
     int maxNumOfTries = MAXNUMOFTRIES;
     bool continueGen = true;
 
-    for (int i = 0; i < numOfNodes; i++) {
+    for (int i = 0; i < numOfNodes; i++)
         makeConnectionFromNode(i, graph, entry);
-    }
     numOfTries++;
 
     while (entry->mode == EDGE && continueGen == true && !checkIfCoherentGen(graph,entry)){
@@ -95,9 +94,8 @@ void generateMode(entryG* entry){
         saveGraphToFile(entry,graph);
         printf("Poprawnie wygenerowano graf!\n");
     }
-    if(continueGen == false){
+    if(continueGen == false)
         printf("Przerwano generowanie grafu!\n");
-    }
     free(graph);
 }
 
@@ -169,9 +167,8 @@ queue* queInit(int data){
 void addToQueue(queue* q, int data){
     queue* iterator = q;
 
-    while(iterator->next != NULL){
+    while(iterator->next != NULL)
         iterator = iterator->next;
-    }
 
     iterator->next = (queue*) malloc(sizeof(queue));
     iterator->next->node = data;

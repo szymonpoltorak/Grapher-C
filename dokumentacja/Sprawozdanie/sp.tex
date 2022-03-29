@@ -118,12 +118,13 @@
     \section{Kompilacja programu}
     Program trzeba najpierw skompilować w katalogu głównym projektu. Poniżej przedstawiamy wszystkie komendy możliwe do użycia:
     \begin{itemize}
-        \item \texttt{make} - podstawowa kompilacja programu grapher,
-        \item \texttt{make clean} - usuwa z programu wszystkie pliki robocze oraz skompilowany plik do uruchamiania programu \textit{grapher},
-        \item \texttt{make wm} - kompiluje program i uruchamia go w trybie \textit{wage mode} z góry zakładanymi danymi,
-        \item \texttt{make rem} - robi to samo co powyższa komenda ale uruchamia program w trybie \textit{random mode},
-        \item \texttt{make em} - wykonuje to samo co powyższe 2 instrukcje ale uruchamia program w trybie \textit{edge mode},
-        \item \texttt{make rm} - również wykonuje to samo zadanie ale program korzysta z trybu \textit{read mode}.
+        \item \texttt{make} -- podstawowa kompilacja programu grapher,
+        \item \texttt{make clean} -- usuwa z programu wszystkie pliki robocze oraz skompilowany plik do uruchamiania programu \textit{grapher},
+        \item \texttt{make wm} -- kompiluje program i uruchamia go w trybie \textit{wage mode} z góry zakładanymi danymi,
+        \item \texttt{make rem} -- robi to samo co powyższa komenda ale uruchamia program w trybie \textit{random mode},
+        \item \texttt{make em} -- wykonuje to samo co powyższe 2 instrukcje ale uruchamia program w trybie \textit{edge mode},
+        \item \texttt{make rm} -- również wykonuje to samo zadanie ale program korzysta z trybu \textit{read mode},
+        \item \texttt{make test} -- komenda służy do wykonania testów funkcji programu.
     \end{itemize}
 
     \newpage
@@ -193,7 +194,7 @@
     \subsection{Zmiany w strukturach}
     Struktury również przeszły małe modyfikacje spowodowane nieprzewidzianymi potrzebami. Zaprezentujemy je poniżej.
     \begin{itemize}
-        \item \texttt{struct entryRead} - ta struktura otrzymała nową zmienną \textit{numberPoints} odpowiedzialną za przetrzymywanie liczby
+        \item \texttt{struct entryRead} -- ta struktura otrzymała nową zmienną \textit{numberPoints} odpowiedzialną za przetrzymywanie liczby
         wszystkich punktów podanych przez użytkownika,
         \begin{lstlisting}
 typedef struct entryRead {
@@ -203,7 +204,7 @@ typedef struct entryRead {
     int numberPoints;
 } entryR;
         \end{lstlisting}
-        \item \texttt{struct graphRead} - teraz \textit{graph} jest typu \texttt{node*},
+        \item \texttt{struct graphRead} -- teraz \textit{graph} jest typu \texttt{node*},
         \begin{lstlisting}
 typedef struct graphRead {
     node* graph;
@@ -211,7 +212,7 @@ typedef struct graphRead {
     int columns;
 } graphR;
         \end{lstlisting}
-        \item \texttt{struct node} - ta struktura otrzymała nową zmienną tablicową \textit{nodeToConnect} oraz wszystkie tablice zostały zmienione ze wskaźników na tablice o określonym rozmiarze. 
+        \item \texttt{struct node} -- ta struktura otrzymała nową zmienną tablicową \textit{nodeToConnect} oraz wszystkie tablice zostały zmienione ze wskaźników na tablice o określonym rozmiarze. 
         \begin{lstlisting}
 typedef struct node {
     bool edgeExist[4]; 

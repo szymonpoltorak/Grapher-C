@@ -1,6 +1,8 @@
 #ifndef _GEN_H_
 #define _GEN_H_
 
+#define CHANCE 50
+#define MAXNUMOFTRIES 500
 #define UP 0
 #define RIGHT 1
 #define DOWN 2

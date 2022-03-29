@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include "genGraph.h"
 
-#define CHANCE 5
-
 double generateWeights(entryG* entry){
     return (double) rand()/RAND_MAX * (entry ->rangeEnd - entry ->rangeStart) + entry->rangeStart;
 }
@@ -15,13 +13,13 @@ bool checkIfCoherentGen(node* graph, entryG* entry){
         bool *visited = (bool *) malloc(sizeof visited * numOfNodes);
         for ( int i = 0; i < numOfNodes; i++)
             visited[i] = false;
+        visited[startingNode] = true;
 
         que* q = NULL;
         q = queInit(startingNode);
 
         while(!isEmpty(q)){
             int currentNode = popFromQueue(&q);
-            visited[currentNode] = true;
             for (int k = 0; k < 4; k++){
                 if(graph[currentNode].edgeExist[k]){
                     if( visited[graph[currentNode].nodeToConnect[k]] == false ) {
@@ -30,22 +28,18 @@ bool checkIfCoherentGen(node* graph, entryG* entry){
                         } else {
                             addToQueue(q, graph[currentNode].nodeToConnect[k]);
                         }
+                        visited[graph[currentNode].nodeToConnect[k]] = true;
                     }
                 }
             }
         }
-        int numOfNotVisited = 0;
         for ( int i = 0; i < numOfNodes; i++ ){
             if(visited[i] == false){
-                numOfNotVisited++;
+                free(visited);
+                return false;
             }
         }
-
-        free(visited);
-
-        if(numOfNotVisited > 0)
-            return false;
-        //Działa bo jeśli chodź jeden bedzie niespojny z danego wierchołka to dalej nie ma sensu sprawdzać
+        free(visited);   
     }
     return true;
 }
@@ -71,9 +65,9 @@ void saveGraphToFile(entryG* entry, node* graph){
 
 void generateMode(entryG* entry){
     int numOfNodes = entry->columns * entry->rows;
-    node *graph = malloc(sizeof (node) * numOfNodes );
+    node *graph = (node*)malloc(sizeof (node) * numOfNodes);
     int numOfTries = 0;
-    int maxNumOfTries = 500;
+    int maxNumOfTries = MAXNUMOFTRIES;
     bool continueGen = true;
 
     for (int i = 0; i < numOfNodes; i++) {
@@ -81,12 +75,11 @@ void generateMode(entryG* entry){
     }
     numOfTries++;
 
-    while (entry->mode == 2 && continueGen == true && !checkIfCoherentGen(graph,entry)){
+    while (entry->mode == 2 && continueGen == true && !checkIfCoherentGen(graph,entry)){ //ZAMIENIC PRZY MARGE
 
         for (int i = 0; i < numOfNodes; i++)
             makeConnectionFromNode(i, graph, entry);
         numOfTries++;
-    
         if (numOfTries >= maxNumOfTries){
             printf("Dokonano %d losowań. Czy chcesz kontynuować? [Y/N]: ",numOfTries);
             char choice;
@@ -94,7 +87,7 @@ void generateMode(entryG* entry){
 
             if(choice == 'y' || choice == 'Y'){
                 continueGen = true;
-                maxNumOfTries += 500;
+                maxNumOfTries += MAXNUMOFTRIES;
             } else {
                 continueGen = false;
             }
@@ -108,6 +101,7 @@ void generateMode(entryG* entry){
     if(continueGen == false){
         printf("Przerwano generowanie grafu!\n");
     }
+    free(graph);
 }
 
 bool generateIfEdgeExist(short int mode){
@@ -119,10 +113,11 @@ bool generateIfEdgeExist(short int mode){
     return false;
 }
 
-void makeConnectionFromNode ( int i, node* graph, entryG* entry){
+void makeConnectionFromNode (int i, node* graph, entryG* entry){
     int columns = entry->columns;
     int rows = entry->rows;
     int mode = entry->mode;
+
     if ( i - columns >= 0 && i - columns < columns * rows){
         if(generateIfEdgeExist(mode)){
             graph[i].edgeExist[UP] = true;
@@ -162,7 +157,7 @@ void makeConnectionFromNode ( int i, node* graph, entryG* entry){
 }
 
 que* queInit(int data){
-    que* q = malloc(sizeof(que));
+    que* q = (que*) malloc(sizeof(que));
     q->node = data;
     q->next = NULL;
     return q;
@@ -173,12 +168,12 @@ void addToQueue(que* q, int data){
     while(iterator->next != NULL){
         iterator = iterator->next;
     }
-    iterator->next = malloc(sizeof(que));
+    iterator->next = (que*) malloc(sizeof(que));
     iterator->next->node = data;
     iterator->next->next = NULL;
 }
 
-int popFromQueue( que** q){
+int popFromQueue(que** q){
     if( isEmpty(*q) == true){
         return -1;
     }
@@ -190,7 +185,7 @@ int popFromQueue( que** q){
     return data;
 }
 
-bool isEmpty( que* q ){
+bool isEmpty(que* q){
     if (q == NULL){
         return true;
     } else {

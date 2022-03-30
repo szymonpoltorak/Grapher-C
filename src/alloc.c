@@ -58,7 +58,7 @@ node* allocGraphGen(int numOfNodes){
 }
 
 bool* allocVisited(int numOfNodes){
-    bool *visited = (bool*) malloc(sizeof (*visited) * numOfNodes);
+    bool* visited = (bool*)calloc(numOfNodes, sizeof(*visited));
 
     if (visited == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);

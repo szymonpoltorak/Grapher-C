@@ -79,13 +79,21 @@ void generateMode(entryG* entry){
         if (numOfTries >= maxNumOfTries){
             printf("Dokonano %d losowań. Czy chcesz kontynuować? [Y/N]: ",numOfTries);
             char choice = 0;
-            scanf(" %c", &choice);
 
-            if(choice == 'y' || choice == 'Y'){
-                continueGen = true;
-                maxNumOfTries += MAXNUMOFTRIES;
-            } else {
-                continueGen = false;
+            while (true) {
+                if (scanf(" %c", &choice) != 1)
+                    fprintf(stderr,"COULDN'T READ PROPPER ANSWER!\n");
+                if (choice == 'y' || choice == 'Y') {
+                    continueGen = true;
+                    maxNumOfTries += MAXNUMOFTRIES;
+                    break;
+                }
+                else if (choice == 'n' || choice == 'N') {
+                    continueGen = false;
+                    break;
+                }
+                else
+                    fprintf(stderr, "UNKNOWN OPTION!!\n");
             }
         }
     }
@@ -171,6 +179,12 @@ void addToQueue(queue* q, int data){
         iterator = iterator->next;
 
     iterator->next = (queue*) malloc(sizeof(queue));
+
+    if (iterator->next == NULL) {
+        fprintf(stderr, "NULL POINTER FOUND!!!\n");
+        exit(NULL_POINTER_EXCEPTION);
+    }
+
     iterator->next->node = data;
     iterator->next->next = NULL;
 }

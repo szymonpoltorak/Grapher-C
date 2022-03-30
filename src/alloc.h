@@ -7,6 +7,8 @@
 #define WRONG_POINTS 236
 #define NO_COHERENT 237
 #define NULL_POINTER_EXCEPTION 228
+#define NO_COL_ROWS_FOUND 223
+#define NO_NODES_FOUND 220
 
 #define WEIGHT 1
 #define EDGE 2
@@ -16,6 +18,8 @@
 #define STANDARD 6
 
 typedef struct entryRead {
+    int rows;
+    int columns;
     char* fileName;
     short int printFlag;
     int* points;
@@ -37,15 +41,9 @@ typedef struct node {
     int nodeToConnect[4];
 } node;
 
-typedef struct graphRead {
-    node** graph;
-    int rows;
-    int columns;
-} graphR;
-
 entryG* allocEntryGen(void);
 
-entryR* allocEntryRead(void);
+entryR* allocEntryRead(entryG* entryG);
 
 void allocPoints(char* optarg, entryR* entryR, entryG* entryG);
 
@@ -53,7 +51,7 @@ void freeEntryRead(entryR* entry);
 
 void freeAll(entryR* entryR, entryG* entryG);
 
-node* allocGraphGen(int numOfNodes);
+node* allocGraph(int numOfNodes);
 
 bool* allocVisited(int numOfNodes);
 

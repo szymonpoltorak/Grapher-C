@@ -1,4 +1,4 @@
-FLAGS = -Wall -pedantic -Wextra 2>/dev/null
+FLAGS = -Wall -pedantic -Wextra
 CCC = cc -c
 CCO = cc -o
 MV = -mv *.o bin/ 2>/dev/null
@@ -13,7 +13,7 @@ RM_E = ./grapher -extended -points 2,7,3,11 -file rm_e.test -rm
 
 .PHONY: clean test
 
-grapher: main.o alloc.o readGraph.o genGraph.o utils.o
+grapher: main.o alloc.o readGraph.o genGraph.o utils.o tools.o
 	$(CCO) $@ $^
 	$(MD)
 	$(MV) 
@@ -54,6 +54,9 @@ genGraph.o: src/genGraph.c src/genGraph.h
 	$(CCC) $< $(FLAGS)
 
 utils.o: src/utils.c src/utils.h
+	$(CCC) $< $(FLAGS)
+
+tools.o: src/tools.c src/utils.h
 	$(CCC) $< $(FLAGS)
 
 clean:

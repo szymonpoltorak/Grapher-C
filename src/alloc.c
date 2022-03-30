@@ -24,11 +24,12 @@ entryG* allocEntryGen(void){
     return entry;
 }
 
-entryR* allocEntryRead(void){
+entryR* allocEntryRead(entryG* entryG){
     entryR* entry = (entryR*) malloc (sizeof(*entry));
 
     if (entry == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        free(entryG);
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -36,11 +37,13 @@ entryR* allocEntryRead(void){
     entry -> fileName = NULL;
     entry -> numberPoints = 0;
     entry -> printFlag = 0;
+    entry -> rows = 0;
+    entry -> columns = 0;
 
     return entry;
 }
 
-node* allocGraphGen(int numOfNodes){
+node* allocGraph(int numOfNodes){
     node* graph = (node*) calloc (numOfNodes, sizeof(*graph));
 
     if (graph == NULL){
@@ -48,12 +51,13 @@ node* allocGraphGen(int numOfNodes){
         exit(NULL_POINTER_EXCEPTION);        
     }
 
-    for (int i = 0; i < 4; i++){
-        graph -> edgeExist[i] = false;
-        graph -> edgeWeight[i] = -1;
-        graph -> nodeToConnect[i] = -1;
+    for (int i = 0; i < numOfNodes; i++){
+        for (int j = 0; j < 4; j++){
+            graph[i].edgeExist[j] = false;
+            graph[i].edgeWeight[j] = -1;
+            graph[i].nodeToConnect[j] = -1;
+        }
     }
-
     return graph;
 }
 
@@ -87,7 +91,7 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
         exit(NULL_POINTER_EXCEPTION);
-    }    
+    }
 
     int howManyRead = 0;
     while(true){

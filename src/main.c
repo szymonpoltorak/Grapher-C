@@ -26,7 +26,7 @@ int main(int argc, char** argv){
     srand(time(NULL));
 
     entryG* entryG = allocEntryGen();
-    entryR* entryR = allocEntryRead();
+    entryR* entryR = allocEntryRead(entryG);
 
     while(true){
         int flag = NO_FLAG;
@@ -150,14 +150,14 @@ int main(int argc, char** argv){
 
     if (mode != READ){
         checkDataGen(entryG, entryR);
+        freeEntryRead(entryR);
         generateMode(entryG);
     }
     else {
         checkDataRead(entryR, entryG);
+        free(entryG);
         readMode(entryR);
     }
-
-    freeAll(entryR, entryG);
 
     exit(EXIT_SUCCESS);
 }

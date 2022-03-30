@@ -1,15 +1,13 @@
 #ifndef _READ_H_
 #define _READ_H_
 
-#include "alloc.h"
+#include "tools.h"
 
 void readMode(entryR* entry); 
 
-graphR** readFromFile(entryR* entry);
+node* readFromFile(entryR* entry);
 
-bool checkIfCoherentRead(graphR** graph, entryR* entry);
-
-void findPath(graphR** graph, entryR* entry);
+void findPath(node* graph, entryR* entry);
 
 void printShortPath(entryR* entry, int* parents);
 

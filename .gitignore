@@ -3,3 +3,5 @@
 *.pch
 grapher
 .DS_Store
+
+mygraph

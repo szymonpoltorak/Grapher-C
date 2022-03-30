@@ -4,16 +4,15 @@
 
 static void saveGraphToFileRead(entryR* entry, node* graph){
     int numOfNodes = entry->columns * entry->rows;
-    FILE* ofile = stdout;
 
-    fprintf(ofile,"%d %d\n",entry->rows, entry->columns);
+    printf("%d %d\n",entry->rows, entry->columns);
 
     for (int i = 0; i < numOfNodes; i++ ){
-        fprintf(ofile,"\t");
+        printf("\t");
         for (int k = 0; k < 4; k++ )
             if (graph[i].edgeExist[k] == true)
-                fprintf(ofile," %d :%f ",graph[i].nodeToConnect[k],graph[i].edgeWeight[k]);
-        fprintf(ofile,"\n");
+                printf(" %d :%f ",graph[i].nodeToConnect[k],graph[i].edgeWeight[k]);
+        printf("\n");
     }
 }
 
@@ -85,6 +84,7 @@ node* readFromFile(entryR* entry){
             }
         }
     }
+    fclose(in);
     return graph;
 }
 
@@ -115,5 +115,6 @@ void readMode(entryR* entry){
     else
         printf("GRAPH IS COHERENT!!\n");
 
+    free(graph);
     freeEntryRead(entry);
 }

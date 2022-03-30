@@ -196,11 +196,11 @@
     Struktury również przeszły małe modyfikacje spowodowane nieprzewidzianymi potrzebami. Zaprezentujemy je poniżej.
     \begin{itemize}
         \item \texttt{struct entryRead} -- ta struktura otrzymała nową zmienną \textit{numberPoints} odpowiedzialną za przetrzymywanie liczby
-        wszystkich punktów podanych przez użytkownika,
+        wszystkich punktów podanych przez użytkownika oraz zmieniliśmy typ zmiennej \textit{printFlag} żeby móc sprawdzać poprawnie jego podanie,
         \begin{lstlisting}
 typedef struct entryRead {
     char* fileName;
-    bool printFlag;
+    short int printFlag;
     int* points;
     int numberPoints;
 } entryR;

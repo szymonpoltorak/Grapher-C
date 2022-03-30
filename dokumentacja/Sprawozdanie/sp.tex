@@ -189,6 +189,8 @@
         \hline MULTIPILE\_MODE\_DECLARATION & 230 & Dokonano próby nadpisania zadeklarowanego wcześniej trybu programu\\
         \hline WRONG\_MODE & 227 & Użyto flagi w trybie Read, ale działającej tylko w trybach generujących\\
         \hline INVALID\_DATA & 225 & Nie podano wymagano argumentu lub podano flagę, która nie istnieje\\
+        \hline NO\_COL\_ROWS\_FOUND & 223 & W pliku do czytania nie znaleziono kolumn lub wierszy\\
+        \hline NO\_NODES\_FOUND & 220 & W trybie nie znaleziono wierzchołków\\
         \hline
     \end{tabularx}
 
@@ -196,23 +198,19 @@
     Struktury również przeszły małe modyfikacje spowodowane nieprzewidzianymi potrzebami. Zaprezentujemy je poniżej.
     \begin{itemize}
         \item \texttt{struct entryRead} -- ta struktura otrzymała nową zmienną \textit{numberPoints} odpowiedzialną za przetrzymywanie liczby
-        wszystkich punktów podanych przez użytkownika oraz zmieniliśmy typ zmiennej \textit{printFlag} żeby móc sprawdzać poprawnie jego podanie,
+        wszystkich punktów podanych przez użytkownika oraz zmieniliśmy typ zmiennej \textit{printFlag} żeby móc sprawdzać poprawnie jego podanie. Dodano również
+        dwie nowe zmienne \textit{rows} i \textit{columns} odpowiedzialne za przechowanie liczby wierzchołków i kolumn,
         \begin{lstlisting}
 typedef struct entryRead {
+    int rows;
+    int columns;
     char* fileName;
     short int printFlag;
     int* points;
     int numberPoints;
 } entryR;
         \end{lstlisting}
-        \item \texttt{struct graphRead} -- teraz \textit{graph} jest typu \texttt{node*},
-        \begin{lstlisting}
-typedef struct graphRead {
-    node* graph;
-    int rows;
-    int columns;
-} graphR;
-        \end{lstlisting}
+        \item \texttt{struct graphRead} -- została całkowicie usunięta, ponieważ podczas implementacji okazała się bezużyteczna,
         \item \texttt{struct node} -- ta struktura otrzymała nową zmienną tablicową \textit{nodeToConnect} oraz wszystkie tablice zostały zmienione ze wskaźników na tablice o określonym rozmiarze. 
         \begin{lstlisting}
 typedef struct node {
@@ -273,8 +271,15 @@ typedef struct node {
         \item \texttt{make rem},
         \item \texttt{make em},
         \item \texttt{make rm}.
-    \end{itemize}        
-
+    \end{itemize}   
+    
+    \subsection{Zmiany w funkcjach}
+    Postanowiliśmy zrezygnować ze zmiennych będącymi wskaźnikami na wskaźniki, ponieważ stwierdziliśmy, że nie ma sensu ich stosować w przypadku naszego programu.
+    Dzięki dodanym nowym modułom umiejscowienie funkcji się również zmieniło i niektóre funkcje stały się bardziej uniwersalne.
+    \newline np.
+    \newline \texttt{int checkIfCoherentRead(graphR** graph, entryR* entry)} oraz \newline \texttt{int checkIfCoherentGen(node** graph, entryG* entry)} zostało zastąpione jedno funkcją:
+    \newline \texttt{bool checkIfCoherent(node* graph, int numOfNodes)}, która otrzymuje graf oraz liczbe wierzchołków i zwraca wartość \textit{true} lub \textit{false}.
+    
     \section{Podsumowanie projektu}
     Projekt dotyczący grafów w języku C był realizowany od dnia 24.02.2022r do 14.04.2022r. W ramach niego powstały specyfikacja funkcjonalna i implementacyjna oraz moduły programu
     \textit{grapher} takie jak: \textit{alloc}, \textit{main}, \textit{genGraph}, \textit{readGraph} i \textit{utilts}. Program można uruchamiać z wieloma flagami, które pozwalają na uruchomienie programu

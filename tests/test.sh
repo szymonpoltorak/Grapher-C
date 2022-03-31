@@ -70,15 +70,15 @@ T=$?; printf "Test[13]: "; [[ $T -eq 227 ]] && $ok || $fail ; echo
 
 #wage mode proper use
 echo "---------Testing wage mode proper use----------"
-./grapher -wm -file tests/data/data.test -start 10 -end 20 -rows 3 -columns 3 1>&2 2> temp
+./grapher -wm -file tests/data/data.test -start 10 -end 20 -rows 3 -columns 3 1>tmp 2> temp
 T=$?; printf "Test[14]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo 
 
 #edge mode proper use
 echo "---------Testing edge mode proper use----------"
-./grapher -em -file tests/data/data.test -start 0 -end 11 -rows 4 -columns 5 1>&2 2> temp
+./grapher -em -file tests/data/data.test -start 0 -end 11 -rows 4 -columns 5 1>tmp 2> temp
 T=$?; printf "Test[15]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo 
 
 #random mode proper use
 echo "---------Testing radnom mode proper use----------"
-./grapher -rem -file tests/data/data.test -start 2 -end 14 -rows 6 -columns 8 1>&2 2> temp
+./grapher -rem -file tests/data/data.test -start 2 -end 14 -rows 6 -columns 8 1>tmp 2>temp
 T=$?; printf "Test[16]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo 

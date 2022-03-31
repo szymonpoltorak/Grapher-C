@@ -13,7 +13,7 @@ RM_E = ./grapher -extended -points 2,7,3,11 -file rm_e.test -rm
 
 .PHONY: clean test
 
-grapher: main.o alloc.o readGraph.o genGraph.o utils.o tools.o
+grapher: main.o alloc.o readGraph.o genGraph.o utils.o tools.o options.o
 	$(CCO) $@ $^
 	$(MD)
 	$(MV) 
@@ -57,6 +57,9 @@ utils.o: src/utils.c src/utils.h
 	$(CCC) $< $(FLAGS)
 
 tools.o: src/tools.c src/utils.h
+	$(CCC) $< $(FLAGS)
+
+options.o: src/options.c src/options.h
 	$(CCC) $< $(FLAGS)
 
 clean:

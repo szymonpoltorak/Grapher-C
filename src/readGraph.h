@@ -7,6 +7,8 @@ void readMode(entryR* entry);
 
 node* readFromFile(entryR* entry);
 
+void insertGraph(entryR* entry, node* graph, int i, char* buf);
+
 void findPath(node* graph, entryR* entry);
 
 void printShortPath(entryR* entry, int* parents);

@@ -18,23 +18,20 @@ static void saveGraphToFileRead(entryR* entry, node* graph){
 
 node* readFromFile(entryR* entry){
     FILE* in = fopen(entry ->fileName, "r");
+    int numOfNodes = entry ->columns * entry -> rows;
+    node* graph = allocGraph(numOfNodes);
 
     if (fscanf(in, "%d %d", &entry ->rows, &entry -> columns) != 2){
         fprintf(stderr, "ROWS AND COLUMNS NOT FOUND!\n");
         freeEntryRead(entry);
+        free(graph);
         exit(NO_COL_ROWS_FOUND);
     }
-
-    int numOfNodes = entry ->columns * entry -> rows;
-    node* graph = allocGraph(numOfNodes);
 
     fgetc(in);
     for (int i = 0; i < numOfNodes; i++){
         char buff[1024];
         char* buf = buff;
-        int columns = entry->columns, rows = entry->rows;
-        int node = 0, offset=0;
-        double weight = 0;
 
         if (fgets(buf,1024,in) == NULL){
             fprintf(stderr, "NODES NOT FOUND!\n");
@@ -42,9 +39,21 @@ node* readFromFile(entryR* entry){
             freeEntryRead(entry);
             exit(NO_NODES_FOUND);
         }
-        
-        while(sscanf(buf, " %d :%lf %n", &node, &weight, &offset) == 2){
-            buf+=offset;
+
+        insertGraph(entry, graph, i, buf);
+    }
+
+    fclose(in);
+    return graph;
+}
+
+void insertGraph(entryR* entry, node* graph, int i, char* buf){
+    int columns = entry->columns, rows = entry->rows;
+    int node = 0, offset=0;
+    double weight = 0;
+
+    while(sscanf(buf, " %d :%lf %n", &node, &weight, &offset) == 2){
+        buf+=offset;
 
             if (i - columns >= 0 && i - columns < columns * rows){
                 if (node == i - columns){
@@ -83,9 +92,6 @@ node* readFromFile(entryR* entry){
                 graph[i].edgeExist[LEFT] = false;
             }
         }
-    }
-    fclose(in);
-    return graph;
 }
 
 void findPath(node* graph, entryR* entry){

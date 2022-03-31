@@ -41,7 +41,7 @@ queue* queInit(int data){
     queue* q = (queue*) malloc(sizeof(queue));
 
     if (q == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER!");
+        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
         exit(NULL_POINTER_EXCEPTION);
     }
 

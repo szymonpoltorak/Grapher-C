@@ -36,4 +36,6 @@ void checkDataRead(entryR* entryR, entryG* entryG);
 
 void ifModeWasDeclared(short int mode, entryR* entryR, entryG* entryG);
 
+void checkArgc(int argc);
+
 #endif

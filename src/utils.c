@@ -4,6 +4,13 @@
 
 extern const char* usage;
 
+void checkArgc(int argc){
+    if (argc == 1){
+        fprintf(stderr, "NO MODE FOUND. USAGE:\n%s\n",usage);
+        exit(NO_MODE_FOUND);
+    }    
+}
+
 void ifReadMode(short int mode, entryR* entryR, entryG* entryG){
     if (mode != READ){
         fprintf(stderr, "IT IS NOT READ MODE!\n%s\n", usage);

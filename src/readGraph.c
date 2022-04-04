@@ -95,15 +95,122 @@ void insertGraph(entryR* entry, node* graph, int i, char* buf){
 }
 
 void findPath(node* graph, entryR* entry){
+    int numOfPairs = entry->numberPoints / 2;
+    int numOfNodes = entry -> columns * entry -> rows;
     
+    for (int i = 0; i < numOfPairs; i++){
+        int startPoint = entry->points[2*i];
+        int endPoint = entry->points[2*i+1];
+        int currentPoint = startPoint;
+        int* predecessors = allocPredecessor(numOfNodes);
+        bool* known = allocVisited(numOfNodes);
+        double* weights = allocWeights(numOfNodes); //przechowuje wage przejscia od poprzednika
+        double* distance = allocWeights(numOfNodes); //przechowuje wage drogi do tej pory
+
+        distance[startPoint] = 0;
+        known[currentPoint] = true;
+        while (true){
+            for(int k = 0; k < 4; k++){
+                if(graph[currentPoint].edgeExist[k]){
+                    if(distance[graph[currentPoint].nodeToConnect[k]] > distance[currentPoint] + graph[currentPoint].edgeWeight[k]){
+                        predecessors[graph[currentPoint].nodeToConnect[k]] = currentPoint;
+                        distance[graph[currentPoint].nodeToConnect[k]] = distance[currentPoint] + graph[currentPoint].edgeWeight[k];
+                        weights[graph[currentPoint].nodeToConnect[k]] = graph[currentPoint].edgeWeight[k];
+                    }
+                }
+            }
+            
+            currentPoint = findNewPoint(known, distance, numOfNodes);
+            if (currentPoint == -1){
+                break;
+            }
+            known[currentPoint] = true;
+        }
+
+
+        if(entry->printFlag == STANDARD){
+            printShortPath(entry, predecessors, startPoint, endPoint);
+        }
+        if ( entry->printFlag == EXTENDED) {
+            printExtendedPath(entry, predecessors, weights, startPoint, endPoint);
+        }
+
+        free(predecessors);
+        free(weights);
+    }
 }
 
-void printShortPath(entryR* entry, int* parents){
+void printShortPath(entryR* entry, int* predecessors, int startPoint, int endPoint){
+    int numOfNodes = entry -> columns * entry -> rows;
+    /*
+    printf("----------------------\n");
+    for(int i = 0; i < numOfNodes; i++){
+        printf("| N: %3d ------- %3d |\n",i,predecessors[i]);
+    }
+    printf("----------------------\n");
+    */
 
+    int* predecessorsInOrder = allocPredecessorInOrder(numOfNodes);
+    int size = 0;
+
+    printf("(%d,%d); ", startPoint, endPoint);
+    while(1) {
+        predecessorsInOrder[size++] = endPoint;
+        endPoint = predecessors[endPoint];
+        if(endPoint == -1)
+            break;
+    }
+    for(int i = size-1; i > 0; i--) {
+        printf("%d ---> ", predecessorsInOrder[i]);
+    }
+    printf("%d\n", predecessorsInOrder[0]);
+    free(predecessorsInOrder);
 }
 
-void printExtendedPath(entryR* entry, int* parents, double* weights){
+void printExtendedPath(entryR* entry, int* predecessors, double* weights, int startPoint, int endPoint){
+    int numOfNodes = entry -> columns * entry -> rows;
+    /*
+    printf("----------------------\n");
+    for(int i = 0; i < numOfNodes; i++){
+        printf("| N: %3d ------- %3d |\n",i,predecessors[i]);
+    }
+    printf("----------------------\n");
+    */
 
+    int* predecessorsInOrder = allocPredecessorInOrder(numOfNodes);
+    int size = 0;
+
+    printf("(%d,%d); ", startPoint, endPoint);
+    while(1) {
+        predecessorsInOrder[size++] = endPoint;
+        endPoint = predecessors[endPoint];
+        if(endPoint == -1)
+            break;
+    }
+    for(int i = size-1; i > 0; i--) {
+        printf("%d(%f) ---> ", predecessorsInOrder[i],weights[predecessorsInOrder[i-1]]);
+    }
+    printf("%d\n", predecessorsInOrder[0]);
+    free(predecessorsInOrder);
+}
+
+int findNewPoint(bool* known, double* distance, int numOfNodes){
+    int point = -1;
+    
+    for (int i = 0; i < numOfNodes; i++){
+        if(known[i] == false){
+            point = i;
+        }
+    }
+    if (point == -1){
+        return -1;
+    }
+    for (int i = 0; i < numOfNodes; i++){
+        if(known[i] == false && distance[i] <= distance[point]){
+            point = i;
+        }
+    }
+    return point;
 }
 
 void readMode(entryR* entry){
@@ -118,9 +225,10 @@ void readMode(entryR* entry){
         freeEntryRead(entry);
         exit(NO_COHERENT);
     }
-    else
+    else {
         printf("GRAPH IS COHERENT!!\n");
-
+        findPath(graph, entry);
+    }
     free(graph);
     freeEntryRead(entry);
 }

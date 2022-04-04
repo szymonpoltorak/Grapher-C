@@ -47,6 +47,12 @@ entryR* allocEntryRead(entryG* entryG);
 
 void allocPoints(char* optarg, entryR* entryR, entryG* entryG);
 
+int* allocPredecessor (int numOfNodes);
+
+double* allocWeights (int numOfNodes);
+
+int* allocPredecessorInOrder (int numOfNodes);
+
 void freeEntryRead(entryR* entry);
 
 void freeAll(entryR* entryR, entryG* entryG);

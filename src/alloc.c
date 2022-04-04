@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <float.h>
 #include "alloc.h"
 
 extern const char* usage;
@@ -109,6 +110,48 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     }
 
     entryR -> points = points;
+}
+
+int* allocPredecessor (int numOfNodes){
+    int* predecessor = (int*)calloc(numOfNodes, sizeof(*predecessor));
+
+    if (predecessor == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);        
+    }
+
+    for (int i = 0; i < numOfNodes; i++)
+        predecessor[i] = -1;    
+
+    return predecessor;
+}
+
+double* allocWeights (int numOfNodes){
+    double* weights = (double*)calloc(numOfNodes, sizeof(*weights));
+
+    if (weights == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);        
+    }
+
+    for (int i = 0; i < numOfNodes; i++)
+        weights[i] = DBL_MAX;
+
+    return weights;
+}
+
+int* allocPredecessorInOrder (int numOfNodes){
+    int* predecessor = (int*)calloc(numOfNodes, sizeof(*predecessor));
+
+    if (predecessor == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);        
+    }
+
+    for (int i = 0; i < numOfNodes; i++)
+        predecessor[i] = -1;    
+
+    return predecessor;
 }
 
 void freeEntryRead(entryR* entry){

@@ -18,15 +18,15 @@ static void saveGraphToFileRead(entryR* entry, node* graph){
 
 node* readFromFile(entryR* entry){
     FILE* in = fopen(entry ->fileName, "r");
-    int numOfNodes = entry ->columns * entry -> rows;
-    node* graph = allocGraph(numOfNodes);
 
     if (fscanf(in, "%d %d", &entry ->rows, &entry -> columns) != 2){
         fprintf(stderr, "ROWS AND COLUMNS NOT FOUND!\n");
         freeEntryRead(entry);
-        free(graph);
         exit(NO_COL_ROWS_FOUND);
     }
+
+    int numOfNodes = entry ->columns * entry -> rows;
+    node* graph = allocGraph(numOfNodes);
 
     fgetc(in);
     for (int i = 0; i < numOfNodes; i++){
@@ -55,43 +55,43 @@ void insertGraph(entryR* entry, node* graph, int i, char* buf){
     while(sscanf(buf, " %d :%lf %n", &node, &weight, &offset) == 2){
         buf+=offset;
 
-            if (i - columns >= 0 && i - columns < columns * rows){
-                if (node == i - columns){
-                    graph[i].edgeExist[UP] = true;
-                    graph[i].nodeToConnect[UP] = i - columns;
-                    graph[i].edgeWeight[UP] = weight;
-                }
-            } else {
-                graph[i].edgeExist[UP] = false;
+        if (i - columns >= 0 && i - columns < columns * rows){
+            if (node == i - columns){
+                graph[i].edgeExist[UP] = true;
+                graph[i].nodeToConnect[UP] = i - columns;
+                graph[i].edgeWeight[UP] = weight;
             }
-            if(i + 1 < columns * rows && (i+1)%columns != 0){
-                if (node == i + 1){
-                    graph[i].edgeExist[RIGHT] = true;
-                    graph[i].nodeToConnect[RIGHT] = i + 1;
-                    graph[i].edgeWeight[RIGHT] = weight;
-                }
-            } else {
-                graph[i].edgeExist[RIGHT] = false;
-            }
-            if (i + columns > 0 && i + columns < columns * rows){
-                if(node == i + columns){
-                    graph[i].edgeExist[DOWN] = true;
-                    graph[i].nodeToConnect[DOWN] = i + columns;
-                    graph[i].edgeWeight[DOWN] = weight;
-                }
-            } else {
-                graph[i].edgeExist[DOWN] = false;
-            }
-            if(i - 1 >= 0 && i%columns != 0){
-                if(node == i - 1){
-                    graph[i].edgeExist[LEFT] = true;
-                    graph[i].nodeToConnect[LEFT] = i - 1;
-                    graph[i].edgeWeight[LEFT] = weight;
-                }
-            } else {
-                graph[i].edgeExist[LEFT] = false;
-            }
+        } else {
+            graph[i].edgeExist[UP] = false;
         }
+        if(i + 1 < columns * rows && (i+1)%columns != 0){
+            if (node == i + 1){
+                graph[i].edgeExist[RIGHT] = true;
+                graph[i].nodeToConnect[RIGHT] = i + 1;
+                graph[i].edgeWeight[RIGHT] = weight;
+            }
+        } else {
+            graph[i].edgeExist[RIGHT] = false;
+        }
+        if (i + columns > 0 && i + columns < columns * rows){
+            if(node == i + columns){
+                graph[i].edgeExist[DOWN] = true;
+                graph[i].nodeToConnect[DOWN] = i + columns;
+                graph[i].edgeWeight[DOWN] = weight;
+            }
+        } else {
+            graph[i].edgeExist[DOWN] = false;
+        }
+        if(i - 1 >= 0 && i%columns != 0){
+            if(node == i - 1){
+                graph[i].edgeExist[LEFT] = true;
+                graph[i].nodeToConnect[LEFT] = i - 1;
+                graph[i].edgeWeight[LEFT] = weight;
+            }
+        } else {
+            graph[i].edgeExist[LEFT] = false;
+        }
+    }
 }
 
 void findPath(node* graph, entryR* entry){

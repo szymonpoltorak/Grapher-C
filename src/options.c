@@ -37,37 +37,41 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
 
         switch(flag){
             case 'w':
-                ifModeWasDeclared(mode, entryR, entryG);
+                ifModeWasMultiplied(mode, entryR, entryG);
                 entryG -> mode = mode = WEIGHT;
                 break;
             case 'm':
-                ifModeWasDeclared(mode, entryR, entryG);
+                ifModeWasMultiplied(mode, entryR, entryG);
                 entryG -> mode = mode = RANDOM;
                 break;
             case 'e':
-                ifModeWasDeclared(mode, entryR, entryG);
+                ifModeWasMultiplied(mode, entryR, entryG);
                 entryG -> mode = mode = EDGE;
                 break;                
             case 'r':
-                ifModeWasDeclared(mode, entryR, entryG);
+                ifModeWasMultiplied(mode, entryR, entryG);
                 mode = READ;
                 break;               
             case 'x':
+                ifModeWasDeclared(mode, entryR, entryG);
                 ifReadMode(mode, entryR, entryG);
                 entryR -> printFlag = EXTENDED;
                 break;
             case 's':
+                ifModeWasDeclared(mode, entryR, entryG);
                 ifReadMode(mode, entryR, entryG);
                 entryR -> printFlag = STANDARD;
                 break;
             case 'f':
+                ifModeWasDeclared(mode, entryR, entryG);
                 validateFileName(optarg, entryR, entryG);
                 if (mode == READ)
                     entryR -> fileName = optarg;
-                else 
+                else
                     entryG -> fileName = optarg;
                 break;
             case 'c':
+                ifModeWasDeclared(mode, entryR, entryG);
                 if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
                     validateColumns(optarg, entryR, entryG);
                     entryG -> columns = atoi(optarg);
@@ -83,6 +87,7 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 }
                 break;
             case 'o':
+                ifModeWasDeclared(mode, entryR, entryG);
                 if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
                     validateRows(optarg, entryR, entryG);
                     entryG -> rows = atoi(optarg);
@@ -98,10 +103,12 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 }                            
                 break;
             case 'p':
+                ifModeWasDeclared(mode, entryR, entryG);
                 ifReadMode(mode, entryR, entryG);
                 allocPoints(optarg, entryR, entryG);
                 break;
             case 'n':
+                ifModeWasDeclared(mode, entryR, entryG);
                 if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
                     validateRangeEnd(optarg, entryR, entryG);
                     entryG -> rangeEnd = atof(optarg);
@@ -117,6 +124,7 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 }
                 break;
             case 't':
+                ifModeWasDeclared(mode, entryR, entryG);
                 if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
                     validateRangeStart(optarg, entryR, entryG);
                     entryG -> rangeStart = atof(optarg);

@@ -34,6 +34,8 @@ void checkDataGen(entryG* entryG, entryR* entryR);
 
 void checkDataRead(entryR* entryR, entryG* entryG);
 
+void ifModeWasMultiplied(short int mode, entryR* entryR, entryG* entryG);
+
 void ifModeWasDeclared(short int mode, entryR* entryR, entryG* entryG);
 
 void checkArgc(int argc);

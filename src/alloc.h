@@ -61,4 +61,6 @@ node* allocGraph(int numOfNodes);
 
 bool* allocVisited(int numOfNodes);
 
+void freePathMemory(int* predecessors, double* weights, double* distance, bool* visited);
+
 #endif

@@ -163,3 +163,10 @@ void freeAll(entryR* entryR, entryG* entryG){
     free(entryG);
     freeEntryRead(entryR);
 }
+
+void freePathMemory(int* predecessors, double* weights, double* distance, bool* visited){
+    free(visited);
+    free(distance);
+    free(predecessors);
+    free(weights);    
+}

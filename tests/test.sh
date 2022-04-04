@@ -82,3 +82,8 @@ T=$?; printf "Test[15]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo
 echo "---------Testing radnom mode proper use----------"
 ./grapher -rem -file tests/data/data.test -start 2 -end 14 -rows 6 -columns 8 1>tmp 2>temp
 T=$?; printf "Test[16]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo 
+
+#read not coherent
+echo "-------Testing reading not coherent graph--------"
+./grapher -rm -file tests/data/notCoherent.test -standard -points 1,2,3,4 1>tmp 2>temp
+T=$?; printf "Test[16]: "; [[ $T -eq 237 ]] && $ok || $fail ; echo 

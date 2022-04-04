@@ -1,4 +1,4 @@
-FLAGS = -Wall -pedantic -Wextra 2>/dev/null
+FLAGS = -Wall -pedantic -Wextra
 CCC = cc -c
 CCO = cc -o
 MV = -mv *.o bin/ 2>/dev/null

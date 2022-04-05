@@ -5,11 +5,11 @@ MV = -mv *.o bin/ 2>/dev/null
 MD = -mkdir bin 2>/dev/null
 DEL = -rm -r bin/*.o grapher temp tmp bin/ 2>/dev/null
 TEST = cd tests && make -s
-WM = ./grapher -wm -rows 4 -start 1 -file tests/data/data.test -end 10 -columns 5
-EM = ./grapher -em -rows 5 -file tests/data/data.test -end 20 -columns 7 -start 5
-REM = ./grapher -rem -file tests/data/data.test -end 10 -rows 6 -start 1 -columns 7
-RM_S = ./grapher -rm -file tests/data/data.test -points 1,5,4,8 -standard
-RM_E = ./grapher -rm -extended -points 2,7,3,11 -file tests/data/data.test
+WM = ./grapher -wm -rows 4 -start 1 -file tests/data/wg.test -end 10 -columns 5
+EM = ./grapher -em -rows 5 -file tests/data/em.test -end 20 -columns 7 -start 5
+REM = ./grapher -rem -file tests/data/rem.test -end 10 -rows 6 -start 1 -columns 7
+RM_S = ./grapher -rm -file tests/data/rm_s.test -points 1,5,4,8 -standard
+RM_E = ./grapher -rm -extended -points 2,7,3,11 -file tests/data/rm_e.test
 
 .PHONY: clean test
 

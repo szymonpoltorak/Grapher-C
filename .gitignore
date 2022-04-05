@@ -5,3 +5,12 @@ grapher
 .DS_Store
 
 mygraph
+
+*.aux
+*.fls
+*.synctex.gz
+*.log
+*.fdb_latexmk
+*.toc
+
+*:Zone.identifier

@@ -9,10 +9,36 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{forest}
+\usepackage{xcolor}
+
 
 \graphicspath{ {./images} }
+
 \definecolor{folderbg}{RGB}{124,166,198}
 \definecolor{folderborder}{RGB}{110,144,169}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{listings}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=6pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
 
 \def\Size{4pt}
 \tikzset{
@@ -31,6 +57,7 @@
 \end{titlepage}
 
 \renewcommand{\footrulewidth}{1pt}
+\lstset{style=listings}
 
 \begin{document}
     \maketitle
@@ -58,17 +85,6 @@
     \newpage
 
     \section{Cel projektu}
-    %Program \textit{grapher} ma za zadanie generować pliki z grafami, typu \textit{karta w kratkę}, o z góry ustalonym formacie oraz czytanie takich plików w celu znalezienia najkrótszej ścieżki między zadanymi
-    %przez użytkownika punktami. Grapher posiada cztery tryby:
-    %\begin{itemize}
-    %    \item Wage Mode – program generuje graf spójny o losowych wagach krawędzi,
-    %    \item Edge Mode – program losuje istnienie krawędzi między wierzchołkami grafu oraz wagi do
-    %    momentu powstania grafu spójnego,
-    %    \item Random Mode – program losuje istnienie krawędzi i ich wagi. W tym trybie graf może być niespójny,
-    %    \item Read Mode – program czyta plik o ustalonym formacie i szuka najkrótszej ścieżki pomiędzy podanymi przez użytkownika punktami.        
-    %\end{itemize}
-    %Po szczegółowe wyjaśnienie funkcjonalności trybów, formatu pliku z grafem oraz znaczenia poszczególnych elementów składni programu odsyłamy do specyfikacji funkcjonalnej projektu \textit{grapher}.
-
     Celem projektu było stworzenie programu mającego za zadanie generowanie grafów, sprawdzanie ich spójności oraz wyszukiwanie w nich najkrótszej ścieżki między zadanymi przez użytkownika punktami. 
     Grafi są typu \textit{kartka w kratkę}.
 
@@ -82,7 +98,7 @@
     \end{itemize}
     Struktura grafu oparta jest na koncepcji "kartka w kratkę" tzn. graf składa się z wierzchołków równo rozmieszczonych na liniach poziomych 
     i pionowych wyznaczanych przez liczbę wierszy i~ kolumn. Jedyne połączenia zachodzące między wierzchołkami dozwolone są  pionowo i poziomo co pokazuje poniższy diagram, na którym zostały zaznaczone jedynie wagi wybranych krawędzi aby zachować czytelność całego diagramu, jednocześnie obrazując schemat połączeń.
-    \begin{figure}[h]
+    \begin{figure}[ht]
         \begin{center}
             \includegraphics[scale=0.15]{graph.png}
             \caption{Przykład grafu typu "kartka w kratkę"}
@@ -142,7 +158,7 @@
     Projekt \textit{grapher} składa się z modułów: \textit{alloc}, \textit{readGraph}, \textit{genGraph} oraz \textit{utils}. 
     Każdy moduł składa się z pliku nagłówkowego \textit{*.h} oraz pliku z kodem źródłowym \textit{*.c}.
     Posiada on również główny moduł \textit{main} sterujący działaniem całego programu i składa się on tylko z pliku źródłowego \textit{main.c}.
-    \begin{figure}[h]
+    \begin{figure}[ht]
         \begin{center}
             \includegraphics[scale=0.8]{module_diagram_new.png}
             \caption {Diagram modułów}
@@ -162,7 +178,6 @@
         \item \texttt{make test} -- komenda służy do wykonania testów funkcji programu.
     \end{itemize}
 
-    \newpage
     \section{Przykładowe wywołania i wyniki programu}
     W tym rozdziale przedstawimy wywołania programu wraz z ich wynikami dla różnych scenariuszów aby ukazać jak nasz program działa.
 
@@ -171,30 +186,48 @@
 
     \subsection{Wage Mode}
     Wywołanie:
-    \newline\newline \texttt{./grapher -wm -rows 4 -start 1 -file wg.test -end 10 -columns 5}
+    \newline\newline \texttt{./grapher -wm -rows 4 -start 1 -file tests/data/wg.test -end 10 -columns 5}
     \newline\newline Wynik:
+    \lstinputlisting{listing/wg.txt}
 
     \subsection{Edge Mode}
     Wywołanie:
-    \newline\newline \texttt{./grapher -em -rows 5 -file em.test -end 20 -columns 7 -start 5}
+    \newline\newline \texttt{./grapher -em -rows 5 -file tests/data/em.test -end 20 -columns 7 -start 5}
     \newline\newline Wynik:    
+    \lstinputlisting{listing/em.txt}
 
     \subsection{Random Mode}
     Wywołanie:
-    \newline\newline \texttt{./grapher -rem -file rem.test -end 10 -rows 6 -start 1 -columns 7}
+    \newline\newline \texttt{./grapher -rem -file tests/data/rem.test -end 10 -rows 6 -start 1 -columns 7}
     \newline\newline Wynik:
+    \lstinputlisting{listing/rem.txt}
 
     \subsection{Read Mode z flagą Standard}
     \textbf{Plik wejściowy} :
-    \newline Wywołanie:
-    \newline\newline \texttt{./grapher -rm -file rm\_s.test -points 1,5,4,8 -standard }
+    \lstinputlisting{listing/rm_s.txt}
+    Wywołanie:
+    \newline\newline \texttt{./grapher -rm -file tests/data/rm\_s.test -points 1,5,4,8 -standard }
     \newline\newline Wynik:
+    \begin{figure}[ht]
+        \begin{center}
+            \includegraphics[scale=0.8]{rm_s.png}
+            \caption {Wynik działania dla Read Mode z flagą -standard}
+        \end{center}
+    \end{figure}
+    
 
     \subsection{Read Mode z flagą Extended}
     \textbf{Plik wejściowy} :
-    \newline Wywołanie:
-    \newline\newline \texttt{./grapher -rm -extended -points 2,7,3,11 -file rm\_e.test}
+    \lstinputlisting{listing/rm_e.txt}
+    Wywołanie:
+    \newline\newline \texttt{./grapher -rm -extended -points 2,7,3,11 -file tests/data/rm\_e.test}
     \newline\newline Wynik:
+    \begin{figure}[ht]
+        \begin{center}
+            \includegraphics[scale=0.8]{rm_e.png}
+            \caption {Wynik dla Read Mode z flagą -extended}
+        \end{center}
+    \end{figure}
 
     \section{Zmiany względem specyfikacji}
     W nieniejszym rozdziale opisujemy zmiany jakie zaszły między specyfikacją funkcjonalną i implementacyjną, a wersją finalną programu.
@@ -206,7 +239,7 @@
     Pomaga on w sprawdzaniu danych wejściowych oraz weryfikuje podanie wszystkich niezbędnych wartości.
     Poniżej pokażemy starą wersję diagramu modułów, a wersja najnowsza jest przedstawiona wyżej.
 
-    \begin{figure}[h]
+    \begin{figure}[ht]
         \begin{center}
             \includegraphics[scale=0.35]{module_diagram_old.jpg}
             \caption{Diagram modułów -- stara wersja}
@@ -244,25 +277,10 @@
         \item \texttt{struct entryRead} -- ta struktura otrzymała nową zmienną \textit{numberPoints} odpowiedzialną za przetrzymywanie liczby
         wszystkich punktów podanych przez użytkownika oraz zmieniliśmy typ zmiennej \textit{printFlag} żeby móc sprawdzać poprawnie jego podanie. Dodano również
         dwie nowe zmienne \textit{rows} i \textit{columns} odpowiedzialne za przechowanie liczby wierzchołków i kolumn,
-        \begin{lstlisting}
-typedef struct entryRead {
-    int rows;
-    int columns;
-    char* fileName;
-    short int printFlag;
-    int* points;
-    int numberPoints;
-} entryR;
-        \end{lstlisting}
+        \lstinputlisting[language=C]{listing/entryRead.txt}
         \item \texttt{struct graphRead} -- została całkowicie usunięta, ponieważ podczas implementacji okazała się bezużyteczna,
         \item \texttt{struct node} -- ta struktura otrzymała nową zmienną tablicową \textit{nodeToConnect} oraz wszystkie tablice zostały zmienione ze wskaźników na tablice o określonym rozmiarze. 
-        \begin{lstlisting}
-typedef struct node {
-    bool edgeExist[4]; 
-    double edgeWeight[4]; 
-    int nodeToConnect[4];
-} node;
-        \end{lstlisting}        
+        \lstinputlisting[language=C]{listing/node.txt}
     \end{itemize}
 
     \subsection{Wywoływanie programu}
@@ -276,12 +294,12 @@ typedef struct node {
     \newline\newline \texttt{./grapher [tryb] [plik] [flaga] [punkty]}
     \newline\newline Argumenty wymagające podania wartości:
     \begin{itemize}
-        \item plik
-        \item wiersze
-        \item kolumny
-        \item początek
-        \item koniec
-        \item punkty
+        \item plik,
+        \item wiersze,
+        \item kolumny,
+        \item początek,
+        \item koniec,
+        \item punkty.
     \end{itemize}
     Ważnym odnotowania faktem jest to, że punkty powinny zostawać podawane po przecinku przykładowo:
     \newline\newline np.
@@ -324,8 +342,8 @@ typedef struct node {
     Dzięki dodanym nowym modułom umiejscowienie funkcji się również zmieniło i niektóre funkcje stały się bardziej uniwersalne.
     \newline \texttt{int checkIfCoherentRead(graphR** graph, entryR* entry)} oraz \newline \texttt{int checkIfCoherentGen(node** graph, entryG* entry)} zostało zastąpione jedno funkcją:
     \newline\newline \texttt{bool checkIfCoherent(node* graph, int numOfNodes)}, która otrzymuje graf oraz liczbe wierzchołków i zwraca wartość \textit{true} lub \textit{false}.
-    \newline\newline \texttt{void printShortPath(entryR* entry, int* parents)} $\rightarrow$ \texttt{void printShortPath(entryR* entry, int* predecessors, int startPoint, int endPoint)},
-    \newline\newline \texttt{void printExtendedPath(entryR* entry, int* parents, double* weights)} $\rightarrow$ \texttt{void printExtendedPath(entryR* entry, int* predecessors, double* weights, int startPoint, int endPoint)}.
+    \newline\newline \texttt{void printShortPath(entryR* entry, int* parents)} $\rightarrow$ \newline\texttt{void printShortPath(entryR* entry, int* predecessors, int startPoint, int endPoint)},
+    \newline\newline \texttt{void printExtendedPath(entryR* entry, int* parents, double* weights)} $\rightarrow$ \newline \texttt{void printExtendedPath(entryR* entry, int* predecessors, double* weights, int startPoint, int endPoint)}.
     
     \section{Podsumowanie projektu}
     Projekt dotyczący grafów w języku C był realizowany od dnia 24.02.2022r do 14.04.2022r. W ramach niego powstały specyfikacja funkcjonalna i implementacyjna oraz moduły programu

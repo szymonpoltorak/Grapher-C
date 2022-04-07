@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <float.h>
 #include "alloc.h"
 
 extern const char* usage;
@@ -24,11 +25,12 @@ entryG* allocEntryGen(void){
     return entry;
 }
 
-entryR* allocEntryRead(void){
+entryR* allocEntryRead(entryG* entryG){
     entryR* entry = (entryR*) malloc (sizeof(*entry));
 
     if (entry == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        free(entryG);
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -36,11 +38,13 @@ entryR* allocEntryRead(void){
     entry -> fileName = NULL;
     entry -> numberPoints = 0;
     entry -> printFlag = 0;
+    entry -> rows = 0;
+    entry -> columns = 0;
 
     return entry;
 }
 
-node* allocGraphGen(int numOfNodes){
+node* allocGraph(int numOfNodes){
     node* graph = (node*) calloc (numOfNodes, sizeof(*graph));
 
     if (graph == NULL){
@@ -48,12 +52,13 @@ node* allocGraphGen(int numOfNodes){
         exit(NULL_POINTER_EXCEPTION);        
     }
 
-    for (int i = 0; i < 4; i++){
-        graph -> edgeExist[i] = false;
-        graph -> edgeWeight[i] = -1;
-        graph -> nodeToConnect[i] = -1;
+    for (int i = 0; i < numOfNodes; i++){
+        for (int j = 0; j < 4; j++){
+            graph[i].edgeExist[j] = false;
+            graph[i].edgeWeight[j] = -1;
+            graph[i].nodeToConnect[j] = -1;
+        }
     }
-
     return graph;
 }
 
@@ -87,7 +92,7 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
         freeAll(entryR, entryG);
         exit(NULL_POINTER_EXCEPTION);
-    }    
+    }
 
     int howManyRead = 0;
     while(true){
@@ -107,6 +112,48 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     entryR -> points = points;
 }
 
+int* allocPredecessor (int numOfNodes){
+    int* predecessor = (int*)calloc(numOfNodes, sizeof(*predecessor));
+
+    if (predecessor == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);        
+    }
+
+    for (int i = 0; i < numOfNodes; i++)
+        predecessor[i] = -1;    
+
+    return predecessor;
+}
+
+double* allocWeights (int numOfNodes){
+    double* weights = (double*)calloc(numOfNodes, sizeof(*weights));
+
+    if (weights == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);        
+    }
+
+    for (int i = 0; i < numOfNodes; i++)
+        weights[i] = DBL_MAX;
+
+    return weights;
+}
+
+int* allocPredecessorInOrder (int numOfNodes){
+    int* predecessor = (int*)calloc(numOfNodes, sizeof(*predecessor));
+
+    if (predecessor == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);        
+    }
+
+    for (int i = 0; i < numOfNodes; i++)
+        predecessor[i] = -1;    
+
+    return predecessor;
+}
+
 void freeEntryRead(entryR* entry){
     free(entry -> points);
     free(entry);
@@ -115,4 +162,11 @@ void freeEntryRead(entryR* entry){
 void freeAll(entryR* entryR, entryG* entryG){
     free(entryG);
     freeEntryRead(entryR);
+}
+
+void freePathMemory(int* predecessors, double* weights, double* distance, bool* visited){
+    free(visited);
+    free(distance);
+    free(predecessors);
+    free(weights);    
 }

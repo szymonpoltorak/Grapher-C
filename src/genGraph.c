@@ -6,43 +6,6 @@ double generateWeights(entryG* entry){
     return (double) rand()/RAND_MAX * (entry ->rangeEnd - entry ->rangeStart) + entry->rangeStart;
 }
 
-bool checkIfCoherentGen(node* graph, entryG* entry){
-    int numOfNodes = entry->columns * entry->rows;
-
-    for(int l = 0; l < numOfNodes; l++){
-        int startingNode = l;
-        bool *visited = allocVisited(numOfNodes);
-        queue* q = queInit(startingNode);
-
-        visited[startingNode] = true;
-        while(!isEmpty(q)){
-            int currentNode = popFromQueue(&q);
-
-            for (int k = 0; k < 4; k++){
-                if(graph[currentNode].edgeExist[k]){
-                    if( visited[graph[currentNode].nodeToConnect[k]] == false ) {
-                        if(q == NULL) {
-                            q = queInit(graph[currentNode].nodeToConnect[k]);
-                        } else {
-                            addToQueue(q, graph[currentNode].nodeToConnect[k]);
-                        }
-                        visited[graph[currentNode].nodeToConnect[k]] = true;
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < numOfNodes; i++ ){
-            if(visited[i] == false){
-                free(visited);
-                return false;
-            }
-        }
-        free(visited);   
-    }
-    return true;
-}
-
 void saveGraphToFile(entryG* entry, node* graph){
     int numOfNodes = entry->columns * entry->rows;
     char * fileName = entry->fileName;
@@ -62,7 +25,7 @@ void saveGraphToFile(entryG* entry, node* graph){
 
 void generateMode(entryG* entry){
     int numOfNodes = entry->columns * entry->rows;
-    node *graph = allocGraphGen(numOfNodes);
+    node *graph = allocGraph(numOfNodes);
     int numOfTries = 0;
     int maxNumOfTries = MAXNUMOFTRIES;
     bool continueGen = true;
@@ -71,7 +34,7 @@ void generateMode(entryG* entry){
         makeConnectionFromNode(i, graph, entry);
     numOfTries++;
 
-    while (entry->mode == EDGE && continueGen == true && !checkIfCoherentGen(graph,entry)){
+    while (entry->mode == EDGE && continueGen == true && !checkIfCoherent(graph,numOfNodes)){
         for (int i = 0; i < numOfNodes; i++)
             makeConnectionFromNode(i, graph, entry);
         numOfTries++;
@@ -105,6 +68,7 @@ void generateMode(entryG* entry){
     if(continueGen == false)
         printf("Przerwano generowanie grafu!\n");
     free(graph);
+    free(entry);
 }
 
 bool generateIfEdgeExist(short int mode){
@@ -157,63 +121,4 @@ void makeConnectionFromNode (int i, node* graph, entryG* entry){
     } else {
         graph[i].edgeExist[LEFT] = false;
     }
-}
-
-queue* queInit(int data){
-    queue* q = (queue*) malloc(sizeof(queue));
-
-    if (q == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER!");
-        exit(NULL_POINTER_EXCEPTION);        
-    }
-
-    q->node = data;
-    q->next = NULL;
-    return q;
-}
-
-void addToQueue(queue* q, int data){
-    queue* iterator = q;
-
-    while(iterator->next != NULL)
-        iterator = iterator->next;
-
-    iterator->next = (queue*) malloc(sizeof(queue));
-
-    if (iterator->next == NULL) {
-        fprintf(stderr, "NULL POINTER FOUND!!!\n");
-        exit(NULL_POINTER_EXCEPTION);
-    }
-
-    iterator->next->node = data;
-    iterator->next->next = NULL;
-}
-
-int popFromQueue(queue** q){
-    if(isEmpty(*q) == true)
-        return -1;
-    
-    queue* tmp = *q;
-    int data = tmp->node;
-    *q = tmp->next;
-
-    free(tmp);
-    return data;
-}
-
-bool isEmpty(queue* q){
-    if (q == NULL)
-        return true;
-    else
-        return false;
-}
-
-void displayQue(queue* q){
-    queue* iterator = q;
-    printf("K: ");
-    while(iterator->next != NULL){
-        printf("%d ---> ",iterator->node);
-        iterator = iterator->next;
-    }
-    printf("%d\n",iterator->node);
 }

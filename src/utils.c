@@ -4,6 +4,21 @@
 
 extern const char* usage;
 
+void ifModeWasDeclared(short int mode, entryR* entryR, entryG* entryG){
+    if (mode == NO_MODE){
+        fprintf(stderr, "NO MODE FOUND! PLEASE GIVE MODE! USAGE: \n%s\n", usage);
+        freeAll(entryR, entryG);
+        exit(NO_MODE_FOUND);
+    }
+}
+
+void checkArgc(int argc){
+    if (argc == 1){
+        fprintf(stderr, "NO MODE FOUND. USAGE:\n%s\n",usage);
+        exit(NO_MODE_FOUND);
+    }    
+}
+
 void ifReadMode(short int mode, entryR* entryR, entryG* entryG){
     if (mode != READ){
         fprintf(stderr, "IT IS NOT READ MODE!\n%s\n", usage);
@@ -63,7 +78,7 @@ void validateRows(char* optarg, entryR* entryR, entryG* entryG){
     }
 }
 
-void ifModeWasDeclared(short int mode, entryR* entryR, entryG* entryG){
+void ifModeWasMultiplied(short int mode, entryR* entryR, entryG* entryG){
     if (mode != NO_MODE){
         fprintf(stderr, "MODE WAS ALREADY DECLARED !!!\n Usage:\n%s\n", usage);
         freeAll(entryR, entryG);

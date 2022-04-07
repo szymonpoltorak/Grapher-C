@@ -187,21 +187,22 @@
 
     \subsection{Wage Mode}
     Wywołanie:
-    \newline\newline \texttt{./grapher -wm -rows 4 -start 1 -file tests/data/wg.test -end 10 -columns 5}
+    \newline\newline \texttt{./grapher -wm -rows 3 -start 1 -file tests/data/wg.test -end 10 -columns 3}
     \newline\newline Wynik:
     \lstinputlisting{listing/wg.txt}
 
     \subsection{Edge Mode}
     Wywołanie:
-    \newline\newline \texttt{./grapher -em -rows 5 -file tests/data/em.test -end 20 -columns 7 -start 5}
+    \newline\newline \texttt{./grapher -em -rows 3 -file tests/data/em.test -end 20 -columns 4 -start 5}
     \newline\newline Wynik:    
     \lstinputlisting{listing/em.txt}
 
     \subsection{Random Mode}
     Wywołanie:
-    \newline\newline \texttt{./grapher -rem -file tests/data/rem.test -end 10 -rows 6 -start 1 -columns 7}
+    \newline\newline \texttt{./grapher -rem -file tests/data/rem.test -end 10 -rows 4 -start 1 -columns 4}
     \newline\newline Wynik:
     \lstinputlisting{listing/rem.txt}
+    \newpage
 
     \subsection{Read Mode z flagą Standard}
     \textbf{Plik wejściowy} :
@@ -215,7 +216,7 @@
             \caption {Wynik działania dla Read Mode z flagą -standard}
         \end{center}
     \end{figure}
-    
+    \newpage
 
     \subsection{Read Mode z flagą Extended}
     \textbf{Plik wejściowy} :
@@ -230,6 +231,7 @@
         \end{center}
     \end{figure}
 
+    \newpage
     \section{Zmiany względem specyfikacji}
     W nieniejszym rozdziale opisujemy zmiany jakie zaszły między specyfikacją funkcjonalną i implementacyjną, a wersją finalną programu.
 
@@ -354,8 +356,9 @@
     \textit{-standard} i \textit{-extended}. Program został gruntowanie przetestowany, dlatego nie powinno być żadnych niespodziewanych zdarzeń.
 
     \section{Podsumowanie współpracy}
-
-    % to do
+    Współpraca podczas trwania projektu dotyczącego grafów przebiegła bezproblemowo i sprawnie. Wymagało ona od nas zmian naszej koncepcji ale dzięki stałemu kontaktowi mogliśmy sprawnie wprowadzać zmiany.
+    System kontroli wersji \textit{git} pozwalał nam na równoczesną pracę nad projektem co spowodowało, że mogliśmy bez zbędnego stresu i presji prowadzić pracę nad zadaniem.
+    Wszelkie zmiany w kodzie były tłumaczone po ukończeniu prac na danym modułem. Podsumowując, współpraca stała na zadowalającym poziomie i pozwalała na wzajemną naukę.
 
     \section{Wnioski}
     Sprawdzanie spójności grafów oraz szukanie w nich najkrótszej ścieżki nie jest zadaniem szybkim i trywialnym, a wrecz przeciwnie jest to zadanie wymagające i skomplikowane.

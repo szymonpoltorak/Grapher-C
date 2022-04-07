@@ -3,6 +3,8 @@
 
 #include "tools.h"
 
+#define WRONG_ROWS_COLUMNS 198
+
 void readMode(entryR* entry); 
 
 node* readFromFile(entryR* entry);

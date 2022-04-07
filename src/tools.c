@@ -85,13 +85,3 @@ bool isEmpty(queue* q){
     else
         return false;
 }
-
-void displayQue(queue* q){
-    queue* iterator = q;
-    printf("K: ");
-    while(iterator->next != NULL){
-        printf("%d ---> ",iterator->node);
-        iterator = iterator->next;
-    }
-    printf("%d\n",iterator->node);
-}

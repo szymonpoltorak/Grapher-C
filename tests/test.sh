@@ -69,21 +69,26 @@ echo "-----Testing start declared in read mode--------"
 T=$?; printf "Test[13]: "; [[ $T -eq 227 ]] && $ok || $fail ; echo 
 
 #wage mode proper use
-echo "---------Testing wage mode proper use----------"
+echo "---------Testing wage mode proper use-----------"
 ./grapher -wm -file tests/data/data.test -start 10 -end 20 -rows 3 -columns 3 1>tmp 2> temp
 T=$?; printf "Test[14]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo 
 
 #edge mode proper use
-echo "---------Testing edge mode proper use----------"
+echo "---------Testing edge mode proper use-----------"
 ./grapher -em -file tests/data/data.test -start 0 -end 11 -rows 4 -columns 5 1>tmp 2> temp
 T=$?; printf "Test[15]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo 
 
 #random mode proper use
-echo "---------Testing radnom mode proper use----------"
+echo "--------Testing radnom mode proper use----------"
 ./grapher -rem -file tests/data/data.test -start 2 -end 14 -rows 6 -columns 8 1>tmp 2>temp
 T=$?; printf "Test[16]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo 
 
 #read not coherent
-echo "-------Testing reading not coherent graph--------"
+echo "-------Testing reading not coherent graph-------"
 ./grapher -rm -file tests/data/notCoherent.test -standard -points 1,2,3,4 1>tmp 2>temp
-T=$?; printf "Test[16]: "; [[ $T -eq 237 ]] && $ok || $fail ; echo 
+T=$?; printf "Test[17]: "; [[ $T -eq 237 ]] && $ok || $fail ; echo 
+
+#read but cols are equal 0
+echo "-----------Testing reading 0 columns------------"
+./grapher -rm -file tests/data/noColumns.test -standard -points 1,2,3,4 1>tmp 2>temp
+T=$?; printf "Test[18]: "; [[ $T -eq 198 ]] && $ok || $fail ; echo

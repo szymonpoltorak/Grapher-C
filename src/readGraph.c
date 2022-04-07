@@ -2,18 +2,13 @@
 #include <stdlib.h>
 #include "readGraph.h"
 
-static void saveGraphToFileRead(entryR* entry, node* graph){
-    int numOfNodes = entry->columns * entry->rows;
+static int checkRowsCols(entryR* entry){
+    int rows = entry -> rows;
+    int col = entry -> columns;
 
-    printf("%d %d\n",entry->rows, entry->columns);
-
-    for (int i = 0; i < numOfNodes; i++ ){
-        printf("\t");
-        for (int k = 0; k < 4; k++ )
-            if (graph[i].edgeExist[k] == true)
-                printf(" %d :%f ",graph[i].nodeToConnect[k],graph[i].edgeWeight[k]);
-        printf("\n");
-    }
+    if (rows <= 0 || col <= 0)
+        return EXIT_FAILURE;
+    return EXIT_SUCCESS;
 }
 
 node* readFromFile(entryR* entry){
@@ -23,6 +18,12 @@ node* readFromFile(entryR* entry){
         fprintf(stderr, "ROWS AND COLUMNS NOT FOUND!\n");
         freeEntryRead(entry);
         exit(NO_COL_ROWS_FOUND);
+    }
+    if (checkRowsCols(entry) == EXIT_FAILURE){
+        fprintf(stderr, "WRONG NUMBER OF ROWS OR COLUMNS!!\n");
+        freeEntryRead(entry);
+        fclose(in);
+        exit(WRONG_ROWS_COLUMNS);
     }
 
     int numOfNodes = entry ->columns * entry -> rows;
@@ -36,6 +37,7 @@ node* readFromFile(entryR* entry){
         if (fgets(buf,1024,in) == NULL){
             fprintf(stderr, "NODES NOT FOUND!\n");
             free(graph);
+            fclose(in);
             freeEntryRead(entry);
             exit(NO_NODES_FOUND);
         }
@@ -104,8 +106,8 @@ void findPath(node* graph, entryR* entry){
         int currentPoint = startPoint;
         int* predecessors = allocPredecessor(numOfNodes);
         bool* visited = allocVisited(numOfNodes);
-        double* weights = allocWeights(numOfNodes); //przechowuje wage przejscia od poprzednika
-        double* distance = allocWeights(numOfNodes); //przechowuje wage drogi do tej pory
+        double* weights = allocWeights(numOfNodes);
+        double* distance = allocWeights(numOfNodes);
 
         distance[startPoint] = 0;
         visited[currentPoint] = true;
@@ -138,13 +140,6 @@ void findPath(node* graph, entryR* entry){
 
 void printShortPath(entryR* entry, int* predecessors, int startPoint, int endPoint){
     int numOfNodes = entry -> columns * entry -> rows;
-    /*
-    printf("----------------------\n");
-    for(int i = 0; i < numOfNodes; i++){
-        printf("| N: %3d ------- %3d |\n",i,predecessors[i]);
-    }
-    printf("----------------------\n");
-    */
 
     int* predecessorsInOrder = allocPredecessorInOrder(numOfNodes);
     int size = 0;
@@ -165,13 +160,6 @@ void printShortPath(entryR* entry, int* predecessors, int startPoint, int endPoi
 
 void printExtendedPath(entryR* entry, int* predecessors, double* weights, int startPoint, int endPoint){
     int numOfNodes = entry -> columns * entry -> rows;
-    /*
-    printf("----------------------\n");
-    for(int i = 0; i < numOfNodes; i++){
-        printf("| N: %3d ------- %3d |\n",i,predecessors[i]);
-    }
-    printf("----------------------\n");
-    */
 
     int* predecessorsInOrder = allocPredecessorInOrder(numOfNodes);
     int size = 0;
@@ -210,9 +198,6 @@ int findNewPoint(bool* visited, double* distance, int numOfNodes){
 void readMode(entryR* entry){
     node* graph = readFromFile(entry);
     int numOfNodes = entry -> columns * entry -> rows;
-
-    printf("READ GRAPH:\n");
-    saveGraphToFileRead(entry, graph);
 
     if (checkIfCoherent(graph, numOfNodes) != true){
         fprintf(stderr, "GRAPH IS NOT COHERENT!!!\n");

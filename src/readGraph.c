@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "readGraph.h"
 
-static int checkRowsCols(entryR* entry){
+static bool checkRowsCols(entryR* entry){
     int rows = entry -> rows;
     int col = entry -> columns;
 
@@ -17,6 +17,7 @@ node* readFromFile(entryR* entry){
     if (fscanf(in, "%d %d", &entry ->rows, &entry -> columns) != 2){
         fprintf(stderr, "ROWS AND COLUMNS NOT FOUND!\n");
         freeEntryRead(entry);
+        fclose(in);
         exit(NO_COL_ROWS_FOUND);
     }
     if (checkRowsCols(entry) == EXIT_FAILURE){

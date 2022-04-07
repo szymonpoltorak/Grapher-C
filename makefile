@@ -1,9 +1,9 @@
 FLAGS = -Wall -pedantic -Wextra -Werror
 CCC = cc -c
 CCO = cc -o
-MV = -mv *.o bin/ 2>/dev/null
-MD = -mkdir bin 2>/dev/null
-DEL = -rm -r bin/*.o grapher temp tmp bin/ 2>/dev/null
+MV = -mv *.o bin/
+MD = -mkdir bin
+DEL = -rm -r bin/*.o grapher temp tmp bin/
 TEST = cd tests && make -s
 WM = ./grapher -wm -rows 4 -start 1 -file tests/data/wg.test -end 10 -columns 5
 EM = ./grapher -em -rows 5 -file tests/data/em.test -end 20 -columns 7 -start 5

@@ -86,55 +86,55 @@ void ifModeWasMultiplied(short int mode, entryR* entryR, entryG* entryG){
     }
 }
 
-static int checkFileName(char* fileName){
+static bool checkFileName(char* fileName){
     if(fileName == NULL)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
 
-static int checkPrintFlag(short int printFlag){
+static bool checkPrintFlag(short int printFlag){
     if(printFlag != EXTENDED && printFlag != STANDARD)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
 
-static int checkRangeStart(double rangeStart){
+static bool checkRangeStart(double rangeStart){
     if(rangeStart < 0)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
 
-static int checkRangeEnd(double rangeEnd){
+static bool checkRangeEnd(double rangeEnd){
     if (rangeEnd <= 0)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
 
-static int checkRows(int rows){
+static bool checkRows(int rows){
     if (rows <= 0)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
 
-static int checkColumns(int columns){
+static bool checkColumns(int columns){
     if (columns <= 0)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
 
-static int checkMode(short int mode){
+static bool checkMode(short int mode){
     if (mode == 0)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
 
-static int checkPoints(int* points){
+static bool checkPoints(int* points){
     if (points == NULL)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
 
-static int checkNumberPoints(int numberPoints){
+static bool checkNumberPoints(int numberPoints){
     if (numberPoints <= 0)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;

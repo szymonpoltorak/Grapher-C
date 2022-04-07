@@ -23,6 +23,4 @@ int popFromQueue(queue** q);
 
 bool isEmpty(queue* q);
 
-void displayQue(queue* q);
-
 #endif

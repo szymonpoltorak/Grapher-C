@@ -3,3 +3,12 @@
 *.pch
 grapher
 .DS_Store
+
+*.aux
+*.fls
+*.synctex.gz
+*.log
+*.fdb_latexmk
+*.toc
+
+*:Zone.identifier

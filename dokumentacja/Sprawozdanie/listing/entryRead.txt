@@ -1,0 +1,8 @@
+typedef struct entryRead {
+    int rows;
+    int columns;
+    char* fileName;
+    short int printFlag;
+    int* points;
+    int numberPoints;
+} entryR;

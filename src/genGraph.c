@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "genGraph.h"
 
-double generateWeights(entryG* entry){
-    return (double) rand()/RAND_MAX * (entry ->rangeEnd - entry ->rangeStart) + entry->rangeStart;
+float generateWeights(entryG* entry){
+    return (float) rand()/RAND_MAX * (entry ->rangeEnd - entry ->rangeStart) + entry->rangeStart;
 }
 
 void saveGraphToFile(entryG* entry, node* graph){
@@ -74,7 +74,7 @@ void generateMode(entryG* entry){
 bool generateIfEdgeExist(short int mode){
     if (mode == WEIGHT)
         return true;
-    double i = (double) rand()/RAND_MAX * 100;
+    float i = (float) rand()/RAND_MAX * 100;
     if (i <= CHANCE)
         return true;
     return false;
@@ -83,7 +83,7 @@ bool generateIfEdgeExist(short int mode){
 void makeConnectionFromNode (int i, node* graph, entryG* entry){
     int columns = entry->columns;
     int rows = entry->rows;
-    int mode = entry->mode;
+    short int mode = entry->mode;
 
     if (i - columns >= 0 && i - columns < columns * rows){
         if(generateIfEdgeExist(mode)){

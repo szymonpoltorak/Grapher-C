@@ -1,0 +1,8 @@
+typedef struct entryGen {
+    int rows;
+    int columns;
+    float rangeStart;
+    float rangeEnd;
+    short int mode;
+    char* fileName;
+} entryG;

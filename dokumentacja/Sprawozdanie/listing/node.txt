@@ -1,5 +1,5 @@
 typedef struct node {
     bool edgeExist[4]; 
-    double edgeWeight[4]; 
+    float edgeWeight[4]; 
     int nodeToConnect[4];
 } node;

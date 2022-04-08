@@ -32,7 +32,7 @@ bool checkIfCoherent(node* graph, int numOfNodes){
                 return false;
             }
         }
-        free(visited);   
+        free(visited);
     }
     return true;
 }

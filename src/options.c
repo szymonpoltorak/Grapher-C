@@ -47,11 +47,11 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
             case 'e':
                 ifModeWasMultiplied(mode, entryR, entryG);
                 entryG -> mode = mode = EDGE;
-                break;                
+                break;
             case 'r':
                 ifModeWasMultiplied(mode, entryR, entryG);
                 mode = READ;
-                break;               
+                break;
             case 'x':
                 ifModeWasDeclared(mode, entryR, entryG);
                 ifReadMode(mode, entryR, entryG);
@@ -83,12 +83,12 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 }
                 else if (mode == READ) {
                     fprintf(stderr, "COLUMNS ARE NOT BEING DECLARED IN READ MODE. USAGE:\n%s\n", usage);
-                    freeAll(entryR, entryG);
+                    freeEntries(entryR, entryG);
                     exit(WRONG_MODE);
                 }
                 else {
                     fprintf(stderr, "UNKNOWN MODE !!\n");
-                    exit(NO_MODE_FOUND);                    
+                    exit(NO_MODE_FOUND);
                 }
                 break;
             case 'o':
@@ -99,13 +99,13 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 }
                 else if (mode == READ){
                     fprintf(stderr, "ROWS ARE NOT USED IN READ MODE! USAGE:\n%s\n", usage);
-                    freeAll(entryR, entryG);
+                    freeEntries(entryR, entryG);
                     exit(WRONG_MODE);
                 }
                 else {
                     fprintf(stderr, "UNKNOWN MODE !!\n");
-                    exit(NO_MODE_FOUND);                    
-                }                            
+                    exit(NO_MODE_FOUND);
+                }
                 break;
             case 'p':
                 ifModeWasDeclared(mode, entryR, entryG);
@@ -120,12 +120,12 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 }
                 else if (mode == READ) {
                     fprintf(stderr, "RANGE END IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);
-                    freeAll(entryR, entryG);
+                    freeEntries(entryR, entryG);
                     exit(WRONG_MODE);
                 }
                 else {
                     fprintf(stderr, "UNKNOWN MODE !!\n");
-                    exit(NO_MODE_FOUND);                    
+                    exit(NO_MODE_FOUND);
                 }
                 break;
             case 't':
@@ -136,24 +136,24 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 }
                 else if (mode == READ) {
                     fprintf(stderr, "RANGE START IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);//
-                    freeAll(entryR, entryG);
+                    freeEntries(entryR, entryG);
                     exit(WRONG_MODE);
                 }
                 else {
                     fprintf(stderr, "UNKNOWN MODE !!\n");
-                    exit(NO_MODE_FOUND);                    
-                }                
+                    exit(NO_MODE_FOUND);
+                }
                 break;
             default:
                 fprintf(stderr, "INVALID DATA. USAGE:\n%s\n", usage);
-                freeAll(entryR, entryG);
+                freeEntries(entryR, entryG);
                 exit(INVALID_DATA);
         }
     }
 
     if (entryG -> rangeStart >= entryG -> rangeEnd && mode != READ){
         fprintf(stderr, "WRONG RANGE OF WEIGHTS!! USAGE:\n%s\n", usage);
-        freeAll(entryR, entryG);
+        freeEntries(entryR, entryG);
         exit(WRONG_RANGE_OF_WAGES);
     }
 

@@ -10,7 +10,7 @@ void generateMode(entryG* entry);
 
 void saveGraphToFile(entryG* entry, node* graph);
 
-double generateWeights(entryG* entry);
+float generateWeights(entryG* entry);
 
 bool generateIfEdgeExist(short int mode);
 

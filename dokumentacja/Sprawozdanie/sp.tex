@@ -274,6 +274,10 @@
         \hline WRONG\_ROWS\_COLUMNS & 198 & W czytanym pliku kolumny lub wiersze mają wartość mniejszą równą 0\\
         \hline
     \end{tabularx}
+
+    \subsection{Zmiany w typach danych}
+    Na drodze optymalizacji naszego kodu postanowiliśmy zmienić liczby typu \texttt{double} na typ \texttt{float}, ponieważ uznaliśmy, że nie potrzebujemy
+    podwójnej precyzji w naszym programie.
     
     \subsection{Zmiany w strukturach}
     Struktury również przeszły małe modyfikacje spowodowane nieprzewidzianymi potrzebami. Zaprezentujemy je poniżej.
@@ -283,8 +287,10 @@
         dwie nowe zmienne \textit{rows} i \textit{columns} odpowiedzialne za przechowanie liczby wierzchołków i kolumn,
         \lstinputlisting[language=C]{listing/entryRead.txt}
         \item \texttt{struct graphRead} -- została całkowicie usunięta, ponieważ podczas implementacji okazała się bezużyteczna,
-        \item \texttt{struct node} -- ta struktura otrzymała nową zmienną tablicową \textit{nodeToConnect} oraz wszystkie tablice zostały zmienione ze wskaźników na tablice o określonym rozmiarze. 
+        \item \texttt{struct node} -- ta struktura otrzymała nową zmienną tablicową \textit{nodeToConnect} oraz wszystkie tablice zostały zmienione ze wskaźników na tablice o określonym rozmiarze,
         \lstinputlisting[language=C]{listing/node.txt}
+        \item \texttt{struct entryGen} -- w tej strukturze jedyna zmiana to typy zmiennych \texttt{double} na \texttt{float}.
+        \lstinputlisting[language=C]{listing/entryGen.txt}
     \end{itemize}
 
     \subsection{Wywoływanie programu}

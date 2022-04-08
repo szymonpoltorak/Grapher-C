@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -49,7 +48,7 @@ node* allocGraph(int numOfNodes){
 
     if (graph == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
-        exit(NULL_POINTER_EXCEPTION);        
+        exit(NULL_POINTER_EXCEPTION);
     }
 
     for (int i = 0; i < numOfNodes; i++){
@@ -67,11 +66,11 @@ bool* allocVisited(int numOfNodes){
 
     if (visited == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
-        exit(NULL_POINTER_EXCEPTION);        
+        exit(NULL_POINTER_EXCEPTION);
     }
 
     for (int i = 0; i < numOfNodes; i++)
-        visited[i] = false;    
+        visited[i] = false;
 
     return visited;
 }
@@ -82,7 +81,7 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     for (int i = 0; i < size; i++){
         if (!isdigit(optarg[i]) && optarg[i] != ','){
             fprintf(stderr, "WRONG POINTS FOUND ! USAGE:\n%s\n", usage);
-            freeAll(entryR, entryG);
+            freeEntries(entryR, entryG);
             exit(WRONG_POINTS);
         }
     }
@@ -90,7 +89,7 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     
     if (points == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
-        freeAll(entryR, entryG);
+        freeEntries(entryR, entryG);
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -105,7 +104,7 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
 
     if (entryR -> numberPoints == 0 || (entryR -> numberPoints % 2 != 0)){
         fprintf(stderr, "WRONG POINTS FOUND! USAGE:\n%s\n", usage);
-        freeAll(entryR, entryG);
+        freeEntries(entryR, entryG);
         exit(WRONG_POINTS);
     }
 
@@ -117,7 +116,7 @@ int* allocPredecessor (int numOfNodes){
 
     if (predecessor == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
-        exit(NULL_POINTER_EXCEPTION);        
+        exit(NULL_POINTER_EXCEPTION);
     }
 
     for (int i = 0; i < numOfNodes; i++)
@@ -126,16 +125,16 @@ int* allocPredecessor (int numOfNodes){
     return predecessor;
 }
 
-double* allocWeights (int numOfNodes){
-    double* weights = (double*)calloc(numOfNodes, sizeof(*weights));
+float* allocWeights (int numOfNodes){
+    float* weights = (float*)calloc(numOfNodes, sizeof(*weights));
 
     if (weights == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
-        exit(NULL_POINTER_EXCEPTION);        
+        exit(NULL_POINTER_EXCEPTION);
     }
 
     for (int i = 0; i < numOfNodes; i++)
-        weights[i] = DBL_MAX;
+        weights[i] = FLT_MAX;
 
     return weights;
 }
@@ -145,7 +144,7 @@ int* allocPredecessorInOrder (int numOfNodes){
 
     if (predecessor == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
-        exit(NULL_POINTER_EXCEPTION);        
+        exit(NULL_POINTER_EXCEPTION);
     }
 
     for (int i = 0; i < numOfNodes; i++)
@@ -159,14 +158,26 @@ void freeEntryRead(entryR* entry){
     free(entry);
 }
 
-void freeAll(entryR* entryR, entryG* entryG){
+void freeEntries(entryR* entryR, entryG* entryG){
     free(entryG);
     freeEntryRead(entryR);
 }
 
-void freePathMemory(int* predecessors, double* weights, double* distance, bool* visited){
+void freePathMemory(int* predecessors, float* weights, float* distance, bool* visited){
     free(visited);
     free(distance);
     free(predecessors);
     free(weights);    
+}
+
+void freeReadFile(FILE* in, entryR* entry, node* graph){
+    fclose(in);
+    freeEntryRead(entry);
+    if (graph != NULL)
+        free(graph);
+}
+
+void freeReadMode(entryR* entry, node* graph){
+    freeEntryRead(entry);
+    free(graph);    
 }

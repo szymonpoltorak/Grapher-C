@@ -16,14 +16,12 @@ node* readFromFile(entryR* entry){
 
     if (fscanf(in, "%d %d", &entry ->rows, &entry -> columns) != 2){
         fprintf(stderr, "ROWS AND COLUMNS NOT FOUND!\n");
-        freeEntryRead(entry);
-        fclose(in);
+        freeReadFile(in, entry, NULL);
         exit(NO_COL_ROWS_FOUND);
     }
     if (checkRowsCols(entry) == EXIT_FAILURE){
         fprintf(stderr, "WRONG NUMBER OF ROWS OR COLUMNS!!\n");
-        freeEntryRead(entry);
-        fclose(in);
+        freeReadFile(in, entry, NULL);
         exit(WRONG_ROWS_COLUMNS);
     }
 
@@ -37,32 +35,36 @@ node* readFromFile(entryR* entry){
 
         if (fgets(buf,1024,in) == NULL){
             fprintf(stderr, "NODES NOT FOUND!\n");
-            free(graph);
-            fclose(in);
-            freeEntryRead(entry);
+            freeReadFile(in, entry, graph);
             exit(NO_NODES_FOUND);
         }
 
-        insertGraph(entry, graph, i, buf);
+        if (insertGraph(entry, graph, i, buf) == false ){
+            fprintf(stderr, "ILLEGAL POINTS FOUND!\n");
+            freeReadFile(in, entry, graph);
+            exit(WRONG_POINTS);
+        }
     }
 
     fclose(in);
     return graph;
 }
 
-void insertGraph(entryR* entry, node* graph, int i, char* buf){
+bool insertGraph(entryR* entry, node* graph, int i, char* buf){
     int columns = entry->columns, rows = entry->rows;
     int node = 0, offset=0;
-    double weight = 0;
+    float weight = 0;
 
-    while(sscanf(buf, " %d :%lf %n", &node, &weight, &offset) == 2){
+    while(sscanf(buf, " %d :%f %n", &node, &weight, &offset) == 2){
         buf+=offset;
+        bool hasBeenAdded = false;
 
         if (i - columns >= 0 && i - columns < columns * rows){
             if (node == i - columns){
                 graph[i].edgeExist[UP] = true;
                 graph[i].nodeToConnect[UP] = i - columns;
                 graph[i].edgeWeight[UP] = weight;
+                hasBeenAdded = true;
             }
         } else {
             graph[i].edgeExist[UP] = false;
@@ -72,6 +74,7 @@ void insertGraph(entryR* entry, node* graph, int i, char* buf){
                 graph[i].edgeExist[RIGHT] = true;
                 graph[i].nodeToConnect[RIGHT] = i + 1;
                 graph[i].edgeWeight[RIGHT] = weight;
+                hasBeenAdded = true;
             }
         } else {
             graph[i].edgeExist[RIGHT] = false;
@@ -81,6 +84,7 @@ void insertGraph(entryR* entry, node* graph, int i, char* buf){
                 graph[i].edgeExist[DOWN] = true;
                 graph[i].nodeToConnect[DOWN] = i + columns;
                 graph[i].edgeWeight[DOWN] = weight;
+                hasBeenAdded = true;
             }
         } else {
             graph[i].edgeExist[DOWN] = false;
@@ -90,11 +94,15 @@ void insertGraph(entryR* entry, node* graph, int i, char* buf){
                 graph[i].edgeExist[LEFT] = true;
                 graph[i].nodeToConnect[LEFT] = i - 1;
                 graph[i].edgeWeight[LEFT] = weight;
+                hasBeenAdded = true;
             }
         } else {
             graph[i].edgeExist[LEFT] = false;
         }
+        if (hasBeenAdded == false)
+            return false;
     }
+    return true;
 }
 
 void findPath(node* graph, entryR* entry){
@@ -107,8 +115,8 @@ void findPath(node* graph, entryR* entry){
         int currentPoint = startPoint;
         int* predecessors = allocPredecessor(numOfNodes);
         bool* visited = allocVisited(numOfNodes);
-        double* weights = allocWeights(numOfNodes);
-        double* distance = allocWeights(numOfNodes);
+        float* weights = allocWeights(numOfNodes);
+        float* distance = allocWeights(numOfNodes);
 
         distance[startPoint] = 0;
         visited[currentPoint] = true;
@@ -159,7 +167,7 @@ void printShortPath(entryR* entry, int* predecessors, int startPoint, int endPoi
     free(predecessorsInOrder);
 }
 
-void printExtendedPath(entryR* entry, int* predecessors, double* weights, int startPoint, int endPoint){
+void printExtendedPath(entryR* entry, int* predecessors, float* weights, int startPoint, int endPoint){
     int numOfNodes = entry -> columns * entry -> rows;
 
     int* predecessorsInOrder = allocPredecessorInOrder(numOfNodes);
@@ -179,7 +187,7 @@ void printExtendedPath(entryR* entry, int* predecessors, double* weights, int st
     free(predecessorsInOrder);
 }
 
-int findNewPoint(bool* visited, double* distance, int numOfNodes){
+int findNewPoint(bool* visited, float* distance, int numOfNodes){
     int point = -1;
     
     for (int i = 0; i < numOfNodes; i++)
@@ -202,12 +210,9 @@ void readMode(entryR* entry){
 
     if (checkIfCoherent(graph, numOfNodes) != true){
         fprintf(stderr, "GRAPH IS NOT COHERENT!!!\n");
-        freeEntryRead(entry);
-        free(graph);
+        freeReadMode(entry, graph);
         exit(NO_COHERENT);
     }
     findPath(graph, entry);
-
-    free(graph);
-    freeEntryRead(entry);
+    freeReadMode(entry, graph);
 }

@@ -3,10 +3,7 @@
 #include "readGraph.h"
 
 static bool checkRowsCols(entryR* entry){
-    int rows = entry -> rows;
-    int col = entry -> columns;
-
-    if (rows <= 0 || col <= 0)
+    if (entry -> rows <= 0 || entry -> columns <= 0)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
@@ -115,13 +112,13 @@ void findPath(node* graph, entryR* entry){
         int currentPoint = startPoint;
         int* predecessors = allocPredecessor(numOfNodes);
         bool* visited = allocVisited(numOfNodes);
-        float* weights = allocWeights(numOfNodes);
-        float* distance = allocWeights(numOfNodes);
+        float* weights = allocFloatArray(numOfNodes);
+        float* distance = allocFloatArray(numOfNodes);
 
         distance[startPoint] = 0;
         visited[currentPoint] = true;
         while (true){
-            for(int k = 0; k < 4; k++){
+            for(short int k = 0; k < 4; k++){
                 if(graph[currentPoint].edgeExist[k]){
                     if(distance[graph[currentPoint].nodeToConnect[k]] > distance[currentPoint] + graph[currentPoint].edgeWeight[k]){
                         predecessors[graph[currentPoint].nodeToConnect[k]] = currentPoint;
@@ -149,7 +146,6 @@ void findPath(node* graph, entryR* entry){
 
 void printShortPath(entryR* entry, int* predecessors, int startPoint, int endPoint){
     int numOfNodes = entry -> columns * entry -> rows;
-
     int* predecessorsInOrder = allocPredecessorInOrder(numOfNodes);
     int size = 0;
 
@@ -169,7 +165,6 @@ void printShortPath(entryR* entry, int* predecessors, int startPoint, int endPoi
 
 void printExtendedPath(entryR* entry, int* predecessors, float* weights, int startPoint, int endPoint){
     int numOfNodes = entry -> columns * entry -> rows;
-
     int* predecessorsInOrder = allocPredecessorInOrder(numOfNodes);
     int size = 0;
 

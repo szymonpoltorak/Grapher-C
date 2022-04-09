@@ -15,7 +15,7 @@ void saveGraphToFile(entryG* entry, node* graph){
 
     for (int i = 0; i < numOfNodes; i++ ){
         fprintf(ofile,"\t");
-        for (int k = 0; k < 4; k++ )
+        for (short int k = 0; k < 4; k++ )
             if (graph[i].edgeExist[k] == true)
                 fprintf(ofile," %d :%f ",graph[i].nodeToConnect[k],graph[i].edgeWeight[k]);
         fprintf(ofile,"\n");
@@ -50,12 +50,10 @@ void generateMode(entryG* entry){
                     continueGen = true;
                     maxNumOfTries += MAXNUMOFTRIES;
                     break;
-                }
-                else if (choice == 'n' || choice == 'N') {
+                } else if (choice == 'n' || choice == 'N') {
                     continueGen = false;
                     break;
-                }
-                else
+                } else
                     fprintf(stderr, "UNKNOWN OPTION!!\n");
             }
         }

@@ -50,7 +50,7 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG);
 
 int* allocPredecessor (int numOfNodes);
 
-float* allocWeights (int numOfNodes);
+float* allocFloatArray (int numOfNodes);
 
 int* allocPredecessorInOrder (int numOfNodes);
 

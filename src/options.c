@@ -80,13 +80,11 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
                     validateColumns(optarg, entryR, entryG);
                     entryG -> columns = atoi(optarg);
-                }
-                else if (mode == READ) {
+                } else if (mode == READ) {
                     fprintf(stderr, "COLUMNS ARE NOT BEING DECLARED IN READ MODE. USAGE:\n%s\n", usage);
                     freeEntries(entryR, entryG);
                     exit(WRONG_MODE);
-                }
-                else {
+                } else {
                     fprintf(stderr, "UNKNOWN MODE !!\n");
                     exit(NO_MODE_FOUND);
                 }
@@ -96,13 +94,11 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
                     validateRows(optarg, entryR, entryG);
                     entryG -> rows = atoi(optarg);
-                }
-                else if (mode == READ){
+                } else if (mode == READ){
                     fprintf(stderr, "ROWS ARE NOT USED IN READ MODE! USAGE:\n%s\n", usage);
                     freeEntries(entryR, entryG);
                     exit(WRONG_MODE);
-                }
-                else {
+                } else {
                     fprintf(stderr, "UNKNOWN MODE !!\n");
                     exit(NO_MODE_FOUND);
                 }
@@ -117,13 +113,11 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
                     validateRangeEnd(optarg, entryR, entryG);
                     entryG -> rangeEnd = atof(optarg);
-                }
-                else if (mode == READ) {
+                } else if (mode == READ) {
                     fprintf(stderr, "RANGE END IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);
                     freeEntries(entryR, entryG);
                     exit(WRONG_MODE);
-                }
-                else {
+                } else {
                     fprintf(stderr, "UNKNOWN MODE !!\n");
                     exit(NO_MODE_FOUND);
                 }
@@ -133,13 +127,11 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
                     validateRangeStart(optarg, entryR, entryG);
                     entryG -> rangeStart = atof(optarg);
-                }
-                else if (mode == READ) {
+                } else if (mode == READ) {
                     fprintf(stderr, "RANGE START IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);//
                     freeEntries(entryR, entryG);
                     exit(WRONG_MODE);
-                }
-                else {
+                } else {
                     fprintf(stderr, "UNKNOWN MODE !!\n");
                     exit(NO_MODE_FOUND);
                 }
@@ -165,13 +157,11 @@ void chooseProperMode(entryG* entryG, entryR* entryR, short int mode){
         checkDataGen(entryG, entryR);
         freeEntryRead(entryR);
         generateMode(entryG);
-    }
-    else if (mode == READ){
+    } else if (mode == READ){
         checkDataRead(entryR, entryG);
         free(entryG);
         readMode(entryR);
-    }
-    else {
+    } else {
         fprintf(stderr, "UNKNOWN MODE !!\n");
         exit(NO_MODE_FOUND);
     }

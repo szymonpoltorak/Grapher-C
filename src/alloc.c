@@ -52,7 +52,7 @@ node* allocGraph(int numOfNodes){
     }
 
     for (int i = 0; i < numOfNodes; i++){
-        for (int j = 0; j < 4; j++){
+        for (short int j = 0; j < 4; j++){
             graph[i].edgeExist[j] = false;
             graph[i].edgeWeight[j] = -1;
             graph[i].nodeToConnect[j] = -1;
@@ -125,18 +125,18 @@ int* allocPredecessor (int numOfNodes){
     return predecessor;
 }
 
-float* allocWeights (int numOfNodes){
-    float* weights = (float*)calloc(numOfNodes, sizeof(*weights));
+float* allocFloatArray (int numOfNodes){
+    float* array = (float*)calloc(numOfNodes, sizeof(*array));
 
-    if (weights == NULL){
+    if (array == NULL){
         fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
         exit(NULL_POINTER_EXCEPTION);
     }
 
     for (int i = 0; i < numOfNodes; i++)
-        weights[i] = FLT_MAX;
+        array[i] = FLT_MAX;
 
-    return weights;
+    return array;
 }
 
 int* allocPredecessorInOrder (int numOfNodes){

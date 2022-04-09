@@ -12,14 +12,13 @@ bool checkIfCoherent(node* graph, int numOfNodes){
         while(!isEmpty(q)){
             int currentNode = popFromQueue(&q);
 
-            for (int k = 0; k < 4; k++){
+            for (short int k = 0; k < 4; k++){
                 if(graph[currentNode].edgeExist[k]){
                     if( visited[graph[currentNode].nodeToConnect[k]] == false ) {
-                        if(q == NULL) {
+                        if(q == NULL)
                             q = queInit(graph[currentNode].nodeToConnect[k]);
-                        } else {
+                        else
                             addToQueue(q, graph[currentNode].nodeToConnect[k]);
-                        }
                         visited[graph[currentNode].nodeToConnect[k]] = true;
                     }
                 }

@@ -15,9 +15,11 @@ void saveGraphToFile(entryG* entry, node* graph){
 
     for (int i = 0; i < numOfNodes; i++ ){
         fprintf(ofile,"\t");
-        for (short int k = 0; k < 4; k++ )
-            if (graph[i].edgeExist[k] == true)
+        for (short int k = 0; k < 4; k++ ){
+            if (graph[i].edgeExist[k] == true){
                 fprintf(ofile," %d :%f ",graph[i].nodeToConnect[k],graph[i].edgeWeight[k]);
+            }
+        }
         fprintf(ofile,"\n");
     }
     fclose(ofile);
@@ -30,13 +32,15 @@ void generateMode(entryG* entry){
     int maxNumOfTries = MAXNUMOFTRIES;
     bool continueGen = true;
 
-    for (int i = 0; i < numOfNodes; i++)
+    for (int i = 0; i < numOfNodes; i++){
         makeConnectionFromNode(i, graph, entry);
+    }
     numOfTries++;
 
     while (entry->mode == EDGE && continueGen == true && !checkIfCoherent(graph,numOfNodes)){
-        for (int i = 0; i < numOfNodes; i++)
+        for (int i = 0; i < numOfNodes; i++){
             makeConnectionFromNode(i, graph, entry);
+        }
         numOfTries++;
 
         if (numOfTries >= maxNumOfTries){
@@ -44,8 +48,9 @@ void generateMode(entryG* entry){
             char choice = 0;
 
             while (true) {
-                if (scanf(" %c", &choice) != 1)
+                if (scanf(" %c", &choice) != 1){
                     fprintf(stderr,"COULDN'T READ PROPPER ANSWER!\n");
+                }
                 if (choice == 'y' || choice == 'Y') {
                     continueGen = true;
                     maxNumOfTries += MAXNUMOFTRIES;
@@ -53,8 +58,9 @@ void generateMode(entryG* entry){
                 } else if (choice == 'n' || choice == 'N') {
                     continueGen = false;
                     break;
-                } else
+                } else {
                     fprintf(stderr, "UNKNOWN OPTION!!\n");
+                }
             }
         }
     }
@@ -62,19 +68,22 @@ void generateMode(entryG* entry){
     if(continueGen == true){
         saveGraphToFile(entry,graph);
         printf("Poprawnie wygenerowano graf!\n");
-    }
-    if(continueGen == false)
+    } else{
         printf("Przerwano generowanie grafu!\n");
+    }
+
     free(graph);
     free(entry);
 }
 
 bool generateIfEdgeExist(short int mode){
-    if (mode == WEIGHT)
+    if (mode == WEIGHT){
         return true;
+    }
     float i = (float) rand()/RAND_MAX * 100;
-    if (i <= CHANCE)
+    if (i <= CHANCE){
         return true;
+    }
     return false;
 }
 

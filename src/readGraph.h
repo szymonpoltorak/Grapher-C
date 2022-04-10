@@ -17,6 +17,4 @@ void printShortPath(entryR* entry, int* predecessors, int startPoint, int endPoi
 
 void printExtendedPath(entryR* entry, int* predecessors, float* weights, int startPoint, int endPoint);
 
-int findNewPoint(bool* known, float* distance, int numOfNodes);
-
 #endif

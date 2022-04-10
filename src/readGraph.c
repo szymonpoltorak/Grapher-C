@@ -1,10 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
 #include "readGraph.h"
 
 static bool checkRowsCols(entryR* entry){
-    if (entry -> rows <= 0 || entry -> columns <= 0)
+    if (entry -> rows <= 0 || entry -> columns <= 0){
         return EXIT_FAILURE;
+    }
+    return EXIT_SUCCESS;
+}
+
+static bool validatePoints(entryR* entry){
+    for (int i = 0; i < entry -> numberPoints; i++){
+        if (entry -> points[i] > entry -> rows * entry -> columns){
+            return EXIT_FAILURE;
+        }
+    }
     return EXIT_SUCCESS;
 }
 
@@ -16,10 +27,17 @@ node* readFromFile(entryR* entry){
         freeReadFile(in, entry, NULL);
         exit(NO_COL_ROWS_FOUND);
     }
+
     if (checkRowsCols(entry) == EXIT_FAILURE){
         fprintf(stderr, "WRONG NUMBER OF ROWS OR COLUMNS!!\n");
         freeReadFile(in, entry, NULL);
         exit(WRONG_ROWS_COLUMNS);
+    }
+
+    if (validatePoints(entry) == EXIT_FAILURE){
+        fprintf(stderr, "TO BIG POINTS WHERE GIVEN!!\n");
+        freeReadFile(in, entry, NULL);
+        exit(WRONG_POINTS);
     }
 
     int numOfNodes = entry ->columns * entry -> rows;
@@ -35,7 +53,6 @@ node* readFromFile(entryR* entry){
             freeReadFile(in, entry, graph);
             exit(NO_NODES_FOUND);
         }
-
         if (insertGraph(entry, graph, i, buf) == false ){
             fprintf(stderr, "ILLEGAL POINTS FOUND!\n");
             freeReadFile(in, entry, graph);
@@ -111,36 +128,45 @@ void findPath(node* graph, entryR* entry){
         int endPoint = entry->points[2*i+1];
         int currentPoint = startPoint;
         int* predecessors = allocPredecessor(numOfNodes);
-        bool* visited = allocVisited(numOfNodes);
         float* weights = allocFloatArray(numOfNodes);
         float* distance = allocFloatArray(numOfNodes);
+        Heap* heap = heapInit(numOfNodes);
 
+        for (int i = 0; i < numOfNodes; i++){
+            addToHeap(heap, FLT_MAX);
+        }
+
+        updatePriority(heap, startPoint, 0);
         distance[startPoint] = 0;
-        visited[currentPoint] = true;
-        while (true){
+
+        while (heap -> length != 0){
+            currentPoint = popFromHeap(heap);
+
             for(short int k = 0; k < 4; k++){
+                node Node = graph[currentPoint];
+
                 if(graph[currentPoint].edgeExist[k]){
-                    if(distance[graph[currentPoint].nodeToConnect[k]] > distance[currentPoint] + graph[currentPoint].edgeWeight[k]){
-                        predecessors[graph[currentPoint].nodeToConnect[k]] = currentPoint;
-                        distance[graph[currentPoint].nodeToConnect[k]] = distance[currentPoint] + graph[currentPoint].edgeWeight[k];
-                        weights[graph[currentPoint].nodeToConnect[k]] = graph[currentPoint].edgeWeight[k];
+                    float newDistance = distance[currentPoint] + Node.edgeWeight[k];
+                    
+                    if(distance[Node.nodeToConnect[k]] > newDistance){
+                        updatePriority(heap, Node.nodeToConnect[k], newDistance);
+                        predecessors[Node.nodeToConnect[k]] = currentPoint;
+                        distance[Node.nodeToConnect[k]] = newDistance;
+                        weights[Node.nodeToConnect[k]] = Node.edgeWeight[k];
                     }
                 }
             }
-            
-            currentPoint = findNewPoint(visited, distance, numOfNodes);
-            if (currentPoint == -1)
-                break;
-            visited[currentPoint] = true;
         }
 
-
-        if(entry->printFlag == STANDARD)
+        if(entry->printFlag == STANDARD){
             printShortPath(entry, predecessors, startPoint, endPoint);
-        if (entry->printFlag == EXTENDED)
+        }
+        if (entry->printFlag == EXTENDED){
             printExtendedPath(entry, predecessors, weights, startPoint, endPoint);
+        }
 
-        freePathMemory(predecessors, weights, distance, visited);
+        freePathMemory(predecessors, weights, distance);
+        freeHeap(heap);
     }
 }
 
@@ -150,14 +176,18 @@ void printShortPath(entryR* entry, int* predecessors, int startPoint, int endPoi
     int size = 0;
 
     printf("(%d,%d); ", startPoint, endPoint);
+
     while(true) {
         predecessorsInOrder[size++] = endPoint;
         endPoint = predecessors[endPoint];
-        if(endPoint == -1)
+        if(endPoint == -1){
             break;
+        }
     }
-    for(int i = size-1; i > 0; i--)
+
+    for(int i = size-1; i > 0; i--){
         printf("%d ---> ", predecessorsInOrder[i]);
+    }
     printf("%d\n", predecessorsInOrder[0]);
 
     free(predecessorsInOrder);
@@ -169,34 +199,20 @@ void printExtendedPath(entryR* entry, int* predecessors, float* weights, int sta
     int size = 0;
 
     printf("(%d,%d); ", startPoint, endPoint);
-    while(true) {
+    while(true){
         predecessorsInOrder[size++] = endPoint;
         endPoint = predecessors[endPoint];
-        if(endPoint == -1)
+
+        if(endPoint == -1){
             break;
+        }
     }
-    for(int i = size-1; i > 0; i--) 
+    for(int i = size-1; i > 0; i--){
         printf("%d(%f) ---> ", predecessorsInOrder[i],weights[predecessorsInOrder[i-1]]);
+    }
     printf("%d\n", predecessorsInOrder[0]);
 
     free(predecessorsInOrder);
-}
-
-int findNewPoint(bool* visited, float* distance, int numOfNodes){
-    int point = -1;
-    
-    for (int i = 0; i < numOfNodes; i++)
-        if(visited[i] == false)
-            point = i;
-
-    if (point == -1)
-        return -1;
-
-    for (int i = 0; i < numOfNodes; i++)
-        if(visited[i] == false && distance[i] <= distance[point])
-            point = i;
-
-    return point;
 }
 
 void readMode(entryR* entry){
@@ -208,6 +224,7 @@ void readMode(entryR* entry){
         freeReadMode(entry, graph);
         exit(NO_COHERENT);
     }
+    
     findPath(graph, entry);
     freeReadMode(entry, graph);
 }

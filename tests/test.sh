@@ -92,3 +92,7 @@ T=$?; printf "Test[17]: "; [[ $T -eq 237 ]] && $ok || $fail ; echo
 echo "-----------Testing reading 0 columns------------"
 ./grapher -rm -file tests/data/noColumns.test -standard -points 1,2,3,4 1>tmp 2>temp
 T=$?; printf "Test[18]: "; [[ $T -eq 198 ]] && $ok || $fail ; echo
+
+echo "-------------Testing too big points-------------"
+./grapher -rm -extended -points 2,7,3,2137 -file tests/data/rm_e.test 1>tmp 2>temp
+T=$?; printf "Test[19]: "; [[ $T -eq 236 ]] && $ok || $fail ; echo

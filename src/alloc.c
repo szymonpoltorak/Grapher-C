@@ -95,11 +95,13 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
 
     int howManyRead = 0;
     while(true){
-        if (sscanf(optarg, "%d,%n", &points[entryR -> numberPoints], &howManyRead) != 1){
+        if (sscanf(optarg, "%d%n", &points[entryR -> numberPoints], &howManyRead) != 1){
             break;
         }
         entryR -> numberPoints++;
-        optarg+= howManyRead;
+        optarg+= howManyRead + 1;
+        if (*optarg == 0)
+            break;
     }
 
     if (entryR -> numberPoints == 0 || (entryR -> numberPoints % 2 != 0)){
@@ -153,6 +155,41 @@ int* allocPredecessorInOrder (int numOfNodes){
     return predecessor;
 }
 
+int* allocIntArrays(int numOfNodes){
+    int* array = (int*) calloc (numOfNodes, sizeof(*array));
+    
+    if (array == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
+        exit(NULL_POINTER_EXCEPTION);
+    }
+
+    return array;
+}
+
+Heap* heapInit(int numOfNodes){
+    Heap* heap = (Heap*) malloc (sizeof(*heap));
+
+    if (heap == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
+        exit(NULL_POINTER_EXCEPTION);        
+    }
+
+    heap -> numOfNodes = numOfNodes;
+    heap -> length = 0;
+    heap -> priorities = allocFloatArray(numOfNodes);
+    heap -> nodes = allocIntArrays(numOfNodes);
+    heap -> nodesIndex = allocIntArrays(numOfNodes);
+
+    return heap;
+}
+
+void freeHeap(Heap* heap){
+    free(heap -> priorities);
+    free(heap -> nodes);
+    free(heap -> nodesIndex);
+    free(heap);
+}
+
 void freeEntryRead(entryR* entry){
     free(entry -> points);
     free(entry);
@@ -163,8 +200,7 @@ void freeEntries(entryR* entryR, entryG* entryG){
     freeEntryRead(entryR);
 }
 
-void freePathMemory(int* predecessors, float* weights, float* distance, bool* visited){
-    free(visited);
+void freePathMemory(int* predecessors, float* weights, float* distance){
     free(distance);
     free(predecessors);
     free(weights);    

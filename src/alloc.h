@@ -18,6 +18,14 @@
 #define EXTENDED 5
 #define STANDARD 6
 
+typedef struct Heap {
+    int numOfNodes;
+    int length;
+    float* priorities;
+    int* nodes;
+    int* nodesIndex;
+} Heap;
+
 typedef struct entryRead {
     int rows;
     int columns;
@@ -62,10 +70,16 @@ node* allocGraph(int numOfNodes);
 
 bool* allocVisited(int numOfNodes);
 
-void freePathMemory(int* predecessors, float* weights, float* distance, bool* visited);
+void freePathMemory(int* predecessors, float* weights, float* distance);
 
 void freeReadFile(FILE* in, entryR* entry, node* graph);
 
 void freeReadMode(entryR* entry, node* graph);
+
+void freeHeap(Heap* heap);
+
+int* allocIntArrays(int numOfNodes);
+
+Heap* heapInit(int numOfNodes);
 
 #endif

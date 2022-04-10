@@ -65,11 +65,12 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
             case 'f':
                 ifModeWasDeclared(mode, entryR, entryG);
                 validateFileName(optarg, entryR, entryG);
-                
-                if (mode == READ)
+                if (mode == READ){
                     entryR -> fileName = optarg;
-                else if (mode == WEIGHT || mode == EDGE || mode == RANDOM)
+                }
+                else if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
                     entryG -> fileName = optarg;
+                }
                 else {
                     fprintf(stderr, "UNKNOWN MODE FOUND!\n");
                     exit(NO_MODE_FOUND);

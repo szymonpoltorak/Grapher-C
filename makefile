@@ -1,4 +1,4 @@
-FLAGS = -Wall -pedantic -Wextra -Werror
+FLAGS = -Wall -pedantic -Wextra -Werror -O3
 CCC = cc -c
 CCO = cc -o
 MV = -mv *.o bin/
@@ -12,6 +12,8 @@ RM_S = ./grapher -rm -file tests/data/rm_s.test -points 1,5,4,8 -standard
 RM_E = ./grapher -rm -extended -points 2,7,3,11 -file tests/data/rm_e.test
 
 .PHONY: clean test
+
+all: grapher
 
 grapher: main.o alloc.o readGraph.o genGraph.o utils.o tools.o options.o
 	$(CCO) $@ $^

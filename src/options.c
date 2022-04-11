@@ -8,7 +8,7 @@ extern const char* usage;
 short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
     short int mode = NO_MODE;
 
-        while(true){
+    while(true){
         int flag = NO_FLAG;
         opterr = NO_ERRORS;
 
@@ -32,8 +32,9 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
             {0, 0, 0, 0}
         };
 
-        if ((flag = getopt_long_only(argc, argv, "", flags, NULL)) == -1)
+        if ((flag = getopt_long_only(argc, argv, "", flags, NULL)) == -1){
             break;
+        }
 
         switch(flag){
             case 'w':
@@ -67,11 +68,9 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
                 validateFileName(optarg, entryR, entryG);
                 if (mode == READ){
                     entryR -> fileName = optarg;
-                }
-                else if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
+                } else if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
                     entryG -> fileName = optarg;
-                }
-                else {
+                } else {
                     fprintf(stderr, "UNKNOWN MODE FOUND!\n");
                     exit(NO_MODE_FOUND);
                 }

@@ -69,8 +69,9 @@ bool* allocVisited(int numOfNodes){
         exit(NULL_POINTER_EXCEPTION);
     }
 
-    for (int i = 0; i < numOfNodes; i++)
+    for (int i = 0; i < numOfNodes; i++){
         visited[i] = false;
+    }
 
     return visited;
 }
@@ -100,8 +101,9 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
         }
         entryR -> numberPoints++;
         optarg+= howManyRead + 1;
-        if (*optarg == 0)
+        if (*optarg == 0){
             break;
+        }
     }
 
     if (entryR -> numberPoints == 0 || (entryR -> numberPoints % 2 != 0)){
@@ -121,8 +123,9 @@ int* allocPredecessor (int numOfNodes){
         exit(NULL_POINTER_EXCEPTION);
     }
 
-    for (int i = 0; i < numOfNodes; i++)
-        predecessor[i] = -1;    
+    for (int i = 0; i < numOfNodes; i++){
+        predecessor[i] = -1;
+    }    
 
     return predecessor;
 }
@@ -135,8 +138,9 @@ float* allocFloatArray (int numOfNodes){
         exit(NULL_POINTER_EXCEPTION);
     }
 
-    for (int i = 0; i < numOfNodes; i++)
+    for (int i = 0; i < numOfNodes; i++){
         array[i] = FLT_MAX;
+    }
 
     return array;
 }
@@ -149,8 +153,9 @@ int* allocPredecessorInOrder (int numOfNodes){
         exit(NULL_POINTER_EXCEPTION);
     }
 
-    for (int i = 0; i < numOfNodes; i++)
-        predecessor[i] = -1;    
+    for (int i = 0; i < numOfNodes; i++){
+        predecessor[i] = -1;
+    }    
 
     return predecessor;
 }

@@ -225,6 +225,8 @@ void readMode(entryR* entry){
         exit(NO_COHERENT);
     }
     
+    printf("GRAPH IS COHERENT !\n");
+
     findPath(graph, entry);
     freeReadMode(entry, graph);
 }

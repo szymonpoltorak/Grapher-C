@@ -44,7 +44,7 @@ void generateMode(entryG* entry){
         numOfTries++;
 
         if (numOfTries >= maxNumOfTries){
-            printf("Dokonano %d losowań. Czy chcesz kontynuować? [Y/N]: ",numOfTries);
+            printf("PROGRAM TRIED %d TIMES TO GENERATE. DO YOU WANT TO CONTINUE? [Y/N]: ",numOfTries);
             char choice = 0;
 
             while (true) {
@@ -67,9 +67,9 @@ void generateMode(entryG* entry){
 
     if(continueGen == true){
         saveGraphToFile(entry,graph);
-        printf("Poprawnie wygenerowano graf!\n");
+        printf("GRAPH WAS GENERATED SUCCESSFULLY!\n");
     } else{
-        printf("Przerwano generowanie grafu!\n");
+        printf("GRAPH GENERATION WAS STOPPED!\n");
     }
 
     free(graph);

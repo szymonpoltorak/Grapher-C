@@ -23,7 +23,7 @@ grapher: main.o alloc.o readGraph.o genGraph.o utils.o tools.o options.o
 wm: grapher
 	$(WM)
 	$(DEL)
-	
+
 em: grapher
 	$(EM)
 	$(DEL)

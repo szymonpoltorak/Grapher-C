@@ -1,7 +1,7 @@
 #ifndef _GEN_H_
 #define _GEN_H_
 
-#define CHANCE 50
+#define CHANCE 75
 #define MAXNUMOFTRIES 500
 
 #include "tools.h"

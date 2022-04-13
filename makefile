@@ -1,9 +1,9 @@
-FLAGS = -Wall -pedantic -Wextra -Werror
+FLAGS = -Wall -pedantic -Wextra -Werror -O3
 CCC = cc -c
 CCO = cc -o
-MV = -mv *.o bin/ 2>/dev/null
-MD = -mkdir bin 2>/dev/null
-DEL = -rm -r bin/*.o grapher temp tmp bin/ 2>/dev/null
+MV = -mv *.o bin/
+MD = -mkdir bin
+DEL = -rm -r bin/*.o grapher temp tmp bin/
 TEST = cd tests && make -s
 WM = ./grapher -wm -rows 4 -start 1 -file tests/data/wg.test -end 10 -columns 5
 EM = ./grapher -em -rows 5 -file tests/data/em.test -end 20 -columns 7 -start 5
@@ -13,6 +13,8 @@ RM_E = ./grapher -rm -extended -points 2,7,3,11 -file tests/data/rm_e.test
 
 .PHONY: clean test
 
+all: grapher
+
 grapher: main.o alloc.o readGraph.o genGraph.o utils.o tools.o options.o
 	$(CCO) $@ $^
 	$(MD)
@@ -21,7 +23,7 @@ grapher: main.o alloc.o readGraph.o genGraph.o utils.o tools.o options.o
 wm: grapher
 	$(WM)
 	$(DEL)
-	
+
 em: grapher
 	$(EM)
 	$(DEL)

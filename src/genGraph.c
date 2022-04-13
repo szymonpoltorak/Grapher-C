@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "genGraph.h"
 
-double generateWeights(entryG* entry){
-    return (double) rand()/RAND_MAX * (entry ->rangeEnd - entry ->rangeStart) + entry->rangeStart;
+float generateWeights(entryG* entry){
+    return (float) rand()/RAND_MAX * (entry ->rangeEnd - entry ->rangeStart) + entry->rangeStart;
 }
 
 void saveGraphToFile(entryG* entry, node* graph){
@@ -15,9 +15,11 @@ void saveGraphToFile(entryG* entry, node* graph){
 
     for (int i = 0; i < numOfNodes; i++ ){
         fprintf(ofile,"\t");
-        for (int k = 0; k < 4; k++ )
-            if (graph[i].edgeExist[k] == true)
+        for (short int k = 0; k < 4; k++ ){
+            if (graph[i].edgeExist[k] == true){
                 fprintf(ofile," %d :%f ",graph[i].nodeToConnect[k],graph[i].edgeWeight[k]);
+            }
+        }
         fprintf(ofile,"\n");
     }
     fclose(ofile);
@@ -30,60 +32,65 @@ void generateMode(entryG* entry){
     int maxNumOfTries = MAXNUMOFTRIES;
     bool continueGen = true;
 
-    for (int i = 0; i < numOfNodes; i++)
+    for (int i = 0; i < numOfNodes; i++){
         makeConnectionFromNode(i, graph, entry);
+    }
     numOfTries++;
 
     while (entry->mode == EDGE && continueGen == true && !checkIfCoherent(graph,numOfNodes)){
-        for (int i = 0; i < numOfNodes; i++)
+        for (int i = 0; i < numOfNodes; i++){
             makeConnectionFromNode(i, graph, entry);
+        }
         numOfTries++;
 
         if (numOfTries >= maxNumOfTries){
-            printf("Dokonano %d losowań. Czy chcesz kontynuować? [Y/N]: ",numOfTries);
+            printf("PROGRAM TRIED %d TIMES TO GENERATE. DO YOU WANT TO CONTINUE? [Y/N]: ",numOfTries);
             char choice = 0;
 
             while (true) {
-                if (scanf(" %c", &choice) != 1)
+                if (scanf(" %c", &choice) != 1){
                     fprintf(stderr,"COULDN'T READ PROPPER ANSWER!\n");
+                }
                 if (choice == 'y' || choice == 'Y') {
                     continueGen = true;
                     maxNumOfTries += MAXNUMOFTRIES;
                     break;
-                }
-                else if (choice == 'n' || choice == 'N') {
+                } else if (choice == 'n' || choice == 'N') {
                     continueGen = false;
                     break;
-                }
-                else
+                } else {
                     fprintf(stderr, "UNKNOWN OPTION!!\n");
+                }
             }
         }
     }
 
     if(continueGen == true){
         saveGraphToFile(entry,graph);
-        printf("Poprawnie wygenerowano graf!\n");
+        printf("GRAPH WAS GENERATED SUCCESSFULLY!\n");
+    } else{
+        printf("GRAPH GENERATION WAS STOPPED!\n");
     }
-    if(continueGen == false)
-        printf("Przerwano generowanie grafu!\n");
+
     free(graph);
     free(entry);
 }
 
 bool generateIfEdgeExist(short int mode){
-    if (mode == WEIGHT)
+    if (mode == WEIGHT){
         return true;
-    double i = (double) rand()/RAND_MAX * 100;
-    if (i <= CHANCE)
+    }
+    float i = (float) rand()/RAND_MAX * 100;
+    if (i <= CHANCE){
         return true;
+    }
     return false;
 }
 
 void makeConnectionFromNode (int i, node* graph, entryG* entry){
     int columns = entry->columns;
     int rows = entry->rows;
-    int mode = entry->mode;
+    short int mode = entry->mode;
 
     if (i - columns >= 0 && i - columns < columns * rows){
         if(generateIfEdgeExist(mode)){

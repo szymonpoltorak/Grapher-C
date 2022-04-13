@@ -2,6 +2,7 @@
 #define _ALLOC_H_
 
 #include <stdbool.h>
+#include <stdio.h>
 
 #define NO_MODE_FOUND 226
 #define WRONG_POINTS 236
@@ -17,6 +18,14 @@
 #define EXTENDED 5
 #define STANDARD 6
 
+typedef struct Heap {
+    int numOfNodes;
+    int length;
+    float* priorities;
+    int* nodes;
+    int* nodesIndex;
+} Heap;
+
 typedef struct entryRead {
     int rows;
     int columns;
@@ -29,15 +38,15 @@ typedef struct entryRead {
 typedef struct entryGen {
     int rows;
     int columns;
-    double rangeStart;
-    double rangeEnd;
+    float rangeStart;
+    float rangeEnd;
     short int mode;
     char* fileName;
 } entryG;
 
 typedef struct node {
     bool edgeExist[4]; 
-    double edgeWeight[4]; 
+    float edgeWeight[4]; 
     int nodeToConnect[4];
 } node;
 
@@ -49,18 +58,30 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG);
 
 int* allocPredecessor (int numOfNodes);
 
-double* allocWeights (int numOfNodes);
+float* allocFloatArray (int numOfNodes);
 
 int* allocPredecessorInOrder (int numOfNodes);
 
+int* allocQueue(int numOfNodes);
+
 void freeEntryRead(entryR* entry);
 
-void freeAll(entryR* entryR, entryG* entryG);
+void freeEntries(entryR* entryR, entryG* entryG);
 
 node* allocGraph(int numOfNodes);
 
 bool* allocVisited(int numOfNodes);
 
-void freePathMemory(int* predecessors, double* weights, double* distance, bool* visited);
+void freePathMemory(int* predecessors, float* weights, float* distance);
+
+void freeReadFile(FILE* in, entryR* entry, node* graph);
+
+void freeReadMode(entryR* entry, node* graph);
+
+void freeHeap(Heap* heap);
+
+int* allocIntArrays(int numOfNodes);
+
+Heap* heapInit(int numOfNodes);
 
 #endif

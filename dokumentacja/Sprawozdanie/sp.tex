@@ -94,7 +94,8 @@
         grafu spójnego. Do sprawdzania wykorzystuje algorytm BFS,
         \item Random Mode – program losuje wagi dróg oraz krawędzie między wierzchołkami. W tym trybie graf może być niespójny,
         \item Read Mode -- program odczytuje odpowiednio sformatowany plik i szuka najkrótszej ścieżki
-        między podanymi przez użytkownika punktami za pomocą algorytmu Dijkstry. Format pliku zostanie opisany w osobnej podesekcji, sekcji trzeciej.
+        między podanymi przez użytkownika punktami za pomocą algorytmu Dijkstry. Format pliku został opisany w specyfikacji funkcjonalnej projektu. Jeżeli użytkownik poda w pliku nieprawidłowe dane
+        tzn. wprowadzi literę zamiast wierzchołka lub wagi albo nie poda wierzchołka, a poda wagę i na odwrót to program intencjonalnie pominie tę daną tak jakby nie istniała.
     \end{itemize}
     Struktura grafu oparta jest na koncepcji "kartka w kratkę" tzn. graf składa się z wierzchołków równo rozmieszczonych na liniach poziomych 
     i pionowych wyznaczanych przez liczbę wierszy i~ kolumn. Jedyne połączenia zachodzące między wierzchołkami dozwolone są  pionowo i poziomo co pokazuje poniższy diagram, na którym zostały zaznaczone jedynie wagi wybranych krawędzi aby zachować czytelność całego diagramu, jednocześnie obrazując schemat połączeń.
@@ -174,7 +175,7 @@
         \item \texttt{make wm} -- kompiluje program i uruchamia go w trybie \textit{wage mode} z góry zakładanymi danymi,
         \item \texttt{make rem} -- robi to samo co powyższa komenda ale uruchamia program w trybie \textit{random mode},
         \item \texttt{make em} -- wykonuje to samo co powyższe 2 instrukcje ale uruchamia program w trybie \textit{edge mode},
-        \item \texttt{make rm\_s} -- również wykonuje to samo zadanie ale program korzysta z trybu \textit{read mode} z flagą \textit{standard},
+        \item \texttt{make rm\_s} -- również wykonuje to samo zadanie ale program korzysta z trybu \textit{read mode} z~ flagą \textit{standard},
         \item \texttt{make rm\_e} -- działa indentycznie jak powyższa z tą różnicą, że z flagą \textit{extended}
         \item \texttt{make test} -- komenda służy do wykonania testów funkcji programu.
     \end{itemize}
@@ -210,12 +211,9 @@
     Wywołanie:
     \newline\newline \texttt{./grapher -rm -file tests/data/rm\_s.test -points 1,5,4,8 -standard }
     \newline\newline Wynik:
-    \begin{figure}[ht]
-        \begin{center}
-            \includegraphics[scale=0.8]{rm_s.png}
-            \caption {Wynik działania dla Read Mode z flagą -standard}
-        \end{center}
-    \end{figure}
+    \newline\newline \texttt{GRAPH IS COHERENT !\newline
+    (1,5); 1 ---> 6 ---> 5
+    \newline(4,8); 4 ---> 3 ---> 8}
     \newpage
 
     \subsection{Read Mode z flagą Extended}
@@ -224,12 +222,9 @@
     Wywołanie:
     \newline\newline \texttt{./grapher -rm -extended -points 2,7,3,11 -file tests/data/rm\_e.test}
     \newline\newline Wynik:
-    \begin{figure}[ht]
-        \begin{center}
-            \includegraphics[scale=0.8]{rm_e.png}
-            \caption {Wynik dla Read Mode z flagą -extended}
-        \end{center}
-    \end{figure}
+    \texttt{\newline GRAPH IS COHERENT !\newline
+    (2,7); 2(18.637220) ---> 1(8.487977) ---> 0(18.013451) ---> 7
+    \newline(3,11); 3(5.258607) ---> 4(9.345530) ---> 11}
 
     \newpage
     \section{Zmiany względem specyfikacji}
@@ -238,7 +233,7 @@
     \subsection{Diagram modułów}
     Z powodu potrzeby dodania nowego modułu zmienił się również diagram modułów.
     Doszedł moduł \textit{utils} wspomagający pracę \textit{maina} w zakresie obsługi błędów. Zostały dodane trzy nowe moduły \textit{tools}, \textit{options} oraz \textit{utils}. Ten pierwszy przechowuje funkcje odpowiedzialne za kolejkę oraz sprawdzanie spójności grafu, drugi
-    wspomaga działanie \textit{maina} w taki sposób, że przejmuje jego odpowiedzialność w zakresie wywoływania funkcji odpowiadających za działanie trybów oraz za przypisywanie wartości z wywołania programu. Moduł \textit{utils} jest modułem współpracującym z \textit{options}.
+    wspomaga działanie \textit{maina} w taki sposób, że przejmuje jego odpowiedzialność w zakresie wywoływania funkcji odpowiadających za działanie trybów oraz za przypisywanie wartości z wywołania programu. Moduł \textit{utils} jest modułem współpracującym z~ \textit{options}.
     Pomaga on w sprawdzaniu danych wejściowych oraz weryfikuje podanie wszystkich niezbędnych wartości.
     Poniżej pokażemy starą wersję diagramu modułów, a wersja najnowsza jest przedstawiona wyżej.
 
@@ -274,6 +269,10 @@
         \hline WRONG\_ROWS\_COLUMNS & 198 & W czytanym pliku kolumny lub wiersze mają wartość mniejszą równą 0\\
         \hline
     \end{tabularx}
+
+    \subsection{Zmiany w typach danych}
+    Na drodze optymalizacji naszego kodu postanowiliśmy zmienić liczby typu \texttt{double} na typ \texttt{float}, ponieważ uznaliśmy, że nie potrzebujemy
+    podwójnej precyzji w naszym programie.
     
     \subsection{Zmiany w strukturach}
     Struktury również przeszły małe modyfikacje spowodowane nieprzewidzianymi potrzebami. Zaprezentujemy je poniżej.
@@ -283,8 +282,10 @@
         dwie nowe zmienne \textit{rows} i \textit{columns} odpowiedzialne za przechowanie liczby wierzchołków i kolumn,
         \lstinputlisting[language=C]{listing/entryRead.txt}
         \item \texttt{struct graphRead} -- została całkowicie usunięta, ponieważ podczas implementacji okazała się bezużyteczna,
-        \item \texttt{struct node} -- ta struktura otrzymała nową zmienną tablicową \textit{nodeToConnect} oraz wszystkie tablice zostały zmienione ze wskaźników na tablice o określonym rozmiarze. 
+        \item \texttt{struct node} -- ta struktura otrzymała nową zmienną tablicową \textit{nodeToConnect} oraz wszystkie tablice zostały zmienione ze wskaźników na tablice o określonym rozmiarze,
         \lstinputlisting[language=C]{listing/node.txt}
+        \item \texttt{struct entryGen} -- w tej strukturze jedyna zmiana to typy zmiennych \texttt{double} na \texttt{float}.
+        \lstinputlisting[language=C]{listing/entryGen.txt}
     \end{itemize}
 
     \subsection{Wywoływanie programu}
@@ -311,7 +312,7 @@
     \newline\newline Poniżej w tabeli pokazujemy jak wyglądają wszystkie flagi wraz z ich, krótszymi wersjami jednoliterowymi oraz z krótkim opisem ich działania.
     \newline
     \begin{tabularx}{\textwidth}{ c|c|X }
-        \hline Flaga & Literkowy odpowiednik & Funkcja flagi \\
+        \hline Flaga & Literowy odpowiednik & Funkcja flagi \\
         \hline -points & -p & Służy do określenia punktów w trybie Read Mode.\\
         \hline -file & -f & Służy do załączania pliku, do którego zapisujemy graf lub, z którego czytamy graf.\\
         \hline -rows & -o & Służy do określania liczby wierszy w trybach generujących.\\

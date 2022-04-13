@@ -8,7 +8,7 @@ const char* usage = {
     ./grapher [mode] [file] [rows] [columns] [start] [end]\n\
     For the Read Mode:\n\
     ./grapher [mode] [file] [flag] [points]\n\
-    Every argument needs to be set be the user in program call.\n\
+    Every argument needs to be set by the user in program call.\n\
     For more detailed info check documentation.\n"
 };
 

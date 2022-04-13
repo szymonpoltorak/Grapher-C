@@ -45,10 +45,10 @@ node* readFromFile(entryR* entry){
 
     fgetc(in);
     for (int i = 0; i < numOfNodes; i++){
-        char buff[1024];
+        char buff[16384];
         char* buf = buff;
 
-        if (fgets(buf,1024,in) == NULL){
+        if (fgets(buf,16384,in) == NULL){
             fprintf(stderr, "NODES NOT FOUND!\n");
             freeReadFile(in, entry, graph);
             exit(NO_NODES_FOUND);

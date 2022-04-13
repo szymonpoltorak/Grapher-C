@@ -8,20 +8,7 @@
 #define DOWN 2
 #define LEFT 3
 
-typedef struct queue {
-    int node;
-    struct queue* next;
-} queue;
-
 bool checkIfCoherent(node* graph, int numOfNodes);
-
-void addToQueue(queue* q,int data);
-
-queue* queInit(int data);
-
-int popFromQueue(queue** q);
-
-bool isEmpty(queue* q);
 
 bool ifParentBigger(Heap* heap, int index);
 

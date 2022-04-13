@@ -2,25 +2,34 @@
 #include <stdlib.h>
 #include "tools.h"
 
+static int calculateNode(int index, int numOfNodes){
+    return (index + 1) % numOfNodes;
+}
+
 bool checkIfCoherent(node* graph, int numOfNodes){
+    int* queue = allocQueue(numOfNodes);
+
     for(int l = 0; l < numOfNodes; l++){
         int startingNode = l;
         bool *visited = allocVisited(numOfNodes);
-        queue* q = queInit(startingNode);
+        int reader = 0;
+        int writer = 0;
 
+        queue[writer] = startingNode;
         visited[startingNode] = true;
-        while(!isEmpty(q)){
-            int currentNode = popFromQueue(&q);
+        writer = calculateNode(writer, numOfNodes);
+        
+        while(reader != writer){
+            int currentNode = queue[reader];
+            reader = calculateNode(reader, numOfNodes);
 
             for (short int k = 0; k < 4; k++){
-                if(graph[currentNode].edgeExist[k]){
-                    if( visited[graph[currentNode].nodeToConnect[k]] == false ) {
-                        if(q == NULL){
-                            q = queInit(graph[currentNode].nodeToConnect[k]);
-                        } else {
-                            addToQueue(q, graph[currentNode].nodeToConnect[k]);
-                        }
-                        visited[graph[currentNode].nodeToConnect[k]] = true;
+                int aim = graph[currentNode].nodeToConnect[k];
+                if (graph[currentNode].edgeExist[k] == true){
+                    if (visited[aim] != true && aim != -1){
+                        visited[aim] = true;
+                        queue[writer] = aim;
+                        writer = calculateNode(writer, numOfNodes);
                     }
                 }
             }
@@ -29,63 +38,15 @@ bool checkIfCoherent(node* graph, int numOfNodes){
         for (int i = 0; i < numOfNodes; i++ ){
             if(visited[i] == false){
                 free(visited);
+                free(queue);
                 return false;
             }
         }
         free(visited);
     }
+    free(queue);
+
     return true;
-}
-
-queue* queInit(int data){
-    queue* q = (queue*) malloc(sizeof(queue));
-
-    if (q == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
-        exit(NULL_POINTER_EXCEPTION);
-    }
-
-    q->node = data;
-    q->next = NULL;
-    return q;
-}
-
-void addToQueue(queue* q, int data){
-    queue* iterator = q;
-
-    while(iterator->next != NULL){
-        iterator = iterator->next;
-    }
-
-    iterator->next = (queue*) malloc(sizeof(queue));
-
-    if (iterator->next == NULL) {
-        fprintf(stderr, "NULL POINTER FOUND!!!\n");
-        exit(NULL_POINTER_EXCEPTION);
-    }
-
-    iterator->next->node = data;
-    iterator->next->next = NULL;
-}
-
-int popFromQueue(queue** q){
-    if(isEmpty(*q) == true){
-        return -1;
-    }
-    
-    queue* tmp = *q;
-    int data = tmp->node;
-    *q = tmp->next;
-
-    free(tmp);
-    return data;
-}
-
-bool isEmpty(queue* q){
-    if (q == NULL)
-        return true;
-    else
-        return false;
 }
 
 bool ifParentBigger(Heap* heap, int index){

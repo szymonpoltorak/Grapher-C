@@ -99,6 +99,12 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
         if (sscanf(optarg, "%d%n", &points[entryR -> numberPoints], &howManyRead) != 1){
             break;
         }
+        if (points[entryR -> numberPoints] <= 0){
+            fprintf(stderr,"WRONG POINTS FOUND ! USAGE:\n%s\n", usage);
+            freeEntries(entryR, entryG);
+            free(points);
+            exit(WRONG_POINTS);            
+        }
         entryR -> numberPoints++;
         optarg+= howManyRead + 1;
         if (*optarg == 0){
@@ -109,6 +115,7 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     if (entryR -> numberPoints == 0 || (entryR -> numberPoints % 2 != 0)){
         fprintf(stderr, "WRONG POINTS FOUND! USAGE:\n%s\n", usage);
         freeEntries(entryR, entryG);
+        free(points);
         exit(WRONG_POINTS);
     }
 
@@ -128,6 +135,21 @@ int* allocPredecessor (int numOfNodes){
     }    
 
     return predecessor;
+}
+
+int* allocQueue(int numOfNodes){
+    int* queue = (int*) malloc (numOfNodes * sizeof(*queue));
+
+    if (queue == NULL){
+        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        exit(NULL_POINTER_EXCEPTION);
+    }
+
+    for (int i = 0; i < numOfNodes; i++){
+        queue[i] = -1;
+    }
+
+    return queue;
 }
 
 float* allocFloatArray (int numOfNodes){

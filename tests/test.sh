@@ -76,10 +76,10 @@ T=$?; printf "Test[14]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo
 #edge mode proper use
 echo "---------Testing edge mode proper use-----------"
 ./grapher -em -file tests/data/data.test -start 0 -end 11 -rows 4 -columns 5 1>tmp 2> temp
-T=$?; printf "Test[15]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo 
+T=$?; printf "Test[15]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo
 
 #random mode proper use
-echo "--------Testing radnom mode proper use----------"
+echo "--------Testing random mode proper use----------"
 ./grapher -rem -file tests/data/data.test -start 2 -end 14 -rows 6 -columns 8 1>tmp 2>temp
 T=$?; printf "Test[16]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo 
 
@@ -96,3 +96,8 @@ T=$?; printf "Test[18]: "; [[ $T -eq 198 ]] && $ok || $fail ; echo
 echo "-------------Testing too big points-------------"
 ./grapher -rm -extended -points 2,7,3,2137 -file tests/data/rm_e.test 1>tmp 2>temp
 T=$?; printf "Test[19]: "; [[ $T -eq 236 ]] && $ok || $fail ; echo
+
+#read mode proper use
+echo "---------Testing read mode proper use-----------"
+./grapher -rm -extended -points 2,7,3,11 -file tests/data/rm_e.test 1>tmp 2> temp
+T=$?; printf "Test[20]: "; [[ $T -eq 0 ]] && $ok || $fail ; echo 

@@ -1,6 +1,7 @@
 #include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
 
 extern const char* usage;
 
@@ -41,7 +42,7 @@ void validateFileName(char* optarg, entryR* entryR, entryG* entryG){
 void validateRangeEnd(char* optarg, entryR* entryR, entryG* entryG){
     float end = 0;
 
-    if (sscanf(optarg, "%f", &end) != 1 || end <= 0){
+    if (sscanf(optarg, "%f", &end) != 1 || end <= 0 || end > FLT_MAX){
         fprintf(stderr, "WRONG END! USAGE:\n%s\n", usage);
         freeEntries(entryR, entryG);
         exit(WRONG_RANGE_OF_WAGES);
@@ -61,7 +62,7 @@ void validateColumns(char* optarg, entryR* entryR, entryG* entryG){
 void validateRangeStart(char* optarg, entryR* entryR, entryG* entryG){
     int start = 0;
 
-    if(sscanf(optarg, "%d", &start) != 1 || start < 0){
+    if(sscanf(optarg, "%d", &start) != 1 || start < 0 || start > FLT_MAX){
         fprintf(stderr, "WRONG NUMBER OF START! USAGE:\n%s\n", usage);
         freeEntries(entryR, entryG);
         exit(WRONG_RANGE_OF_WAGES);
@@ -72,7 +73,7 @@ void validateRows(char* optarg, entryR* entryR, entryG* entryG){
     int rows = 0;
 
     if(sscanf(optarg, "%d", &rows) != 1 || rows <= 0){
-        fprintf(stderr, "WRONG NUMBER OF ROWS! ERROR CODE: 503. USAGE:\n%s\n", usage);
+        fprintf(stderr, "WRONG NUMBER OF ROWS! USAGE:\n%s\n", usage);
         freeEntries(entryR, entryG);
         exit(WRONG_NUM_OF_ROWS);
     }

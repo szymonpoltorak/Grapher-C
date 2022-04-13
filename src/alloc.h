@@ -62,6 +62,8 @@ float* allocFloatArray (int numOfNodes);
 
 int* allocPredecessorInOrder (int numOfNodes);
 
+int* allocQueue(int numOfNodes);
+
 void freeEntryRead(entryR* entry);
 
 void freeEntries(entryR* entryR, entryG* entryG);

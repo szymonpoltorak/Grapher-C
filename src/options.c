@@ -86,7 +86,6 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
         freeEntries(entryR, entryG);
         exit(WRONG_RANGE_OF_WAGES);
     }
-
     return mode;
 }
 

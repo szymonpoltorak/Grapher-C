@@ -10,7 +10,7 @@ entryG* allocEntryGen(void){
     entryG* entry = (entryG*) malloc (sizeof(*entry));
 
     if (entry == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        fprintf(stderr, "DEREFERENCING NULL POINTER! USAGE:\n%s\n", usage);
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -28,7 +28,7 @@ entryR* allocEntryRead(entryG* entryG){
     entryR* entry = (entryR*) malloc (sizeof(*entry));
 
     if (entry == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        fprintf(stderr, "DEREFERENCING NULL POINTER! USAGE:\n%s\n", usage);
         free(entryG);
         exit(NULL_POINTER_EXCEPTION);
     }
@@ -47,7 +47,7 @@ node* allocGraph(int numOfNodes){
     node* graph = (node*) calloc (numOfNodes, sizeof(*graph));
 
     if (graph == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        fprintf(stderr, "DEREFERENCING NULL POINTER! USAGE:\n%s\n", usage);
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -62,10 +62,10 @@ node* allocGraph(int numOfNodes){
 }
 
 bool* allocVisited(int numOfNodes){
-    bool* visited = (bool*)calloc(numOfNodes, sizeof(*visited));
+    bool* visited = (bool*) calloc (numOfNodes, sizeof(*visited));
 
     if (visited == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        fprintf(stderr, "DEREFERENCING NULL POINTER! USAGE:\n%s\n", usage);
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -89,7 +89,7 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
     int* points = (int*) malloc (size * sizeof(*points));
     
     if (points == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        fprintf(stderr, "DEREFERENCING NULL POINTER! USAGE:\n%s\n", usage);
         freeEntries(entryR, entryG);
         exit(NULL_POINTER_EXCEPTION);
     }
@@ -123,10 +123,10 @@ void allocPoints(char* optarg, entryR* entryR, entryG* entryG){
 }
 
 int* allocPredecessor (int numOfNodes){
-    int* predecessor = (int*)calloc(numOfNodes, sizeof(*predecessor));
+    int* predecessor = (int*) calloc (numOfNodes, sizeof(*predecessor));
 
     if (predecessor == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        fprintf(stderr, "DEREFERENCING NULL POINTER! USAGE:\n%s\n", usage);
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -141,7 +141,7 @@ int* allocQueue(int numOfNodes){
     int* queue = (int*) malloc (numOfNodes * sizeof(*queue));
 
     if (queue == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        fprintf(stderr, "DEREFERENCING NULL POINTER! USAGE:\n%s\n", usage);
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -153,10 +153,10 @@ int* allocQueue(int numOfNodes){
 }
 
 float* allocFloatArray (int numOfNodes){
-    float* array = (float*)calloc(numOfNodes, sizeof(*array));
+    float* array = (float*) calloc (numOfNodes, sizeof(*array));
 
     if (array == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        fprintf(stderr, "DEREFERENCING NULL POINTER! USAGE:\n%s\n", usage);
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -168,10 +168,10 @@ float* allocFloatArray (int numOfNodes){
 }
 
 int* allocPredecessorInOrder (int numOfNodes){
-    int* predecessor = (int*)calloc(numOfNodes, sizeof(*predecessor));
+    int* predecessor = (int*) calloc (numOfNodes, sizeof(*predecessor));
 
     if (predecessor == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER! USAGE:\n%s\n", usage);
+        fprintf(stderr, "DEREFERENCING NULL POINTER! USAGE:\n%s\n", usage);
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -186,7 +186,7 @@ int* allocIntArrays(int numOfNodes){
     int* array = (int*) calloc (numOfNodes, sizeof(*array));
     
     if (array == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
+        fprintf(stderr, "DEREFERENCING NULL POINTER!\n");
         exit(NULL_POINTER_EXCEPTION);
     }
 
@@ -197,7 +197,7 @@ Heap* heapInit(int numOfNodes){
     Heap* heap = (Heap*) malloc (sizeof(*heap));
 
     if (heap == NULL){
-        fprintf(stderr, "DEREFERNCING NULL POINTER!\n");
+        fprintf(stderr, "DEREFERENCING NULL POINTER!\n");
         exit(NULL_POINTER_EXCEPTION);        
     }
 

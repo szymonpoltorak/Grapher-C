@@ -3,6 +3,8 @@
 #include <float.h>
 #include "readGraph.h"
 
+#define BUFFSIZE 16384
+
 static bool checkRowsCols(entryR* entry){
     if (entry -> rows <= 0 || entry -> columns <= 0){
         return EXIT_FAILURE;
@@ -45,10 +47,10 @@ node* readFromFile(entryR* entry){
 
     fgetc(in);
     for (int i = 0; i < numOfNodes; i++){
-        char buff[16384];
+        char buff[BUFFSIZE];
         char* buf = buff;
 
-        if (fgets(buf,16384,in) == NULL){
+        if (fgets(buf,BUFFSIZE,in) == NULL){
             fprintf(stderr, "NODES NOT FOUND!\n");
             freeReadFile(in, entry, graph);
             exit(NO_NODES_FOUND);
@@ -113,8 +115,10 @@ bool insertGraph(entryR* entry, node* graph, int i, char* buf){
         } else {
             graph[i].edgeExist[LEFT] = false;
         }
-        if (hasBeenAdded == false)
+
+        if (hasBeenAdded == false){
             return false;
+        }
     }
     return true;
 }

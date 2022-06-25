@@ -9,20 +9,20 @@ float generateWeights(entryG* entry){
 void saveGraphToFile(entryG* entry, node* graph){
     int numOfNodes = entry->columns * entry->rows;
     char * fileName = entry->fileName;
-    FILE* ofile = fopen(fileName,"w");
+    FILE* graphFile = fopen(fileName,"w");
 
-    fprintf(ofile,"%d %d\n",entry->rows, entry->columns);
+    fprintf(graphFile,"%d %d\n",entry->rows, entry->columns);
 
     for (int i = 0; i < numOfNodes; i++ ){
-        fprintf(ofile,"\t");
+        fprintf(graphFile,"\t");
         for (short int k = 0; k < 4; k++ ){
             if (graph[i].edgeExist[k] == true){
-                fprintf(ofile," %d :%f ",graph[i].nodeToConnect[k],graph[i].edgeWeight[k]);
+                fprintf(graphFile," %d :%f ",graph[i].nodeToConnect[k],graph[i].edgeWeight[k]);
             }
         }
-        fprintf(ofile,"\n");
+        fprintf(graphFile,"\n");
     }
-    fclose(ofile);
+    fclose(graphFile);
 }
 
 void generateMode(entryG* entry){
@@ -49,7 +49,7 @@ void generateMode(entryG* entry){
 
             while (true) {
                 if (scanf(" %c", &choice) != 1){
-                    fprintf(stderr,"COULDN'T READ PROPPER ANSWER!\n");
+                    fprintf(stderr,"COULDN'T READ PROPER ANSWER!\n");
                 }
                 if (choice == 'y' || choice == 'Y') {
                     continueGen = true;

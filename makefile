@@ -1,4 +1,4 @@
-FLAGS = -Wall -pedantic -Wextra -Werror -O3
+FLAGS = -Wall -pedantic -Wextra -O3
 CCC = cc -c
 CCO = cc -o
 MV = -mv *.o bin/
@@ -15,7 +15,7 @@ RM_E = ./grapher -rm -extended -points 2,7,3,11 -file tests/data/rm_e.test
 
 all: grapher
 
-grapher: main.o alloc.o readGraph.o genGraph.o utils.o tools.o options.o
+grapher: main.o alloc.o readGraph.o genGraph.o utils.o tools.o options.o enters.o
 	$(CCO) $@ $^
 	$(MD)
 	$(MV) 
@@ -53,6 +53,9 @@ readGraph.o: src/readGraph.c src/readGraph.h
 	$(CCC) $< $(FLAGS)
 
 genGraph.o: src/genGraph.c src/genGraph.h
+	$(CCC) $< $(FLAGS)
+
+enters.o: src/enters.c src/enters.h
 	$(CCC) $< $(FLAGS)
 
 utils.o: src/utils.c src/utils.h

@@ -1,7 +1,8 @@
-#include "options.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include "options.h"
+#include "enters.h"
 
 extern const char* usage;
 
@@ -38,103 +39,40 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
 
         switch(flag){
             case 'w':
-                ifModeWasMultiplied(mode, entryR, entryG);
-                entryG -> mode = mode = WEIGHT;
+                mode = enterWageMode(entryR, entryG, mode);
                 break;
             case 'm':
-                ifModeWasMultiplied(mode, entryR, entryG);
-                entryG -> mode = mode = RANDOM;
+                mode = enterRandomMode(entryR, entryG, mode);
                 break;
             case 'e':
-                ifModeWasMultiplied(mode, entryR, entryG);
-                entryG -> mode = mode = EDGE;
+                mode = enterEdgeMode(entryR, entryG, mode);
                 break;
             case 'r':
-                ifModeWasMultiplied(mode, entryR, entryG);
-                mode = READ;
+                mode = enterReadMode(entryR, entryG, mode);
                 break;
             case 'x':
-                ifModeWasDeclared(mode, entryR, entryG);
-                ifReadMode(mode, entryR, entryG);
-                entryR -> printFlag = EXTENDED;
+                enterExtendedPrintFlag(entryR, entryG, mode);
                 break;
             case 's':
-                ifModeWasDeclared(mode, entryR, entryG);
-                ifReadMode(mode, entryR, entryG);
-                entryR -> printFlag = STANDARD;
+                enterStandardPrintFlag(entryR, entryG, mode);
                 break;
             case 'f':
-                ifModeWasDeclared(mode, entryR, entryG);
-                validateFileName(optarg, entryR, entryG);
-                if (mode == READ){
-                    entryR -> fileName = optarg;
-                } else if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
-                    entryG -> fileName = optarg;
-                } else {
-                    fprintf(stderr, "UNKNOWN MODE FOUND!\n");
-                    exit(NO_MODE_FOUND);
-                }
+                enterFile(entryR, entryG, mode, optarg);
                 break;
             case 'c':
-                ifModeWasDeclared(mode, entryR, entryG);
-                if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
-                    validateColumns(optarg, entryR, entryG);
-                    entryG -> columns = atoi(optarg);
-                } else if (mode == READ) {
-                    fprintf(stderr, "COLUMNS ARE NOT BEING DECLARED IN READ MODE. USAGE:\n%s\n", usage);
-                    freeEntries(entryR, entryG);
-                    exit(WRONG_MODE);
-                } else {
-                    fprintf(stderr, "UNKNOWN MODE !!\n");
-                    exit(NO_MODE_FOUND);
-                }
+                enterColumns(entryR, entryG, mode, optarg);
                 break;
             case 'o':
-                ifModeWasDeclared(mode, entryR, entryG);
-                if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
-                    validateRows(optarg, entryR, entryG);
-                    entryG -> rows = atoi(optarg);
-                } else if (mode == READ){
-                    fprintf(stderr, "ROWS ARE NOT USED IN READ MODE! USAGE:\n%s\n", usage);
-                    freeEntries(entryR, entryG);
-                    exit(WRONG_MODE);
-                } else {
-                    fprintf(stderr, "UNKNOWN MODE !!\n");
-                    exit(NO_MODE_FOUND);
-                }
+                enterRows(entryR, entryG, mode, optarg);
                 break;
             case 'p':
-                ifModeWasDeclared(mode, entryR, entryG);
-                ifReadMode(mode, entryR, entryG);
-                allocPoints(optarg, entryR, entryG);
+                enterPoints(entryR, entryG, mode, optarg);
                 break;
             case 'n':
-                ifModeWasDeclared(mode, entryR, entryG);
-                if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
-                    validateRangeEnd(optarg, entryR, entryG);
-                    entryG -> rangeEnd = atof(optarg);
-                } else if (mode == READ) {
-                    fprintf(stderr, "RANGE END IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);
-                    freeEntries(entryR, entryG);
-                    exit(WRONG_MODE);
-                } else {
-                    fprintf(stderr, "UNKNOWN MODE !!\n");
-                    exit(NO_MODE_FOUND);
-                }
+                enterRangeEnd(entryR, entryG, mode, optarg);
                 break;
             case 't':
-                ifModeWasDeclared(mode, entryR, entryG);
-                if (mode == WEIGHT || mode == EDGE || mode == RANDOM){
-                    validateRangeStart(optarg, entryR, entryG);
-                    entryG -> rangeStart = atof(optarg);
-                } else if (mode == READ) {
-                    fprintf(stderr, "RANGE START IS NOT USED IN READ MODE! USAGE:\n%s\n", usage);//
-                    freeEntries(entryR, entryG);
-                    exit(WRONG_MODE);
-                } else {
-                    fprintf(stderr, "UNKNOWN MODE !!\n");
-                    exit(NO_MODE_FOUND);
-                }
+                enterRangeStart(entryR, entryG, mode, optarg);
                 break;
             default:
                 fprintf(stderr, "INVALID DATA. USAGE:\n%s\n", usage);
@@ -148,7 +86,6 @@ short int checkOptions(entryG* entryG, entryR* entryR, int argc, char** argv){
         freeEntries(entryR, entryG);
         exit(WRONG_RANGE_OF_WAGES);
     }
-
     return mode;
 }
 
